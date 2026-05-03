@@ -1,8 +1,7 @@
-# Algorithm Adventure
+# Little Coder Adventures
 
-A static educational site for learning algorithms through visual, playful lessons.
+A static educational game site for learning algorithms through simple stories and playful interactions.
 
-- Home: `index.html`
-- First lesson: `dp-roadmap.html`
-- No backend, database, dependencies, frameworks, or build step.
-- Designed to run directly on GitHub Pages.
+- Landing page: `index.html`
+- Level 1 game: `level-1-binary-search.html`
+- No backend, database, dependencies, or build step.

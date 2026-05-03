@@ -1,177 +1,69 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Memory Path | Algorithm Adventure</title>
-  <meta name="description" content="A playful beginner lesson that explains dynamic programming with a tiny visual stair game.">
-  <link rel="stylesheet" href="styles.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Adventure Map · DP Adventure</title>
+<meta name="description" content="A game-map of upcoming Dynamic Programming levels. Level 1 unlocked.">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><text y='52' font-size='52'>🗺️</text></svg>">
 </head>
 <body>
-  <header class="topbar">
-    <a class="brand" href="index.html" aria-label="Algorithm Adventure home">
-      <span class="logo-mark" aria-hidden="true">A</span>
-      <span>Algorithm Adventure</span>
-    </a>
-    <nav aria-label="Main navigation">
-      <a href="#play">Play</a>
-      <a href="#future">Levels</a>
-    </nav>
-  </header>
 
-  <main>
-    <section class="hero" id="play">
-      <div class="hero-copy">
-        <p class="eyebrow">Level 1 unlocked</p>
-        <h1>Help Dot climb the rainbow stairs.</h1>
-        <p class="hero-text">Dot can hop 1 stair or 2 stairs. Your mission is to count every possible path without getting lost.</p>
-        <div class="hero-actions">
-          <a class="primary-action" href="#game">Start lesson</a>
-          <a class="secondary-action" href="#scoreboard">See the big idea</a>
-        </div>
-      </div>
+<header class="topbar">
+  <a href="index.html" class="brand"><span class="logo">A</span><span>DP&nbsp;Adventure</span></a>
+  <nav>
+    <a href="index.html">Home</a>
+  </nav>
+</header>
 
-      <div class="hero-stage" aria-label="A colorful stair path with Dot waiting to climb">
-        <div class="sun" aria-hidden="true"></div>
-        <div class="cloud cloud-one" aria-hidden="true"></div>
-        <div class="cloud cloud-two" aria-hidden="true"></div>
-        <div class="hill hill-one" aria-hidden="true"></div>
-        <div class="hill hill-two" aria-hidden="true"></div>
-        <div class="preview-stairs" aria-hidden="true">
-          <span style="--h:42px"></span>
-          <span style="--h:64px"></span>
-          <span style="--h:86px"></span>
-          <span style="--h:108px"></span>
-          <span style="--h:130px"></span>
-        </div>
-        <div class="dot dot-preview" aria-hidden="true"></div>
-      </div>
-    </section>
+<main class="container">
 
-    <section class="lesson-shell" id="game" aria-label="Interactive dynamic programming lesson">
-      <aside class="lesson-nav" aria-label="Lesson progress">
-        <button class="step-tab active" type="button" data-jump-step="0">
-          <span>1</span>
-          Feel the mess
-        </button>
-        <button class="step-tab" type="button" data-jump-step="1">
-          <span>2</span>
-          Spot repeats
-        </button>
-        <button class="step-tab" type="button" data-jump-step="2">
-          <span>3</span>
-          Use memory
-        </button>
-        <button class="step-tab" type="button" data-jump-step="3">
-          <span>4</span>
-          Save space
-        </button>
-      </aside>
+  <section class="map-hero">
+    <span style="display:inline-block;padding:6px 14px;border-radius:999px;background:#fff;border:1px solid var(--line);font-weight:800;color:var(--primary);font-size:13px">🗺️ adventure map</span>
+    <h1>Pick Your <span class="gradient">Level</span></h1>
+    <p>Level 1 is open. The rest are coming soon.</p>
+  </section>
 
-      <section class="lesson-card">
-        <div class="lesson-header">
-          <p class="eyebrow" id="lesson-kicker">Scene 1 of 4</p>
-          <h2 id="lesson-title">Try every path</h2>
-          <p id="lesson-text">Pick a stair count. Then let the computer try every 1-step and 2-step choice. This is brute force: simple, but it grows fast.</p>
-        </div>
+  <section class="map-wrap">
+    <svg class="map-svg" viewBox="0 0 800 1100" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="pathGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#7c5cff" stop-opacity=".55"/>
+          <stop offset="100%" stop-color="#ff7ab6" stop-opacity=".55"/>
+        </linearGradient>
+      </defs>
+      <path d="M 100 80 C 200 40, 360 220, 480 160 S 700 280, 660 400 S 360 520, 280 600 S 600 740, 560 880 S 200 980, 240 1080"
+            fill="none" stroke="url(#pathGrad)" stroke-width="14"
+            stroke-linecap="round" stroke-dasharray="6 14" opacity=".75"/>
+    </svg>
 
-        <div class="difficulty-picker" aria-label="Choose how many stairs Dot should climb">
-          <span>Stairs</span>
-          <button type="button" data-stairs="4">4</button>
-          <button class="active" type="button" data-stairs="5">5</button>
-          <button type="button" data-stairs="6">6</button>
-          <button type="button" data-stairs="7">7</button>
-        </div>
+    <div class="map-nodes">
+      <a class="map-node unlocked" href="levels/level-01-fibonacci.html">
+        <span class="badge-num">L 01</span><span class="pill go">PLAY</span>
+        <span class="icon">🐰</span>
+        <span class="ttl">Bunny &amp; the Stairs</span>
+        <span class="sub">Fibonacci · World A</span>
+      </a>
+      <div class="map-node locked"><span class="badge-num">L 02</span><span class="pill soon">soon</span><span class="icon">🪜</span><span class="ttl">Stair Sprint</span><span class="sub">Climbing Stairs</span></div>
+      <div class="map-node locked"><span class="badge-num">L 03</span><span class="pill soon">soon</span><span class="icon">🐸</span><span class="ttl">Frog &amp; the Stones</span><span class="sub">Frog Jump</span></div>
+      <div class="map-node locked"><span class="badge-num">L 06</span><span class="pill soon">soon</span><span class="icon">🏠</span><span class="ttl">House Robber</span><span class="sub">Pick or skip · World A</span></div>
+      <div class="map-node locked"><span class="badge-num">L 08</span><span class="pill soon">soon</span><span class="icon">🦊</span><span class="ttl">Fox in the Forest</span><span class="sub">Unique Paths · World B</span></div>
+      <div class="map-node locked"><span class="badge-num">L 14</span><span class="pill soon">soon</span><span class="icon">🎒</span><span class="ttl">Knapsack</span><span class="sub">Pick or skip · World C</span></div>
+      <div class="map-node locked"><span class="badge-num">L 24</span><span class="pill soon">soon</span><span class="icon">🧬</span><span class="ttl">Twin Spy Notes</span><span class="sub">LCS · World D</span></div>
+      <div class="map-node locked"><span class="badge-num">L 33</span><span class="pill soon">soon</span><span class="icon">📚</span><span class="ttl">Tower of Books</span><span class="sub">LIS · World E</span></div>
+      <div class="map-node locked"><span class="badge-num">L 39</span><span class="pill soon">soon</span><span class="icon">📈</span><span class="ttl">Buy Low, Sell High</span><span class="sub">Stocks · World F</span></div>
+      <div class="map-node locked"><span class="badge-num">L 47</span><span class="pill soon">soon</span><span class="icon">🎈</span><span class="ttl">Pop the Balloons</span><span class="sub">Burst Balloons · World G</span></div>
+      <div class="map-node locked"><span class="badge-num">L 52</span><span class="pill soon">soon</span><span class="icon">📖</span><span class="ttl">Word Detective</span><span class="sub">Word Break · World H</span></div>
+      <div class="map-node locked"><span class="badge-num">★</span><span class="pill soon">soon</span><span class="icon">🏰</span><span class="ttl">Final Boss</span><span class="sub">Mystery level</span></div>
+    </div>
+  </section>
 
-        <div class="visual-board">
-          <div class="stairs-board" id="stairs-board" aria-label="Dot climbing stairs"></div>
+  <p class="center muted" style="margin-top:18px">More levels are being built. ✨</p>
 
-          <div class="work-panel">
-            <div class="work-header">
-              <span id="mode-label">Brute force</span>
-              <strong id="mode-badge">Try everything</strong>
-            </div>
-            <div class="choice-tree" id="choice-tree" aria-label="Choice tree visualization"></div>
-          </div>
-        </div>
+</main>
 
-        <div class="control-row">
-          <button class="primary-action compact" type="button" id="run-action">Run brute force</button>
-          <button class="secondary-action compact" type="button" id="next-step">Next idea</button>
-        </div>
+<footer class="site">DP Adventure · <a href="index.html">Home</a></footer>
 
-        <div class="stat-grid" id="scoreboard">
-          <div class="stat-card pain">
-            <span class="stat-label">Brute force work</span>
-            <strong id="brute-count">15</strong>
-            <span>calls</span>
-          </div>
-          <div class="stat-card calm">
-            <span class="stat-label">With memory</span>
-            <strong id="memo-count">6</strong>
-            <span>tiny answers</span>
-          </div>
-          <div class="stat-card bright">
-            <span class="stat-label">Paths found</span>
-            <strong id="answer-count">8</strong>
-            <span>ways</span>
-          </div>
-        </div>
-      </section>
-    </section>
-
-    <section class="idea-strip" aria-label="What learners should remember">
-      <article>
-        <span class="mini-icon branch-icon" aria-hidden="true"></span>
-        <h3>Brute force hurts</h3>
-        <p>It asks the same questions again and again.</p>
-      </article>
-      <article>
-        <span class="mini-icon memory-icon" aria-hidden="true"></span>
-        <h3>Memory helps</h3>
-        <p>Save an answer once. Reuse it later.</p>
-      </article>
-      <article>
-        <span class="mini-icon space-icon" aria-hidden="true"></span>
-        <h3>Space matters</h3>
-        <p>Sometimes two little boxes are enough.</p>
-      </article>
-    </section>
-
-    <section class="future-levels" id="future">
-      <div>
-        <p class="eyebrow">Coming next</p>
-        <h2>One great lesson first. More worlds later.</h2>
-      </div>
-      <div class="level-grid">
-        <article class="level-tile unlocked">
-          <span>Level 1</span>
-          <strong>Rainbow Stairs</strong>
-          <small>Dynamic Programming basics</small>
-        </article>
-        <article class="level-tile">
-          <span>Level 2</span>
-          <strong>Coin Shop</strong>
-          <small>Making change</small>
-        </article>
-        <article class="level-tile">
-          <span>Level 3</span>
-          <strong>Treasure Bag</strong>
-          <small>Pick or skip</small>
-        </article>
-        <article class="level-tile">
-          <span>Level 4</span>
-          <strong>Word Bridge</strong>
-          <small>Matching patterns</small>
-        </article>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    Algorithm Adventure. Static HTML, CSS, and JavaScript.
-  </footer>
-
-  <script src="script.js"></script>
 </body>
 </html>

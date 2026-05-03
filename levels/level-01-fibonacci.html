@@ -1,18 +1,199 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta http-equiv="refresh" content="0; url=../dp-roadmap.html">
-  <title>Redirecting | Algorithm Adventure</title>
-  <link rel="canonical" href="../dp-roadmap.html">
-  <link rel="stylesheet" href="../styles.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Level 1 · Bunny &amp; the Stairs · DP Adventure</title>
+<meta name="description" content="A baby rabbit climbs magic stairs. Learn brute force → memo → tabulation → space-optimized DP through visuals and clicks.">
+<link rel="stylesheet" href="../styles.css">
+<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><text y='52' font-size='52'>🐰</text></svg>">
 </head>
 <body>
-  <main class="redirect-page">
-    <h1>Level 1 moved.</h1>
-    <p>The new beginner lesson is Rainbow Stairs.</p>
-    <a class="primary-action" href="../dp-roadmap.html">Open Rainbow Stairs</a>
-  </main>
+
+<header class="topbar">
+  <a href="../index.html" class="brand"><span class="logo">A</span><span>DP&nbsp;Adventure</span></a>
+  <nav>
+    <a href="../dp-roadmap.html">Map</a>
+    <a href="../index.html">Home</a>
+  </nav>
+</header>
+
+<main class="container-narrow">
+
+  <section class="level-top">
+    <div class="crumbs"><a href="../dp-roadmap.html">Map</a> · World A</div>
+    <h1>Level 1: <span class="gradient">Bunny &amp; the Stairs</span></h1>
+    <p class="sub">Pick how many stairs the bunny must climb. Then watch the magic.</p>
+    <div class="npicker" aria-label="Choose N">
+      <button class="n" data-set-n="3">3</button>
+      <button class="n" data-set-n="4">4</button>
+      <button class="n active" data-set-n="5">5</button>
+      <button class="n" data-set-n="6">6</button>
+    </div>
+  </section>
+
+  <!-- Scene 1: Story -->
+  <section class="scene">
+    <div class="scene-head">
+      <div class="scene-num">1</div>
+      <h2 class="scene-title">🐰 The story</h2>
+    </div>
+    <p class="one-liner">A baby rabbit wants to climb magic stairs. It can hop <b>1</b> step or <b>2</b> steps at a time. <br><b>How many ways</b> can it reach the top?</p>
+
+    <div class="stairs-stage" id="stairs-stage"></div>
+
+    <div class="btn-row" style="margin-top:14px">
+      <button class="btn ghost" data-hop="1">⬆ hop 1</button>
+      <button class="btn ghost" data-hop="2">⏫ hop 2</button>
+      <button class="btn ghost" data-hop="r">↺ reset</button>
+    </div>
+
+    <div class="metric-row">
+      <div class="metric"><div class="lbl">Total ways</div><div class="val good" id="story-ways">8</div></div>
+      <div class="metric"><div class="lbl">Hop sizes</div><div class="val">1 · 2</div></div>
+    </div>
+  </section>
+
+  <!-- Scene 2: Brute force -->
+  <section class="scene">
+    <div class="scene-head">
+      <div class="scene-num">2</div>
+      <h2 class="scene-title">🌳 Brute force: try every choice</h2>
+    </div>
+    <p class="one-liner">Each step splits into two paths: <b>−1</b> or <b>−2</b>. Click <b>Expand</b> to grow the tree. Watch the <span style="color:var(--bad);font-weight:900">red duplicates</span> pile up.</p>
+
+    <div class="tree-stage" id="tree-svg-wrap"></div>
+
+    <div class="btn-row">
+      <button class="btn" data-tree="expand">+ Expand choices</button>
+      <button class="btn ghost" data-tree="all">Show all</button>
+      <button class="btn ghost" data-tree="reset">↺</button>
+    </div>
+
+    <div class="metric-row">
+      <div class="metric"><div class="lbl">Calls so far</div><div class="val bad" id="tree-calls">1</div></div>
+      <div class="metric"><div class="lbl">Repeated work</div><div class="val bad" id="tree-dups">0</div></div>
+      <div class="metric"><div class="lbl">Real answer</div><div class="val good" id="tree-ways">8</div></div>
+    </div>
+  </section>
+
+  <!-- Scene 3: Memoization -->
+  <section class="scene">
+    <div class="scene-head">
+      <div class="scene-num">3</div>
+      <h2 class="scene-title">🎒 Memoization: save into the backpack</h2>
+    </div>
+    <p class="one-liner">When the bunny solves a tiny problem the first time, drop the answer in the backpack. Next time we need it, <b>just take it out</b>. No work needed!</p>
+
+    <div class="memo-stage">
+      <div>
+        <p class="muted" style="margin:0 0 8px">Click <b>Use memory</b> to step through. Stored answers appear in the backpack →</p>
+        <div class="btn-row">
+          <button class="btn" data-memo="next">▶ Use memory</button>
+          <button class="btn ghost" data-memo="all">Fast-forward</button>
+          <button class="btn ghost" data-memo="reset">↺</button>
+        </div>
+        <div class="metric-row">
+          <div class="metric"><div class="lbl">Saved in backpack</div><div class="val good" id="memo-saved">0</div></div>
+          <div class="metric"><div class="lbl">Repeated work skipped</div><div class="val good" id="memo-skipped">0</div></div>
+        </div>
+        <p class="muted center" style="margin-top:8px;font-size:13px">step <span id="memo-step-lbl">0 / 0</span></p>
+      </div>
+      <div class="backpack">
+        <h4>🎒 Backpack <span class="muted" style="font-weight:600;font-size:12px">(memo table)</span></h4>
+        <div class="slots" id="memo-slots"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scene 4: Tabulation -->
+  <section class="scene">
+    <div class="scene-head">
+      <div class="scene-num">4</div>
+      <h2 class="scene-title">🧱 Tabulation: fill boxes left → right</h2>
+    </div>
+    <p class="one-liner">Forget recursion. Just fill a row of boxes. Each box = the answer for that step. Tap <b>Next</b> to fill one.</p>
+
+    <div class="tab-row" id="tab-row"></div>
+    <p class="tab-formula" id="tab-formula">Click <b>Next</b> to fill the table →</p>
+
+    <div class="btn-row">
+      <button class="btn" data-tab="next">▶ Next box</button>
+      <button class="btn ghost" data-tab="all">Fill all</button>
+      <button class="btn ghost" data-tab="reset">↺</button>
+    </div>
+    <p class="muted center" style="margin-top:8px;font-size:13px">step <span id="tab-step-lbl">0 / 0</span></p>
+  </section>
+
+  <!-- Scene 5: Space optimization -->
+  <section class="scene">
+    <div class="scene-head">
+      <div class="scene-num">5</div>
+      <h2 class="scene-title">🪶 Space saver: just two boxes</h2>
+    </div>
+    <p class="one-liner">We only ever need the <b>last two</b> answers. Throw the rest away! Two boxes are enough.</p>
+
+    <div class="space-stage">
+      <div>
+        <div class="space-box" id="space-prev">1</div>
+        <div class="muted center" style="margin-top:6px;font-size:12px;font-weight:800;letter-spacing:.5px;text-transform:uppercase">prev</div>
+      </div>
+      <div class="arrow">+</div>
+      <div>
+        <div class="space-box curr" id="space-curr">1</div>
+        <div class="muted center" style="margin-top:6px;font-size:12px;font-weight:800;letter-spacing:.5px;text-transform:uppercase">curr</div>
+      </div>
+      <div class="arrow">→</div>
+      <div>
+        <div class="space-box" style="background:#fff;border-style:dashed">?</div>
+        <div class="muted center" style="margin-top:6px;font-size:12px;font-weight:800;letter-spacing:.5px;text-transform:uppercase">next</div>
+      </div>
+    </div>
+    <p class="muted center" style="margin-top:6px"><span id="space-step-lbl">i = 1 · uses just 2 boxes</span></p>
+
+    <div class="btn-row" style="justify-content:center">
+      <button class="btn" data-space="next">▶ Next step</button>
+      <button class="btn ghost" data-space="all">Jump to end</button>
+      <button class="btn ghost" data-space="reset">↺</button>
+    </div>
+  </section>
+
+  <!-- Scene 6: Compare -->
+  <section class="scene">
+    <div class="scene-head">
+      <div class="scene-num">6</div>
+      <h2 class="scene-title">⚡ Before vs After</h2>
+    </div>
+    <p class="one-liner">Same answer. Way less work.</p>
+
+    <div class="compare">
+      <div class="compare-card bad">
+        <h4>😵 Brute force</h4>
+        <p class="muted" style="margin:0">Tries every path. Repeats the same little problem over and over.</p>
+        <div class="num" id="cmp-brute-num">15 <small>calls</small></div>
+        <div class="compare-bar"><span id="cmp-brute-bar" style="width:100%"></span></div>
+      </div>
+      <div class="compare-card good">
+        <h4>🚀 DP (with memory)</h4>
+        <p class="muted" style="margin:0">Solves each tiny problem <b>once</b>. Saves it. Reuses it.</p>
+        <div class="num" id="cmp-dp-num">6 <small>steps</small></div>
+        <div class="compare-bar"><span id="cmp-dp-bar" style="width:40%"></span></div>
+      </div>
+    </div>
+
+    <p class="center" style="margin-top:18px">
+      <span class="toast">🎉 You learned DP!</span>
+    </p>
+  </section>
+
+  <nav class="bottom-nav">
+    <a class="up" href="../dp-roadmap.html">↑ Map</a>
+    <a class="next" href="../dp-roadmap.html">Next levels (soon) →</a>
+  </nav>
+
+</main>
+
+<footer class="site">DP Adventure · <a href="../index.html">Home</a></footer>
+<script src="../script.js"></script>
 </body>
 </html>
