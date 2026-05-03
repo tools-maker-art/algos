@@ -61,12 +61,12 @@
     <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span> dp(<span <span class="kw">class</span>="kw">int</span> i, <span <span class="kw">class</span>="kw">int</span> j, <span <span class="kw">class</span>="kw">String</span> a, <span <span class="kw">class</span>="kw">String</span> b) {
-    <span <span class="kw">class</span>="kw">if</span> (i == <span <span class="kw">class</span>="num">0</span>) <span <span class="kw">class</span>="kw">return</span> j;
-    <span <span class="kw">class</span>="kw">if</span> (j == <span <span class="kw">class</span>="num">0</span>) <span <span class="kw">class</span>="kw">return</span> i;
-    <span <span class="kw">class</span>="kw">if</span> (a.charAt(i-<span <span class="kw">class</span>="num">1</span>) == b.charAt(j-<span <span class="kw">class</span>="num">1</span>)) <span <span class="kw">class</span>="kw">return</span> dp(i-<span <span class="kw">class</span>="num">1</span>, j-<span <span class="kw">class</span>="num">1</span>, a, b);
-    <span <span class="kw">class</span>="kw">return</span> <span <span class="kw">class</span>="num">1</span> + <span class="kw">Math</span>.min(dp(i-<span <span class="kw">class</span>="num">1</span>, j, a, b),
-              <span class="kw">Math</span>.min(dp(i, j-<span <span class="kw">class</span>="num">1</span>, a, b), dp(i-<span <span class="kw">class</span>="num">1</span>, j-<span <span class="kw">class</span>="num">1</span>, a, b)));
+<pre><span class="kw">int</span> dp(<span class="kw">int</span> i, <span class="kw">int</span> j, <span class="kw">String</span> a, <span class="kw">String</span> b) {
+    <span class="kw">if</span> (i == <span class="num">0</span>) <span class="kw">return</span> j;
+    <span class="kw">if</span> (j == <span class="num">0</span>) <span class="kw">return</span> i;
+    <span class="kw">if</span> (a.charAt(i-<span class="num">1</span>) == b.charAt(j-<span class="num">1</span>)) <span class="kw">return</span> dp(i-<span class="num">1</span>, j-<span class="num">1</span>, a, b);
+    <span class="kw">return</span> <span class="num">1</span> + <span class="kw">Math</span>.min(dp(i-<span class="num">1</span>, j, a, b),
+              <span class="kw">Math</span>.min(dp(i, j-<span class="num">1</span>, a, b), dp(i-<span class="num">1</span>, j-<span class="num">1</span>, a, b)));
 }</pre>
 </div></div>
 </details>
@@ -103,14 +103,14 @@
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
 <pre><span class="kw">Integer</span>[][] memo;
-<span <span class="kw">class</span>="kw">int</span> dp(<span <span class="kw">class</span>="kw">int</span> i, <span <span class="kw">class</span>="kw">int</span> j, <span <span class="kw">class</span>="kw">String</span> a, <span <span class="kw">class</span>="kw">String</span> b) {
-    <span <span class="kw">class</span>="kw">if</span> (i == <span <span class="kw">class</span>="num">0</span>) <span <span class="kw">class</span>="kw">return</span> j;
-    <span <span class="kw">class</span>="kw">if</span> (j == <span <span class="kw">class</span>="num">0</span>) <span <span class="kw">class</span>="kw">return</span> i;
-    <span <span class="kw">class</span>="kw">if</span> (memo[i][j] != <span class="kw">null</span>) <span <span class="kw">class</span>="kw">return</span> memo[i][j];
-    <span <span class="kw">class</span>="kw">if</span> (a.charAt(i-<span <span class="kw">class</span>="num">1</span>) == b.charAt(j-<span <span class="kw">class</span>="num">1</span>))
-        <span <span class="kw">class</span>="kw">return</span> memo[i][j] = dp(i-<span <span class="kw">class</span>="num">1</span>, j-<span <span class="kw">class</span>="num">1</span>, a, b);
-    <span <span class="kw">class</span>="kw">return</span> memo[i][j] = <span <span class="kw">class</span>="num">1</span> + <span class="kw">Math</span>.min(dp(i-<span <span class="kw">class</span>="num">1</span>, j, a, b),
-        <span class="kw">Math</span>.min(dp(i, j-<span <span class="kw">class</span>="num">1</span>, a, b), dp(i-<span <span class="kw">class</span>="num">1</span>, j-<span <span class="kw">class</span>="num">1</span>, a, b)));
+<span class="kw">int</span> dp(<span class="kw">int</span> i, <span class="kw">int</span> j, <span class="kw">String</span> a, <span class="kw">String</span> b) {
+    <span class="kw">if</span> (i == <span class="num">0</span>) <span class="kw">return</span> j;
+    <span class="kw">if</span> (j == <span class="num">0</span>) <span class="kw">return</span> i;
+    <span class="kw">if</span> (memo[i][j] != <span class="kw">null</span>) <span class="kw">return</span> memo[i][j];
+    <span class="kw">if</span> (a.charAt(i-<span class="num">1</span>) == b.charAt(j-<span class="num">1</span>))
+        <span class="kw">return</span> memo[i][j] = dp(i-<span class="num">1</span>, j-<span class="num">1</span>, a, b);
+    <span class="kw">return</span> memo[i][j] = <span class="num">1</span> + <span class="kw">Math</span>.min(dp(i-<span class="num">1</span>, j, a, b),
+        <span class="kw">Math</span>.min(dp(i, j-<span class="num">1</span>, a, b), dp(i-<span class="num">1</span>, j-<span class="num">1</span>, a, b)));
 }</pre>
 </div></div>
 </details>
@@ -135,18 +135,18 @@
     <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span>[][] dp = <span <span class="kw">class</span>="kw">new</span> <span <span class="kw">class</span>="kw">int</span>[n+<span <span class="kw">class</span>="num">1</span>][m+<span <span class="kw">class</span>="num">1</span>];
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> i = <span <span class="kw">class</span>="num">0</span>; i &lt;= n; i++) dp[i][<span <span class="kw">class</span>="num">0</span>] = i;
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> j = <span <span class="kw">class</span>="num">0</span>; j &lt;= m; j++) dp[<span <span class="kw">class</span>="num">0</span>][j] = j;
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> i = <span <span class="kw">class</span>="num">1</span>; i &lt;= n; i++)
-    <span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> j = <span <span class="kw">class</span>="num">1</span>; j &lt;= m; j++) {
-        <span <span class="kw">class</span>="kw">if</span> (a.charAt(i-<span <span class="kw">class</span>="num">1</span>) == b.charAt(j-<span <span class="kw">class</span>="num">1</span>))
-            dp[i][j] = dp[i-<span <span class="kw">class</span>="num">1</span>][j-<span <span class="kw">class</span>="num">1</span>];
-        <span <span class="kw">class</span>="kw">else</span>
-            dp[i][j] = <span <span class="kw">class</span>="num">1</span> + <span class="kw">Math</span>.min(dp[i-<span <span class="kw">class</span>="num">1</span>][j],
-                <span class="kw">Math</span>.min(dp[i][j-<span <span class="kw">class</span>="num">1</span>], dp[i-<span <span class="kw">class</span>="num">1</span>][j-<span <span class="kw">class</span>="num">1</span>]));
+<pre><span class="kw">int</span>[][] dp = <span class="kw">new</span> <span class="kw">int</span>[n+<span class="num">1</span>][m+<span class="num">1</span>];
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt;= n; i++) dp[i][<span class="num">0</span>] = i;
+<span class="kw">for</span> (<span class="kw">int</span> j = <span class="num">0</span>; j &lt;= m; j++) dp[<span class="num">0</span>][j] = j;
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= n; i++)
+    <span class="kw">for</span> (<span class="kw">int</span> j = <span class="num">1</span>; j &lt;= m; j++) {
+        <span class="kw">if</span> (a.charAt(i-<span class="num">1</span>) == b.charAt(j-<span class="num">1</span>))
+            dp[i][j] = dp[i-<span class="num">1</span>][j-<span class="num">1</span>];
+        <span class="kw">else</span>
+            dp[i][j] = <span class="num">1</span> + <span class="kw">Math</span>.min(dp[i-<span class="num">1</span>][j],
+                <span class="kw">Math</span>.min(dp[i][j-<span class="num">1</span>], dp[i-<span class="num">1</span>][j-<span class="num">1</span>]));
     }
-<span <span class="kw">class</span>="kw">return</span> dp[n][m];</pre>
+<span class="kw">return</span> dp[n][m];</pre>
 </div></div>
 </details>
   </section>
@@ -169,17 +169,17 @@
     <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span>[] prev = <span <span class="kw">class</span>="kw">new</span> <span <span class="kw">class</span>="kw">int</span>[m+<span <span class="kw">class</span>="num">1</span>], curr = <span <span class="kw">class</span>="kw">new</span> <span <span class="kw">class</span>="kw">int</span>[m+<span <span class="kw">class</span>="num">1</span>];
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> j = <span <span class="kw">class</span>="num">0</span>; j &lt;= m; j++) prev[j] = j;
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> i = <span <span class="kw">class</span>="num">1</span>; i &lt;= n; i++) {
-    curr[<span <span class="kw">class</span>="num">0</span>] = i;
-    <span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> j = <span <span class="kw">class</span>="num">1</span>; j &lt;= m; j++) {
-        <span <span class="kw">class</span>="kw">if</span> (a.charAt(i-<span <span class="kw">class</span>="num">1</span>) == b.charAt(j-<span <span class="kw">class</span>="num">1</span>)) curr[j] = prev[j-<span <span class="kw">class</span>="num">1</span>];
-        <span <span class="kw">class</span>="kw">else</span> curr[j] = <span <span class="kw">class</span>="num">1</span> + <span class="kw">Math</span>.min(prev[j], <span class="kw">Math</span>.min(curr[j-<span <span class="kw">class</span>="num">1</span>], prev[j-<span <span class="kw">class</span>="num">1</span>]));
+<pre><span class="kw">int</span>[] prev = <span class="kw">new</span> <span class="kw">int</span>[m+<span class="num">1</span>], curr = <span class="kw">new</span> <span class="kw">int</span>[m+<span class="num">1</span>];
+<span class="kw">for</span> (<span class="kw">int</span> j = <span class="num">0</span>; j &lt;= m; j++) prev[j] = j;
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= n; i++) {
+    curr[<span class="num">0</span>] = i;
+    <span class="kw">for</span> (<span class="kw">int</span> j = <span class="num">1</span>; j &lt;= m; j++) {
+        <span class="kw">if</span> (a.charAt(i-<span class="num">1</span>) == b.charAt(j-<span class="num">1</span>)) curr[j] = prev[j-<span class="num">1</span>];
+        <span class="kw">else</span> curr[j] = <span class="num">1</span> + <span class="kw">Math</span>.min(prev[j], <span class="kw">Math</span>.min(curr[j-<span class="num">1</span>], prev[j-<span class="num">1</span>]));
     }
-    <span <span class="kw">class</span>="kw">int</span>[] t = prev; prev = curr; curr = t;
+    <span class="kw">int</span>[] t = prev; prev = curr; curr = t;
 }
-<span <span class="kw">class</span>="kw">return</span> prev[m];</pre>
+<span class="kw">return</span> prev[m];</pre>
 </div></div>
 </details>
   </section>

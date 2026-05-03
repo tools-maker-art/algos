@@ -61,9 +61,9 @@
     <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span> dp(<span <span class="kw">class</span>="kw">int</span> i, <span <span class="kw">class</span>="kw">int</span> j, <span class="kw">List</span>&lt;<span class="kw">List</span>&lt;<span class="kw">Integer</span>&gt;&gt; t) {
-    <span <span class="kw">class</span>="kw">if</span> (i == t.size()) <span <span class="kw">class</span>="kw">return</span> <span <span class="kw">class</span>="num">0</span>;
-    <span <span class="kw">class</span>="kw">return</span> t.get(i).get(j) + <span class="kw">Math</span>.min(dp(i+<span <span class="kw">class</span>="num">1</span>,j,t), dp(i+<span <span class="kw">class</span>="num">1</span>,j+<span <span class="kw">class</span>="num">1</span>,t));
+<pre><span class="kw">int</span> dp(<span class="kw">int</span> i, <span class="kw">int</span> j, <span class="kw">List</span>&lt;<span class="kw">List</span>&lt;<span class="kw">Integer</span>&gt;&gt; t) {
+    <span class="kw">if</span> (i == t.size()) <span class="kw">return</span> <span class="num">0</span>;
+    <span class="kw">return</span> t.get(i).get(j) + <span class="kw">Math</span>.min(dp(i+<span class="num">1</span>,j,t), dp(i+<span class="num">1</span>,j+<span class="num">1</span>,t));
 }</pre>
 </div></div>
 </details>
@@ -100,10 +100,10 @@
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
 <pre><span class="kw">Integer</span>[][] memo;
-<span <span class="kw">class</span>="kw">int</span> dp(<span <span class="kw">class</span>="kw">int</span> i, <span <span class="kw">class</span>="kw">int</span> j, <span class="kw">List</span>&lt;<span class="kw">List</span>&lt;<span class="kw">Integer</span>&gt;&gt; t) {
-    <span <span class="kw">class</span>="kw">if</span> (i == t.size()) <span <span class="kw">class</span>="kw">return</span> <span <span class="kw">class</span>="num">0</span>;
-    <span <span class="kw">class</span>="kw">if</span> (memo[i][j] != <span class="kw">null</span>) <span <span class="kw">class</span>="kw">return</span> memo[i][j];
-    <span <span class="kw">class</span>="kw">return</span> memo[i][j] = t.get(i).get(j) + <span class="kw">Math</span>.min(dp(i+<span <span class="kw">class</span>="num">1</span>,j,t), dp(i+<span <span class="kw">class</span>="num">1</span>,j+<span <span class="kw">class</span>="num">1</span>,t));
+<span class="kw">int</span> dp(<span class="kw">int</span> i, <span class="kw">int</span> j, <span class="kw">List</span>&lt;<span class="kw">List</span>&lt;<span class="kw">Integer</span>&gt;&gt; t) {
+    <span class="kw">if</span> (i == t.size()) <span class="kw">return</span> <span class="num">0</span>;
+    <span class="kw">if</span> (memo[i][j] != <span class="kw">null</span>) <span class="kw">return</span> memo[i][j];
+    <span class="kw">return</span> memo[i][j] = t.get(i).get(j) + <span class="kw">Math</span>.min(dp(i+<span class="num">1</span>,j,t), dp(i+<span class="num">1</span>,j+<span class="num">1</span>,t));
 }</pre>
 </div></div>
 </details>
@@ -128,12 +128,12 @@
     <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span> n = t.size();
-<span <span class="kw">class</span>="kw">int</span>[] dp = <span <span class="kw">class</span>="kw">new</span> <span <span class="kw">class</span>="kw">int</span>[n+<span <span class="kw">class</span>="num">1</span>];
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> i = n-<span <span class="kw">class</span>="num">1</span>; i &gt;= <span <span class="kw">class</span>="num">0</span>; i--)
-    <span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> j = <span <span class="kw">class</span>="num">0</span>; j &lt;= i; j++)
-        dp[j] = t.get(i).get(j) + <span class="kw">Math</span>.min(dp[j], dp[j+<span <span class="kw">class</span>="num">1</span>]);
-<span <span class="kw">class</span>="kw">return</span> dp[<span <span class="kw">class</span>="num">0</span>];</pre>
+<pre><span class="kw">int</span> n = t.size();
+<span class="kw">int</span>[] dp = <span class="kw">new</span> <span class="kw">int</span>[n+<span class="num">1</span>];
+<span class="kw">for</span> (<span class="kw">int</span> i = n-<span class="num">1</span>; i &gt;= <span class="num">0</span>; i--)
+    <span class="kw">for</span> (<span class="kw">int</span> j = <span class="num">0</span>; j &lt;= i; j++)
+        dp[j] = t.get(i).get(j) + <span class="kw">Math</span>.min(dp[j], dp[j+<span class="num">1</span>]);
+<span class="kw">return</span> dp[<span class="num">0</span>];</pre>
 </div></div>
 </details>
   </section>
@@ -156,7 +156,7 @@
     <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// already O(n) above</span></pre>
+<pre><span class="cmt">// already O(n) above</span></pre>
 </div></div>
 </details>
   </section>

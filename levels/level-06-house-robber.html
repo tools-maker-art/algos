@@ -61,9 +61,9 @@
     <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span> rob(<span <span class="kw">class</span>="kw">int</span> i, <span <span class="kw">class</span>="kw">int</span>[] m) {
-    <span <span class="kw">class</span>="kw">if</span> (i &lt; <span <span class="kw">class</span>="num">0</span>) <span <span class="kw">class</span>="kw">return</span> <span <span class="kw">class</span>="num">0</span>;
-    <span <span class="kw">class</span>="kw">return</span> <span class="kw">Math</span>.max(m[i] + rob(i-<span <span class="kw">class</span>="num">2</span>, m), rob(i-<span <span class="kw">class</span>="num">1</span>, m));
+<pre><span class="kw">int</span> rob(<span class="kw">int</span> i, <span class="kw">int</span>[] m) {
+    <span class="kw">if</span> (i &lt; <span class="num">0</span>) <span class="kw">return</span> <span class="num">0</span>;
+    <span class="kw">return</span> <span class="kw">Math</span>.max(m[i] + rob(i-<span class="num">2</span>, m), rob(i-<span class="num">1</span>, m));
 }</pre>
 </div></div>
 </details>
@@ -99,11 +99,11 @@
     <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span>[] memo;
-<span <span class="kw">class</span>="kw">int</span> rob(<span <span class="kw">class</span>="kw">int</span> i, <span <span class="kw">class</span>="kw">int</span>[] m) {
-    <span <span class="kw">class</span>="kw">if</span> (i &lt; <span <span class="kw">class</span>="num">0</span>) <span <span class="kw">class</span>="kw">return</span> <span <span class="kw">class</span>="num">0</span>;
-    <span <span class="kw">class</span>="kw">if</span> (memo[i] != -<span <span class="kw">class</span>="num">1</span>) <span <span class="kw">class</span>="kw">return</span> memo[i];
-    <span <span class="kw">class</span>="kw">return</span> memo[i] = <span class="kw">Math</span>.max(m[i] + rob(i-<span <span class="kw">class</span>="num">2</span>, m), rob(i-<span <span class="kw">class</span>="num">1</span>, m));
+<pre><span class="kw">int</span>[] memo;
+<span class="kw">int</span> rob(<span class="kw">int</span> i, <span class="kw">int</span>[] m) {
+    <span class="kw">if</span> (i &lt; <span class="num">0</span>) <span class="kw">return</span> <span class="num">0</span>;
+    <span class="kw">if</span> (memo[i] != -<span class="num">1</span>) <span class="kw">return</span> memo[i];
+    <span class="kw">return</span> memo[i] = <span class="kw">Math</span>.max(m[i] + rob(i-<span class="num">2</span>, m), rob(i-<span class="num">1</span>, m));
 }</pre>
 </div></div>
 </details>
@@ -128,12 +128,12 @@
     <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span>[] dp = <span <span class="kw">class</span>="kw">new</span> <span <span class="kw">class</span>="kw">int</span>[n];
-dp[<span <span class="kw">class</span>="num">0</span>] = m[<span <span class="kw">class</span>="num">0</span>];
-<span <span class="kw">class</span>="kw">if</span> (n &gt; <span <span class="kw">class</span>="num">1</span>) dp[<span <span class="kw">class</span>="num">1</span>] = <span class="kw">Math</span>.max(m[<span <span class="kw">class</span>="num">0</span>], m[<span <span class="kw">class</span>="num">1</span>]);
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> i = <span <span class="kw">class</span>="num">2</span>; i &lt; n; i++)
-    dp[i] = <span class="kw">Math</span>.max(dp[i-<span <span class="kw">class</span>="num">1</span>], m[i] + dp[i-<span <span class="kw">class</span>="num">2</span>]);
-<span <span class="kw">class</span>="kw">return</span> dp[n-<span <span class="kw">class</span>="num">1</span>];</pre>
+<pre><span class="kw">int</span>[] dp = <span class="kw">new</span> <span class="kw">int</span>[n];
+dp[<span class="num">0</span>] = m[<span class="num">0</span>];
+<span class="kw">if</span> (n &gt; <span class="num">1</span>) dp[<span class="num">1</span>] = <span class="kw">Math</span>.max(m[<span class="num">0</span>], m[<span class="num">1</span>]);
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">2</span>; i &lt; n; i++)
+    dp[i] = <span class="kw">Math</span>.max(dp[i-<span class="num">1</span>], m[i] + dp[i-<span class="num">2</span>]);
+<span class="kw">return</span> dp[n-<span class="num">1</span>];</pre>
 </div></div>
 </details>
   </section>
@@ -156,12 +156,12 @@ dp[<span <span class="kw">class</span>="num">0</span>] = m[<span <span class="kw
     <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span> prev2 = <span <span class="kw">class</span>="num">0</span>, prev1 = <span <span class="kw">class</span>="num">0</span>;
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> x : m) {
-    <span <span class="kw">class</span>="kw">int</span> curr = <span class="kw">Math</span>.max(prev1, prev2 + x);
+<pre><span class="kw">int</span> prev2 = <span class="num">0</span>, prev1 = <span class="num">0</span>;
+<span class="kw">for</span> (<span class="kw">int</span> x : m) {
+    <span class="kw">int</span> curr = <span class="kw">Math</span>.max(prev1, prev2 + x);
     prev2 = prev1; prev1 = curr;
 }
-<span <span class="kw">class</span>="kw">return</span> prev1;</pre>
+<span class="kw">return</span> prev1;</pre>
 </div></div>
 </details>
   </section>

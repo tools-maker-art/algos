@@ -61,18 +61,18 @@
     <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span> rob(<span <span class="kw">class</span>="kw">int</span>[] m) {
-    <span <span class="kw">class</span>="kw">if</span> (m.length == <span <span class="kw">class</span>="num">1</span>) <span <span class="kw">class</span>="kw">return</span> m[<span <span class="kw">class</span>="num">0</span>];
-    <span <span class="kw">class</span>="kw">return</span> <span class="kw">Math</span>.max(robLine(m, <span <span class="kw">class</span>="num">0</span>, m.length-<span <span class="kw">class</span>="num">2</span>),
-                    robLine(m, <span <span class="kw">class</span>="num">1</span>, m.length-<span <span class="kw">class</span>="num">1</span>));
+<pre><span class="kw">int</span> rob(<span class="kw">int</span>[] m) {
+    <span class="kw">if</span> (m.length == <span class="num">1</span>) <span class="kw">return</span> m[<span class="num">0</span>];
+    <span class="kw">return</span> <span class="kw">Math</span>.max(robLine(m, <span class="num">0</span>, m.length-<span class="num">2</span>),
+                    robLine(m, <span class="num">1</span>, m.length-<span class="num">1</span>));
 }
-<span <span class="kw">class</span>="kw">int</span> robLine(<span <span class="kw">class</span>="kw">int</span>[] m, <span <span class="kw">class</span>="kw">int</span> l, <span <span class="kw">class</span>="kw">int</span> r) {
-    <span <span class="kw">class</span>="kw">int</span> p2 = <span <span class="kw">class</span>="num">0</span>, p1 = <span <span class="kw">class</span>="num">0</span>;
-    <span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> i = l; i &lt;= r; i++) {
-        <span <span class="kw">class</span>="kw">int</span> c = <span class="kw">Math</span>.max(p1, p2 + m[i]);
+<span class="kw">int</span> robLine(<span class="kw">int</span>[] m, <span class="kw">int</span> l, <span class="kw">int</span> r) {
+    <span class="kw">int</span> p2 = <span class="num">0</span>, p1 = <span class="num">0</span>;
+    <span class="kw">for</span> (<span class="kw">int</span> i = l; i &lt;= r; i++) {
+        <span class="kw">int</span> c = <span class="kw">Math</span>.max(p1, p2 + m[i]);
         p2 = p1; p1 = c;
     }
-    <span <span class="kw">class</span>="kw">return</span> p1;
+    <span class="kw">return</span> p1;
 }</pre>
 </div></div>
 </details>
@@ -108,7 +108,7 @@
     <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// memo applies inside robLine — same as Level <span <span class="kw">class</span>="num">6</span>.</span></pre>
+<pre><span class="cmt">// memo applies inside robLine — same as Level 6.</span></pre>
 </div></div>
 </details>
   </section>
@@ -132,7 +132,7 @@
     <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// already tabular — robLine sweeps a slice once.</span></pre>
+<pre><span class="cmt">// already tabular — robLine sweeps a slice once.</span></pre>
 </div></div>
 </details>
   </section>
@@ -155,7 +155,7 @@
     <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// already O(<span <span class="kw">class</span>="num">1</span>) — two ints inside robLine.</span></pre>
+<pre><span class="cmt">// already O(1) — two ints inside robLine.</span></pre>
 </div></div>
 </details>
   </section>

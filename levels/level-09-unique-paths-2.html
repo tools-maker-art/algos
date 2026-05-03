@@ -61,10 +61,10 @@
     <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span> paths(<span <span class="kw">class</span>="kw">int</span> i, <span <span class="kw">class</span>="kw">int</span> j, <span <span class="kw">class</span>="kw">int</span>[][] g) {
-    <span <span class="kw">class</span>="kw">if</span> (i &lt; <span <span class="kw">class</span>="num">0</span> || j &lt; <span <span class="kw">class</span>="num">0</span> || g[i][j] == <span <span class="kw">class</span>="num">1</span>) <span <span class="kw">class</span>="kw">return</span> <span <span class="kw">class</span>="num">0</span>;
-    <span <span class="kw">class</span>="kw">if</span> (i == <span <span class="kw">class</span>="num">0</span> &amp;&amp; j == <span <span class="kw">class</span>="num">0</span>) <span <span class="kw">class</span>="kw">return</span> <span <span class="kw">class</span>="num">1</span>;
-    <span <span class="kw">class</span>="kw">return</span> paths(i-<span <span class="kw">class</span>="num">1</span>,j,g) + paths(i,j-<span <span class="kw">class</span>="num">1</span>,g);
+<pre><span class="kw">int</span> paths(<span class="kw">int</span> i, <span class="kw">int</span> j, <span class="kw">int</span>[][] g) {
+    <span class="kw">if</span> (i &lt; <span class="num">0</span> || j &lt; <span class="num">0</span> || g[i][j] == <span class="num">1</span>) <span class="kw">return</span> <span class="num">0</span>;
+    <span class="kw">if</span> (i == <span class="num">0</span> &amp;&amp; j == <span class="num">0</span>) <span class="kw">return</span> <span class="num">1</span>;
+    <span class="kw">return</span> paths(i-<span class="num">1</span>,j,g) + paths(i,j-<span class="num">1</span>,g);
 }</pre>
 </div></div>
 </details>
@@ -100,12 +100,12 @@
     <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span>[][] memo;
-<span <span class="kw">class</span>="kw">int</span> paths(<span <span class="kw">class</span>="kw">int</span> i, <span <span class="kw">class</span>="kw">int</span> j, <span <span class="kw">class</span>="kw">int</span>[][] g) {
-    <span <span class="kw">class</span>="kw">if</span> (i &lt; <span <span class="kw">class</span>="num">0</span> || j &lt; <span <span class="kw">class</span>="num">0</span> || g[i][j] == <span <span class="kw">class</span>="num">1</span>) <span <span class="kw">class</span>="kw">return</span> <span <span class="kw">class</span>="num">0</span>;
-    <span <span class="kw">class</span>="kw">if</span> (i == <span <span class="kw">class</span>="num">0</span> &amp;&amp; j == <span <span class="kw">class</span>="num">0</span>) <span <span class="kw">class</span>="kw">return</span> <span <span class="kw">class</span>="num">1</span>;
-    <span <span class="kw">class</span>="kw">if</span> (memo[i][j] != -<span <span class="kw">class</span>="num">1</span>) <span <span class="kw">class</span>="kw">return</span> memo[i][j];
-    <span <span class="kw">class</span>="kw">return</span> memo[i][j] = paths(i-<span <span class="kw">class</span>="num">1</span>,j,g) + paths(i,j-<span <span class="kw">class</span>="num">1</span>,g);
+<pre><span class="kw">int</span>[][] memo;
+<span class="kw">int</span> paths(<span class="kw">int</span> i, <span class="kw">int</span> j, <span class="kw">int</span>[][] g) {
+    <span class="kw">if</span> (i &lt; <span class="num">0</span> || j &lt; <span class="num">0</span> || g[i][j] == <span class="num">1</span>) <span class="kw">return</span> <span class="num">0</span>;
+    <span class="kw">if</span> (i == <span class="num">0</span> &amp;&amp; j == <span class="num">0</span>) <span class="kw">return</span> <span class="num">1</span>;
+    <span class="kw">if</span> (memo[i][j] != -<span class="num">1</span>) <span class="kw">return</span> memo[i][j];
+    <span class="kw">return</span> memo[i][j] = paths(i-<span class="num">1</span>,j,g) + paths(i,j-<span class="num">1</span>,g);
 }</pre>
 </div></div>
 </details>
@@ -130,14 +130,14 @@
     <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span>[][] dp = <span <span class="kw">class</span>="kw">new</span> <span <span class="kw">class</span>="kw">int</span>[m][n];
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> i = <span <span class="kw">class</span>="num">0</span>; i &lt; m; i++)
-    <span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> j = <span <span class="kw">class</span>="num">0</span>; j &lt; n; j++) {
-        <span <span class="kw">class</span>="kw">if</span> (g[i][j] == <span <span class="kw">class</span>="num">1</span>) dp[i][j] = <span <span class="kw">class</span>="num">0</span>;
-        <span <span class="kw">class</span>="kw">else</span> <span <span class="kw">class</span>="kw">if</span> (i == <span <span class="kw">class</span>="num">0</span> &amp;&amp; j == <span <span class="kw">class</span>="num">0</span>) dp[i][j] = <span <span class="kw">class</span>="num">1</span>;
-        <span <span class="kw">class</span>="kw">else</span> dp[i][j] = (i&gt;<span <span class="kw">class</span>="num">0</span> ? dp[i-<span <span class="kw">class</span>="num">1</span>][j] : <span <span class="kw">class</span>="num">0</span>) + (j&gt;<span <span class="kw">class</span>="num">0</span> ? dp[i][j-<span <span class="kw">class</span>="num">1</span>] : <span <span class="kw">class</span>="num">0</span>);
+<pre><span class="kw">int</span>[][] dp = <span class="kw">new</span> <span class="kw">int</span>[m][n];
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; m; i++)
+    <span class="kw">for</span> (<span class="kw">int</span> j = <span class="num">0</span>; j &lt; n; j++) {
+        <span class="kw">if</span> (g[i][j] == <span class="num">1</span>) dp[i][j] = <span class="num">0</span>;
+        <span class="kw">else</span> <span class="kw">if</span> (i == <span class="num">0</span> &amp;&amp; j == <span class="num">0</span>) dp[i][j] = <span class="num">1</span>;
+        <span class="kw">else</span> dp[i][j] = (i&gt;<span class="num">0</span> ? dp[i-<span class="num">1</span>][j] : <span class="num">0</span>) + (j&gt;<span class="num">0</span> ? dp[i][j-<span class="num">1</span>] : <span class="num">0</span>);
     }
-<span <span class="kw">class</span>="kw">return</span> dp[m-<span <span class="kw">class</span>="num">1</span>][n-<span <span class="kw">class</span>="num">1</span>];</pre>
+<span class="kw">return</span> dp[m-<span class="num">1</span>][n-<span class="num">1</span>];</pre>
 </div></div>
 </details>
   </section>
@@ -160,14 +160,14 @@
     <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span>[] dp = <span <span class="kw">class</span>="kw">new</span> <span <span class="kw">class</span>="kw">int</span>[n];
-dp[<span <span class="kw">class</span>="num">0</span>] = (g[<span <span class="kw">class</span>="num">0</span>][<span <span class="kw">class</span>="num">0</span>] == <span <span class="kw">class</span>="num">0</span>) ? <span <span class="kw">class</span>="num">1</span> : <span <span class="kw">class</span>="num">0</span>;
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> i = <span <span class="kw">class</span>="num">0</span>; i &lt; m; i++)
-    <span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> j = <span <span class="kw">class</span>="num">0</span>; j &lt; n; j++) {
-        <span <span class="kw">class</span>="kw">if</span> (g[i][j] == <span <span class="kw">class</span>="num">1</span>) dp[j] = <span <span class="kw">class</span>="num">0</span>;
-        <span <span class="kw">class</span>="kw">else</span> <span <span class="kw">class</span>="kw">if</span> (j &gt; <span <span class="kw">class</span>="num">0</span>) dp[j] += dp[j-<span <span class="kw">class</span>="num">1</span>];
+<pre><span class="kw">int</span>[] dp = <span class="kw">new</span> <span class="kw">int</span>[n];
+dp[<span class="num">0</span>] = (g[<span class="num">0</span>][<span class="num">0</span>] == <span class="num">0</span>) ? <span class="num">1</span> : <span class="num">0</span>;
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; m; i++)
+    <span class="kw">for</span> (<span class="kw">int</span> j = <span class="num">0</span>; j &lt; n; j++) {
+        <span class="kw">if</span> (g[i][j] == <span class="num">1</span>) dp[j] = <span class="num">0</span>;
+        <span class="kw">else</span> <span class="kw">if</span> (j &gt; <span class="num">0</span>) dp[j] += dp[j-<span class="num">1</span>];
     }
-<span <span class="kw">class</span>="kw">return</span> dp[n-<span <span class="kw">class</span>="num">1</span>];</pre>
+<span class="kw">return</span> dp[n-<span class="num">1</span>];</pre>
 </div></div>
 </details>
   </section>

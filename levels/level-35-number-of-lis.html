@@ -61,7 +61,7 @@
     <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// brute enumerate</span></pre>
+<pre><span class="cmt">// brute enumerate</span></pre>
 </div></div>
 </details>
   </section>
@@ -96,7 +96,7 @@
     <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// not natural</span></pre>
+<pre><span class="cmt">// not natural</span></pre>
 </div></div>
 </details>
   </section>
@@ -120,21 +120,21 @@
     <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span>[] len = <span <span class="kw">class</span>="kw">new</span> <span <span class="kw">class</span>="kw">int</span>[n], cnt = <span <span class="kw">class</span>="kw">new</span> <span <span class="kw">class</span>="kw">int</span>[n];
-<span class="kw">Arrays</span>.fill(len, <span <span class="kw">class</span>="num">1</span>); <span class="kw">Arrays</span>.fill(cnt, <span <span class="kw">class</span>="num">1</span>);
-<span <span class="kw">class</span>="kw">int</span> maxLen = <span <span class="kw">class</span>="num">1</span>;
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> i = <span <span class="kw">class</span>="num">1</span>; i &lt; n; i++) {
-    <span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> j = <span <span class="kw">class</span>="num">0</span>; j &lt; i; j++) {
-        <span <span class="kw">class</span>="kw">if</span> (nums[j] &lt; nums[i]) {
-            <span <span class="kw">class</span>="kw">if</span> (len[j] + <span <span class="kw">class</span>="num">1</span> &gt; len[i]) { len[i] = len[j] + <span <span class="kw">class</span>="num">1</span>; cnt[i] = cnt[j]; }
-            <span <span class="kw">class</span>="kw">else</span> <span <span class="kw">class</span>="kw">if</span> (len[j] + <span <span class="kw">class</span>="num">1</span> == len[i]) cnt[i] += cnt[j];
+<pre><span class="kw">int</span>[] len = <span class="kw">new</span> <span class="kw">int</span>[n], cnt = <span class="kw">new</span> <span class="kw">int</span>[n];
+<span class="kw">Arrays</span>.fill(len, <span class="num">1</span>); <span class="kw">Arrays</span>.fill(cnt, <span class="num">1</span>);
+<span class="kw">int</span> maxLen = <span class="num">1</span>;
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i &lt; n; i++) {
+    <span class="kw">for</span> (<span class="kw">int</span> j = <span class="num">0</span>; j &lt; i; j++) {
+        <span class="kw">if</span> (nums[j] &lt; nums[i]) {
+            <span class="kw">if</span> (len[j] + <span class="num">1</span> &gt; len[i]) { len[i] = len[j] + <span class="num">1</span>; cnt[i] = cnt[j]; }
+            <span class="kw">else</span> <span class="kw">if</span> (len[j] + <span class="num">1</span> == len[i]) cnt[i] += cnt[j];
         }
     }
     maxLen = <span class="kw">Math</span>.max(maxLen, len[i]);
 }
-<span <span class="kw">class</span>="kw">int</span> ans = <span <span class="kw">class</span>="num">0</span>;
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> i = <span <span class="kw">class</span>="num">0</span>; i &lt; n; i++) <span <span class="kw">class</span>="kw">if</span> (len[i] == maxLen) ans += cnt[i];
-<span <span class="kw">class</span>="kw">return</span> ans;</pre>
+<span class="kw">int</span> ans = <span class="num">0</span>;
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; n; i++) <span class="kw">if</span> (len[i] == maxLen) ans += cnt[i];
+<span class="kw">return</span> ans;</pre>
 </div></div>
 </details>
   </section>
@@ -157,7 +157,7 @@
     <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// O(n)</span></pre>
+<pre><span class="cmt">// O(n)</span></pre>
 </div></div>
 </details>
   </section>

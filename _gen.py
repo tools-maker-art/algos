@@ -13,20 +13,28 @@ OUT.mkdir(exist_ok=True)
 
 def esc(s): return html.escape(str(s))
 
-JAVA_KW = ["int","return","if","else","for","while","new","void","boolean","char","String","static","public","private","class","import","true","false","null","Math","Arrays","HashSet","HashMap","Set","Map","List","ArrayList","Deque","ArrayDeque","Integer","Collections","switch","case","break","continue"]
+JAVA_KW = {"int","return","if","else","for","while","new","void","boolean","char","String","static","public","private","class","import","true","false","null","Math","Arrays","HashSet","HashMap","Set","Map","List","ArrayList","Deque","ArrayDeque","Integer","Collections","switch","case","break","continue"}
 def jhi(code):
-    out = esc(code)
+    token = re.compile(r'//[^\n]*|"(?:\\.|[^"\\])*"|\'(?:\\.|[^\'\\])*\'|\b\d+\b|\b[A-Za-z_][A-Za-z_0-9]*\b')
     parts = []
     last = 0
-    for m in re.finditer(r"//[^\n]*", out):
-        parts.append(out[last:m.start()]); parts.append(f'<span class="cmt">{m.group(0)}</span>')
+    for m in token.finditer(code):
+        parts.append(esc(code[last:m.start()]))
+        raw = m.group(0)
+        safe = esc(raw)
+        if raw.startswith('//'):
+            parts.append(f'<span class="cmt">{safe}</span>')
+        elif raw.startswith('"') or raw.startswith("'"):
+            parts.append(f'<span class="str">{safe}</span>')
+        elif raw.isdigit():
+            parts.append(f'<span class="num">{safe}</span>')
+        elif raw in JAVA_KW:
+            parts.append(f'<span class="kw">{safe}</span>')
+        else:
+            parts.append(safe)
         last = m.end()
-    parts.append(out[last:])
-    out = "".join(parts)
-    out = re.sub(r"(?<![A-Za-z_])(\d+)", r'<span class="num">\1</span>', out)
-    for k in JAVA_KW:
-        out = re.sub(rf"(?<![A-Za-z_]){k}(?![A-Za-z_])", rf'<span class="kw">{k}</span>', out)
-    return out
+    parts.append(esc(code[last:]))
+    return "".join(parts)
 
 def jcode_block(title, hint, hint_cls, code):
     return f"""<div class="code-block">

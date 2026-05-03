@@ -61,11 +61,11 @@
     <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span> max = <span <span class="kw">class</span>="num">0</span>;
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> i = <span <span class="kw">class</span>="num">0</span>; i &lt; n; i++)
-    <span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> j = i+<span <span class="kw">class</span>="num">1</span>; j &lt; n; j++)
+<pre><span class="kw">int</span> max = <span class="num">0</span>;
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; n; i++)
+    <span class="kw">for</span> (<span class="kw">int</span> j = i+<span class="num">1</span>; j &lt; n; j++)
         max = <span class="kw">Math</span>.max(max, prices[j] - prices[i]);
-<span <span class="kw">class</span>="kw">return</span> max;</pre>
+<span class="kw">return</span> max;</pre>
 </div></div>
 </details>
   </section>
@@ -100,7 +100,7 @@
     <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// not natural</span></pre>
+<pre><span class="cmt">// not natural</span></pre>
 </div></div>
 </details>
   </section>
@@ -124,12 +124,12 @@
     <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span> min = prices[<span <span class="kw">class</span>="num">0</span>], best = <span <span class="kw">class</span>="num">0</span>;
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> i = <span <span class="kw">class</span>="num">1</span>; i &lt; n; i++) {
+<pre><span class="kw">int</span> min = prices[<span class="num">0</span>], best = <span class="num">0</span>;
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i &lt; n; i++) {
     best = <span class="kw">Math</span>.max(best, prices[i] - min);
     min  = <span class="kw">Math</span>.min(min,  prices[i]);
 }
-<span <span class="kw">class</span>="kw">return</span> best;</pre>
+<span class="kw">return</span> best;</pre>
 </div></div>
 </details>
   </section>
@@ -152,7 +152,7 @@
     <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// already O(<span <span class="kw">class</span>="num">1</span>)</span></pre>
+<pre><span class="cmt">// already O(1)</span></pre>
 </div></div>
 </details>
   </section>

@@ -61,12 +61,12 @@
     <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span> cnt(<span <span class="kw">class</span>="kw">int</span> i, <span <span class="kw">class</span>="kw">int</span> k, <span <span class="kw">class</span>="kw">int</span>[] nums) {
-    <span <span class="kw">class</span>="kw">if</span> (k == <span <span class="kw">class</span>="num">0</span>) <span <span class="kw">class</span>="kw">return</span> <span <span class="kw">class</span>="num">1</span>;
-    <span <span class="kw">class</span>="kw">if</span> (i &lt; <span <span class="kw">class</span>="num">0</span>) <span <span class="kw">class</span>="kw">return</span> <span <span class="kw">class</span>="num">0</span>;
-    <span <span class="kw">class</span>="kw">int</span> skip = cnt(i-<span <span class="kw">class</span>="num">1</span>, k, nums);
-    <span <span class="kw">class</span>="kw">int</span> pick = (k &gt;= nums[i]) ? cnt(i-<span <span class="kw">class</span>="num">1</span>, k-nums[i], nums) : <span <span class="kw">class</span>="num">0</span>;
-    <span <span class="kw">class</span>="kw">return</span> skip + pick;
+<pre><span class="kw">int</span> cnt(<span class="kw">int</span> i, <span class="kw">int</span> k, <span class="kw">int</span>[] nums) {
+    <span class="kw">if</span> (k == <span class="num">0</span>) <span class="kw">return</span> <span class="num">1</span>;
+    <span class="kw">if</span> (i &lt; <span class="num">0</span>) <span class="kw">return</span> <span class="num">0</span>;
+    <span class="kw">int</span> skip = cnt(i-<span class="num">1</span>, k, nums);
+    <span class="kw">int</span> pick = (k &gt;= nums[i]) ? cnt(i-<span class="num">1</span>, k-nums[i], nums) : <span class="num">0</span>;
+    <span class="kw">return</span> skip + pick;
 }</pre>
 </div></div>
 </details>
@@ -102,7 +102,7 @@
     <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// memo (i, k)</span></pre>
+<pre><span class="cmt">// memo (i, k)</span></pre>
 </div></div>
 </details>
   </section>
@@ -126,12 +126,12 @@
     <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span>[] dp = <span <span class="kw">class</span>="kw">new</span> <span <span class="kw">class</span>="kw">int</span>[K+<span <span class="kw">class</span>="num">1</span>];
-dp[<span <span class="kw">class</span>="num">0</span>] = <span <span class="kw">class</span>="num">1</span>;
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> x : nums)
-    <span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> k = K; k &gt;= x; k--)
+<pre><span class="kw">int</span>[] dp = <span class="kw">new</span> <span class="kw">int</span>[K+<span class="num">1</span>];
+dp[<span class="num">0</span>] = <span class="num">1</span>;
+<span class="kw">for</span> (<span class="kw">int</span> x : nums)
+    <span class="kw">for</span> (<span class="kw">int</span> k = K; k &gt;= x; k--)
         dp[k] += dp[k - x];
-<span <span class="kw">class</span>="kw">return</span> dp[K];</pre>
+<span class="kw">return</span> dp[K];</pre>
 </div></div>
 </details>
   </section>
@@ -154,7 +154,7 @@ dp[<span <span class="kw">class</span>="num">0</span>] = <span <span class="kw">
     <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// O(K)</span></pre>
+<pre><span class="cmt">// O(K)</span></pre>
 </div></div>
 </details>
   </section>

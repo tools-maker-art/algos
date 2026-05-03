@@ -61,7 +61,7 @@
     <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// brute BFS through prefixes</span></pre>
+<pre><span class="cmt">// brute BFS through prefixes</span></pre>
 </div></div>
 </details>
   </section>
@@ -96,7 +96,7 @@
     <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// memo dp[word]</span></pre>
+<pre><span class="cmt">// memo dp[word]</span></pre>
 </div></div>
 </details>
   </section>
@@ -121,18 +121,18 @@
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
 <pre><span class="kw">Arrays</span>.sort(words, (a,b) -&gt; a.length() - b.length());
-<span class="kw">Map</span>&lt;<span <span class="kw">class</span>="kw">String</span>,<span class="kw">Integer</span>&gt; dp = <span <span class="kw">class</span>="kw">new</span> <span class="kw">HashMap</span>&lt;&gt;();
-<span <span class="kw">class</span>="kw">int</span> best = <span <span class="kw">class</span>="num">1</span>;
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">String</span> w : words) {
-    <span <span class="kw">class</span>="kw">int</span> curr = <span <span class="kw">class</span>="num">1</span>;
-    <span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> i = <span <span class="kw">class</span>="num">0</span>; i &lt; w.length(); i++) {
-        <span <span class="kw">class</span>="kw">String</span> pred = w.substring(<span <span class="kw">class</span>="num">0</span>, i) + w.substring(i+<span <span class="kw">class</span>="num">1</span>);
-        <span <span class="kw">class</span>="kw">if</span> (dp.containsKey(pred)) curr = <span class="kw">Math</span>.max(curr, dp.get(pred) + <span <span class="kw">class</span>="num">1</span>);
+<span class="kw">Map</span>&lt;<span class="kw">String</span>,<span class="kw">Integer</span>&gt; dp = <span class="kw">new</span> <span class="kw">HashMap</span>&lt;&gt;();
+<span class="kw">int</span> best = <span class="num">1</span>;
+<span class="kw">for</span> (<span class="kw">String</span> w : words) {
+    <span class="kw">int</span> curr = <span class="num">1</span>;
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; w.length(); i++) {
+        <span class="kw">String</span> pred = w.substring(<span class="num">0</span>, i) + w.substring(i+<span class="num">1</span>);
+        <span class="kw">if</span> (dp.containsKey(pred)) curr = <span class="kw">Math</span>.max(curr, dp.get(pred) + <span class="num">1</span>);
     }
     dp.put(w, curr);
     best = <span class="kw">Math</span>.max(best, curr);
 }
-<span <span class="kw">class</span>="kw">return</span> best;</pre>
+<span class="kw">return</span> best;</pre>
 </div></div>
 </details>
   </section>
@@ -155,7 +155,7 @@
     <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// single map</span></pre>
+<pre><span class="cmt">// single map</span></pre>
 </div></div>
 </details>
   </section>

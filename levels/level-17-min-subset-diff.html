@@ -61,7 +61,7 @@
     <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// brute subset reachability</span></pre>
+<pre><span class="cmt">// brute subset reachability</span></pre>
 </div></div>
 </details>
   </section>
@@ -96,7 +96,7 @@
     <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// memo via reachable(i,k)</span></pre>
+<pre><span class="cmt">// memo via reachable(i,k)</span></pre>
 </div></div>
 </details>
   </section>
@@ -120,16 +120,16 @@
     <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span> total = <span <span class="kw">class</span>="num">0</span>; <span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> x : nums) total += x;
-<span <span class="kw">class</span>="kw">boolean</span>[] dp = <span <span class="kw">class</span>="kw">new</span> <span <span class="kw">class</span>="kw">boolean</span>[total+<span <span class="kw">class</span>="num">1</span>];
-dp[<span <span class="kw">class</span>="num">0</span>] = <span class="kw">true</span>;
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> x : nums)
-    <span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> k = total; k &gt;= x; k--)
+<pre><span class="kw">int</span> total = <span class="num">0</span>; <span class="kw">for</span> (<span class="kw">int</span> x : nums) total += x;
+<span class="kw">boolean</span>[] dp = <span class="kw">new</span> <span class="kw">boolean</span>[total+<span class="num">1</span>];
+dp[<span class="num">0</span>] = <span class="kw">true</span>;
+<span class="kw">for</span> (<span class="kw">int</span> x : nums)
+    <span class="kw">for</span> (<span class="kw">int</span> k = total; k &gt;= x; k--)
         dp[k] = dp[k] || dp[k - x];
-<span <span class="kw">class</span>="kw">int</span> best = <span class="kw">Integer</span>.MAX_VALUE;
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> k = <span <span class="kw">class</span>="num">0</span>; k &lt;= total/<span <span class="kw">class</span>="num">2</span>; k++)
-    <span <span class="kw">class</span>="kw">if</span> (dp[k]) best = <span class="kw">Math</span>.min(best, total - <span <span class="kw">class</span>="num">2</span>*k);
-<span <span class="kw">class</span>="kw">return</span> best;</pre>
+<span class="kw">int</span> best = <span class="kw">Integer</span>.MAX_VALUE;
+<span class="kw">for</span> (<span class="kw">int</span> k = <span class="num">0</span>; k &lt;= total/<span class="num">2</span>; k++)
+    <span class="kw">if</span> (dp[k]) best = <span class="kw">Math</span>.min(best, total - <span class="num">2</span>*k);
+<span class="kw">return</span> best;</pre>
 </div></div>
 </details>
   </section>
@@ -152,7 +152,7 @@ dp[<span <span class="kw">class</span>="num">0</span>] = <span class="kw">true</
     <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// O(total)</span></pre>
+<pre><span class="cmt">// O(total)</span></pre>
 </div></div>
 </details>
   </section>

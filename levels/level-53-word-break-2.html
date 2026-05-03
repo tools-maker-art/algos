@@ -61,7 +61,7 @@
     <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// DFS through dict</span></pre>
+<pre><span class="cmt">// DFS through dict</span></pre>
 </div></div>
 </details>
   </section>
@@ -96,19 +96,19 @@
     <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
-<pre><span class="kw">Map</span>&lt;<span class="kw">Integer</span>, <span class="kw">List</span>&lt;<span <span class="kw">class</span>="kw">String</span>&gt;&gt; memo = <span <span class="kw">class</span>="kw">new</span> <span class="kw">HashMap</span>&lt;&gt;();
-<span class="kw">List</span>&lt;<span <span class="kw">class</span>="kw">String</span>&gt; build(<span <span class="kw">class</span>="kw">int</span> i, <span <span class="kw">class</span>="kw">String</span> s, <span class="kw">Set</span>&lt;<span <span class="kw">class</span>="kw">String</span>&gt; d) {
-    <span <span class="kw">class</span>="kw">if</span> (memo.containsKey(i)) <span <span class="kw">class</span>="kw">return</span> memo.get(i);
-    <span class="kw">List</span>&lt;<span <span class="kw">class</span>="kw">String</span>&gt; ans = <span <span class="kw">class</span>="kw">new</span> <span class="kw">ArrayList</span>&lt;&gt;();
-    <span <span class="kw">class</span>="kw">if</span> (i == s.length()) { ans.add(&quot;&quot;); memo.put(i, ans); <span <span class="kw">class</span>="kw">return</span> ans; }
-    <span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> j = i + <span <span class="kw">class</span>="num">1</span>; j &lt;= s.length(); j++) {
-        <span <span class="kw">class</span>="kw">String</span> pref = s.substring(i, j);
-        <span <span class="kw">class</span>="kw">if</span> (d.contains(pref))
-            <span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">String</span> tail : build(j, s, d))
-                ans.add(pref + (tail.isEmpty() ? &quot;&quot; : &quot; &quot; + tail));
+<pre><span class="kw">Map</span>&lt;<span class="kw">Integer</span>, <span class="kw">List</span>&lt;<span class="kw">String</span>&gt;&gt; memo = <span class="kw">new</span> <span class="kw">HashMap</span>&lt;&gt;();
+<span class="kw">List</span>&lt;<span class="kw">String</span>&gt; build(<span class="kw">int</span> i, <span class="kw">String</span> s, <span class="kw">Set</span>&lt;<span class="kw">String</span>&gt; d) {
+    <span class="kw">if</span> (memo.containsKey(i)) <span class="kw">return</span> memo.get(i);
+    <span class="kw">List</span>&lt;<span class="kw">String</span>&gt; ans = <span class="kw">new</span> <span class="kw">ArrayList</span>&lt;&gt;();
+    <span class="kw">if</span> (i == s.length()) { ans.add(<span class="str">&quot;&quot;</span>); memo.put(i, ans); <span class="kw">return</span> ans; }
+    <span class="kw">for</span> (<span class="kw">int</span> j = i + <span class="num">1</span>; j &lt;= s.length(); j++) {
+        <span class="kw">String</span> pref = s.substring(i, j);
+        <span class="kw">if</span> (d.contains(pref))
+            <span class="kw">for</span> (<span class="kw">String</span> tail : build(j, s, d))
+                ans.add(pref + (tail.isEmpty() ? <span class="str">&quot;&quot;</span> : <span class="str">&quot; &quot;</span> + tail));
     }
     memo.put(i, ans);
-    <span <span class="kw">class</span>="kw">return</span> ans;
+    <span class="kw">return</span> ans;
 }</pre>
 </div></div>
 </details>
@@ -133,7 +133,7 @@
     <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// memo above is the tabular answer</span></pre>
+<pre><span class="cmt">// memo above is the tabular answer</span></pre>
 </div></div>
 </details>
   </section>
@@ -156,7 +156,7 @@
     <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// output-bounded</span></pre>
+<pre><span class="cmt">// output-bounded</span></pre>
 </div></div>
 </details>
   </section>

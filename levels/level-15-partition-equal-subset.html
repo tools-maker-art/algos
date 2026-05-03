@@ -61,7 +61,7 @@
     <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// reduces to subset-sum recursion</span></pre>
+<pre><span class="cmt">// reduces to subset-sum recursion</span></pre>
 </div></div>
 </details>
   </section>
@@ -96,7 +96,7 @@
     <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// memo applies inside subset-sum</span></pre>
+<pre><span class="cmt">// memo applies inside subset-sum</span></pre>
 </div></div>
 </details>
   </section>
@@ -120,15 +120,15 @@
     <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span> s = <span <span class="kw">class</span>="num">0</span>; <span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> x : nums) s += x;
-<span <span class="kw">class</span>="kw">if</span> ((s &amp; <span <span class="kw">class</span>="num">1</span>) == <span <span class="kw">class</span>="num">1</span>) <span <span class="kw">class</span>="kw">return</span> <span class="kw">false</span>;
-<span <span class="kw">class</span>="kw">int</span> K = s / <span <span class="kw">class</span>="num">2</span>;
-<span <span class="kw">class</span>="kw">boolean</span>[] dp = <span <span class="kw">class</span>="kw">new</span> <span <span class="kw">class</span>="kw">boolean</span>[K+<span <span class="kw">class</span>="num">1</span>];
-dp[<span <span class="kw">class</span>="num">0</span>] = <span class="kw">true</span>;
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> x : nums)
-    <span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> k = K; k &gt;= x; k--)
+<pre><span class="kw">int</span> s = <span class="num">0</span>; <span class="kw">for</span> (<span class="kw">int</span> x : nums) s += x;
+<span class="kw">if</span> ((s &amp; <span class="num">1</span>) == <span class="num">1</span>) <span class="kw">return</span> <span class="kw">false</span>;
+<span class="kw">int</span> K = s / <span class="num">2</span>;
+<span class="kw">boolean</span>[] dp = <span class="kw">new</span> <span class="kw">boolean</span>[K+<span class="num">1</span>];
+dp[<span class="num">0</span>] = <span class="kw">true</span>;
+<span class="kw">for</span> (<span class="kw">int</span> x : nums)
+    <span class="kw">for</span> (<span class="kw">int</span> k = K; k &gt;= x; k--)
         dp[k] = dp[k] || dp[k - x];
-<span <span class="kw">class</span>="kw">return</span> dp[K];</pre>
+<span class="kw">return</span> dp[K];</pre>
 </div></div>
 </details>
   </section>
@@ -151,7 +151,7 @@ dp[<span <span class="kw">class</span>="num">0</span>] = <span class="kw">true</
     <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// O(K)</span></pre>
+<pre><span class="cmt">// O(K)</span></pre>
 </div></div>
 </details>
   </section>

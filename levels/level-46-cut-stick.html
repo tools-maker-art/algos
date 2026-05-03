@@ -61,7 +61,7 @@
     <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// brute: every order</span></pre>
+<pre><span class="cmt">// brute: every order</span></pre>
 </div></div>
 </details>
   </section>
@@ -96,7 +96,7 @@
     <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// cache (i, j)</span></pre>
+<pre><span class="cmt">// cache (i, j)</span></pre>
 </div></div>
 </details>
   </section>
@@ -120,20 +120,20 @@
     <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span>[] c = <span <span class="kw">class</span>="kw">new</span> <span <span class="kw">class</span>="kw">int</span>[cuts.length+<span <span class="kw">class</span>="num">2</span>];
-c[<span <span class="kw">class</span>="num">0</span>] = <span <span class="kw">class</span>="num">0</span>; c[c.length-<span <span class="kw">class</span>="num">1</span>] = n;
-System.arraycopy(cuts, <span <span class="kw">class</span>="num">0</span>, c, <span <span class="kw">class</span>="num">1</span>, cuts.length);
+<pre><span class="kw">int</span>[] c = <span class="kw">new</span> <span class="kw">int</span>[cuts.length+<span class="num">2</span>];
+c[<span class="num">0</span>] = <span class="num">0</span>; c[c.length-<span class="num">1</span>] = n;
+System.arraycopy(cuts, <span class="num">0</span>, c, <span class="num">1</span>, cuts.length);
 <span class="kw">Arrays</span>.sort(c);
-<span <span class="kw">class</span>="kw">int</span> m = c.length;
-<span <span class="kw">class</span>="kw">int</span>[][] dp = <span <span class="kw">class</span>="kw">new</span> <span <span class="kw">class</span>="kw">int</span>[m][m];
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> len = <span <span class="kw">class</span>="num">2</span>; len &lt; m; len++)
-    <span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> i = <span <span class="kw">class</span>="num">0</span>; i + len &lt; m; i++) {
-        <span <span class="kw">class</span>="kw">int</span> j = i + len;
+<span class="kw">int</span> m = c.length;
+<span class="kw">int</span>[][] dp = <span class="kw">new</span> <span class="kw">int</span>[m][m];
+<span class="kw">for</span> (<span class="kw">int</span> len = <span class="num">2</span>; len &lt; m; len++)
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i + len &lt; m; i++) {
+        <span class="kw">int</span> j = i + len;
         dp[i][j] = <span class="kw">Integer</span>.MAX_VALUE;
-        <span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> k = i+<span <span class="kw">class</span>="num">1</span>; k &lt; j; k++)
+        <span class="kw">for</span> (<span class="kw">int</span> k = i+<span class="num">1</span>; k &lt; j; k++)
             dp[i][j] = <span class="kw">Math</span>.min(dp[i][j], dp[i][k] + dp[k][j] + c[j]-c[i]);
     }
-<span <span class="kw">class</span>="kw">return</span> dp[<span <span class="kw">class</span>="num">0</span>][m-<span <span class="kw">class</span>="num">1</span>];</pre>
+<span class="kw">return</span> dp[<span class="num">0</span>][m-<span class="num">1</span>];</pre>
 </div></div>
 </details>
   </section>
@@ -156,7 +156,7 @@ System.arraycopy(cuts, <span <span class="kw">class</span>="num">0</span>, c, <s
     <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// O(m²) table</span></pre>
+<pre><span class="cmt">// O(m²) table</span></pre>
 </div></div>
 </details>
   </section>
