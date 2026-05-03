@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Level 11: ⛰️ Triangle Trek — DP Adventure</title>
+<meta name="description" content="Triangle — playful walkthrough.">
+<link rel="stylesheet" href="../styles.css">
+<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><text y='52' font-size='52'>🧩</text></svg>">
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../index.html" class="brand">
+    <span class="logo">A</span><span>Algos&nbsp;Adventure</span>
+  </a>
+  <nav>
+    <a href="../dp-roadmap.html">Roadmap</a>
+    <a href="../index.html">Home</a>
+  </nav>
+</header>
+
+<main class="container-narrow">
+
+  <section class="level-header">
+    <div class="crumbs"><a href="../dp-roadmap.html">Roadmap</a> · World B · Grid DP</div>
+    <span class="level-tag">Level 11</span>
+    <h1>⛰️ Triangle Trek</h1>
+    <p class="muted">Triangle</p>
+    <div class="pillrow">
+      <span class="badge">World B</span>
+      <span class="badge alt">Grid DP</span>
+    </div>
+  </section>
+
+  
+  <div class="section-card">
+    <h2><span class="emoji">🎮</span> Objective</h2>
+    <p>Walk top→bottom in a triangle of numbers, choosing the path with the smallest total sum.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🧠</span> Problem (in tiny words)</h2>
+    <p>From triangle[i][j] you may move to triangle[i+1][j] or triangle[i+1][j+1]. Minimise total.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🎭</span> Story</h2>
+    <p>A pyramid path: each step you either keep going straight-down or step diagonally. Pick the cheapest descent.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">😵</span> Brute force (the painful way)</h2>
+    <p>Recurse from top — exponential.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🌱</span> From brute → recursion</h2>
+    <p>dp(i,j) = triangle[i][j] + min( dp(i+1,j), dp(i+1,j+1) ).</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🔁</span> Recursion</h2>
+    <p>As above. Compute bottom-up to avoid overflow of recursion.</p><pre class="code"># pseudo
+As above. Compute bottom-up to avoid overflow of recursion.</pre>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🧩</span> Memoization</h2>
+    <p>Cache.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🧱</span> Tabulation</h2>
+    <p>Start from last row (dp = last row), fold upwards.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🚀</span> Space optimisation</h2>
+    <p>Single 1D array of length = bottom width.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🧪</span> Dry run</h2>
+    
+    <p>Tap <em>Next step</em> to walk through the table cell-by-cell.</p>
+    <div data-stepper>
+      <div class="stepper">
+        <button data-step="prev" class="ghost">⟵ Prev</button>
+        <button data-step="next">Next ⟶</button>
+        <button data-step="all" class="ghost">Show all</button>
+        <button data-step="reset" class="ghost">↺</button>
+        <div class="progress"><span></span></div>
+        <div class="label">Step 1 / 5</div>
+      </div>
+      <div class="dryrun-step hidden"><div class="label">Triangle</div>[[2],[3,4],[6,5,7],[4,1,8,3]]</div><div class="dryrun-step hidden"><div class="label">Bottom</div>[4,1,8,3]</div><div class="dryrun-step hidden"><div class="label">Row 2</div>[7,6,10] (e.g. 6+min(4,1)=7)</div><div class="dryrun-step hidden"><div class="label">Row 1</div>[9,10] (3+min(7,6)=9)</div><div class="dryrun-step hidden"><div class="label">Top</div>[11] ✅</div>
+    </div>
+    
+  <div class="viz center">
+    <div class="muted">Triangle of choices</div>
+    <pre class="code">      2
+     3 4
+    6 5 7
+   4 1 8 3</pre>
+  </div>
+  
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">📊</span> Complexity</h2>
+    <p>O(n²) time, O(n) space.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">💡</span> Key takeaway</h2>
+    <p><strong>Walk bottom-up to avoid awkward boundary checks.</strong></p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🎯</span> Mini challenge</h2>
+    <p>What if you can also move diagonally to (i+1, j-1)? Add a third term in the min.</p><p><button class='btn small' data-celebrate>I tried it ✅</button></p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🎮</span> Game UI idea</h2>
+    <p>Triangle of numbered cells. Tap a cell to expand allowed next steps.</p>
+  </div>
+
+  <nav class="bottom-nav">
+    <a class="up" href="level-10-min-path-sum.html">⟵ L10 💎 Cheapest Treasure Trail</a>
+    <a class="next" href="level-12-falling-path-sum.html">L12 ❄️ Falling Snow Path ⟶</a>
+  </nav>
+
+</main>
+
+<footer class="site">Algos Adventure · <a href="../index.html">Home</a> · <a href="../dp-roadmap.html">Roadmap</a></footer>
+<script src="../script.js"></script>
+</body>
+</html>

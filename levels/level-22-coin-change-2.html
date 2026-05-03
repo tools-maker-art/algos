@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Level 22: 🪙 How Many Wallets? — DP Adventure</title>
+<meta name="description" content="Coin Change II — playful walkthrough.">
+<link rel="stylesheet" href="../styles.css">
+<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><text y='52' font-size='52'>🧩</text></svg>">
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../index.html" class="brand">
+    <span class="logo">A</span><span>Algos&nbsp;Adventure</span>
+  </a>
+  <nav>
+    <a href="../dp-roadmap.html">Roadmap</a>
+    <a href="../index.html">Home</a>
+  </nav>
+</header>
+
+<main class="container-narrow">
+
+  <section class="level-header">
+    <div class="crumbs"><a href="../dp-roadmap.html">Roadmap</a> · World C · Knapsack</div>
+    <span class="level-tag">Level 22</span>
+    <h1>🪙 How Many Wallets?</h1>
+    <p class="muted">Coin Change II</p>
+    <div class="pillrow">
+      <span class="badge">World C</span>
+      <span class="badge alt">Knapsack</span>
+    </div>
+  </section>
+
+  
+  <div class="section-card">
+    <h2><span class="emoji">🎮</span> Objective</h2>
+    <p>Count the number of distinct ways to make amount A.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🧠</span> Problem (in tiny words)</h2>
+    <p>Return number of combinations (order doesn&rsquo;t matter) that sum to A.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🎭</span> Story</h2>
+    <p>A coin collector wants to know in how many distinct ways can the amount be paid.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">😵</span> Brute force (the painful way)</h2>
+    <p>Try all combinations.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🌱</span> From brute → recursion</h2>
+    <p>ways(A) = sum over coins of ways(A - c) — but iterate coins outer to avoid permutations.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🔁</span> Recursion</h2>
+    <p>ways(i,A) = ways(i-1,A) + ways(i,A-c[i]).</p><pre class="code"># pseudo
+ways(i,A) = ways(i-1,A) + ways(i,A-c[i]).</pre>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🧩</span> Memoization</h2>
+    <p>2D cache.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🧱</span> Tabulation</h2>
+    <p>dp[0]=1. For each coin c: for a=c..A: dp[a]+=dp[a-c].</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🚀</span> Space optimisation</h2>
+    <p>O(A).</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🧪</span> Dry run</h2>
+    
+    <p>Tap <em>Next step</em> to walk through the table cell-by-cell.</p>
+    <div data-stepper>
+      <div class="stepper">
+        <button data-step="prev" class="ghost">⟵ Prev</button>
+        <button data-step="next">Next ⟶</button>
+        <button data-step="all" class="ghost">Show all</button>
+        <button data-step="reset" class="ghost">↺</button>
+        <div class="progress"><span></span></div>
+        <div class="label">Step 1 / 2</div>
+      </div>
+      <div class="dryrun-step hidden"><div class="label">Coins</div>[1,2,5], A=5</div><div class="dryrun-step hidden"><div class="label">Combos</div>{5},{2,2,1},{2,1,1,1},{1,1,1,1,1} → 4 ✅</div>
+    </div>
+    
+  <div class="viz">
+    <p class="muted center">Coins = [1,2,5], target = 5</p>
+    <div class="coins">
+      <div class="coin">1</div><div class="coin">2</div><div class="coin">5</div>
+    </div>
+  </div>
+  
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">📊</span> Complexity</h2>
+    <p>O(n·A) time, O(A) space.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">💡</span> Key takeaway</h2>
+    <p><strong>Coin order matters? Loop coins outside to avoid permutations.</strong></p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🎯</span> Mini challenge</h2>
+    <p>If coins=[2] and A=3, ways=0.</p><p><button class='btn small' data-celebrate>I tried it ✅</button></p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🎮</span> Game UI idea</h2>
+    <p>Coin pouches that fill differently. Counter of unique fillings.</p>
+  </div>
+
+  <nav class="bottom-nav">
+    <a class="up" href="level-21-coin-change-min.html">⟵ L21 🪙 Tiny Cashier</a>
+    <a class="next" href="level-23-rod-cutting.html">L23 🪵 The Lumberjack&rsquo;s Saw ⟶</a>
+  </nav>
+
+</main>
+
+<footer class="site">Algos Adventure · <a href="../index.html">Home</a> · <a href="../dp-roadmap.html">Roadmap</a></footer>
+<script src="../script.js"></script>
+</body>
+</html>

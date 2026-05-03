@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Level 50: 📊 Tallest Hidden Rectangle — DP Adventure</title>
+<meta name="description" content="Largest Rectangle in Histogram — playful walkthrough.">
+<link rel="stylesheet" href="../styles.css">
+<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><text y='52' font-size='52'>🧩</text></svg>">
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../index.html" class="brand">
+    <span class="logo">A</span><span>Algos&nbsp;Adventure</span>
+  </a>
+  <nav>
+    <a href="../dp-roadmap.html">Roadmap</a>
+    <a href="../index.html">Home</a>
+  </nav>
+</header>
+
+<main class="container-narrow">
+
+  <section class="level-header">
+    <div class="crumbs"><a href="../dp-roadmap.html">Roadmap</a> · World H · Advanced</div>
+    <span class="level-tag">Level 50</span>
+    <h1>📊 Tallest Hidden Rectangle</h1>
+    <p class="muted">Largest Rectangle in Histogram</p>
+    <div class="pillrow">
+      <span class="badge">World H</span>
+      <span class="badge alt">Advanced</span>
+    </div>
+  </section>
+
+  
+  <div class="section-card">
+    <h2><span class="emoji">🎮</span> Objective</h2>
+    <p>Given heights[], find the area of the largest rectangle that fits within the histogram.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🧠</span> Problem (in tiny words)</h2>
+    <p>Largest axis-aligned rectangle inside the histogram.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🎭</span> Story</h2>
+    <p>A stack-of-bars puzzle: what&rsquo;s the biggest rectangle hiding inside?</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">😵</span> Brute force (the painful way)</h2>
+    <p>Try every (l,r) pair (n²).</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🌱</span> From brute → recursion</h2>
+    <p>Use a monotonic stack: for each bar, find Previous-Smaller-Element and Next-Smaller-Element. Width = NSE - PSE - 1; area = h[i]·width.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🔁</span> Recursion</h2>
+    <p>N/A — iterative stack technique.</p><pre class="code"># pseudo
+N/A — iterative stack technique.</pre>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🧩</span> Memoization</h2>
+    <p>N/A.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🧱</span> Tabulation</h2>
+    <p>Single stack pass.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🚀</span> Space optimisation</h2>
+    <p>O(n).</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🧪</span> Dry run</h2>
+    
+    <p>Tap <em>Next step</em> to walk through the table cell-by-cell.</p>
+    <div data-stepper>
+      <div class="stepper">
+        <button data-step="prev" class="ghost">⟵ Prev</button>
+        <button data-step="next">Next ⟶</button>
+        <button data-step="all" class="ghost">Show all</button>
+        <button data-step="reset" class="ghost">↺</button>
+        <div class="progress"><span></span></div>
+        <div class="label">Step 1 / 2</div>
+      </div>
+      <div class="dryrun-step hidden"><div class="label">Heights</div>[2,1,5,6,2,3]</div><div class="dryrun-step hidden"><div class="label">Best</div>(5,6) gives 2·5? actually width 2 height 5 = 10 ✅</div>
+    </div>
+    <div class='viz'><p class='muted center'>Use a monotonic stack for O(n).</p></div>
+  
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">📊</span> Complexity</h2>
+    <p>O(n).</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">💡</span> Key takeaway</h2>
+    <p><strong>Stack DP solves &lsquo;range smallest&rsquo; problems in O(n).</strong></p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🎯</span> Mini challenge</h2>
+    <p>Print the (l,r) of the largest rectangle.</p><p><button class='btn small' data-celebrate>I tried it ✅</button></p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🎮</span> Game UI idea</h2>
+    <p>Histogram bars; outline the winning rectangle.</p>
+  </div>
+
+  <nav class="bottom-nav">
+    <a class="up" href="level-49-partition-max-sum.html">⟵ L49 📦 K-Sized Boxes</a>
+    <a class="next" href="level-51-maximum-rectangle.html">L51 🟦 Biggest White Square ⟶</a>
+  </nav>
+
+</main>
+
+<footer class="site">Algos Adventure · <a href="../index.html">Home</a> · <a href="../dp-roadmap.html">Roadmap</a></footer>
+<script src="../script.js"></script>
+</body>
+</html>

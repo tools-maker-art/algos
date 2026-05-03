@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Level 25: 🖨️ Print the Hidden Phrase — DP Adventure</title>
+<meta name="description" content="Print LCS — playful walkthrough.">
+<link rel="stylesheet" href="../styles.css">
+<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><text y='52' font-size='52'>🧩</text></svg>">
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../index.html" class="brand">
+    <span class="logo">A</span><span>Algos&nbsp;Adventure</span>
+  </a>
+  <nav>
+    <a href="../dp-roadmap.html">Roadmap</a>
+    <a href="../index.html">Home</a>
+  </nav>
+</header>
+
+<main class="container-narrow">
+
+  <section class="level-header">
+    <div class="crumbs"><a href="../dp-roadmap.html">Roadmap</a> · World D · Strings</div>
+    <span class="level-tag">Level 25</span>
+    <h1>🖨️ Print the Hidden Phrase</h1>
+    <p class="muted">Print LCS</p>
+    <div class="pillrow">
+      <span class="badge">World D</span>
+      <span class="badge alt">Strings</span>
+    </div>
+  </section>
+
+  
+  <div class="section-card">
+    <h2><span class="emoji">🎮</span> Objective</h2>
+    <p>Reconstruct the actual longest common subsequence (not just its length).</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🧠</span> Problem (in tiny words)</h2>
+    <p>After computing the LCS table, walk back to print one valid LCS string.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🎭</span> Story</h2>
+    <p>Now print the secret. Trace from dp[n][m] back to dp[0][0] following the choices that made the table grow.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">😵</span> Brute force (the painful way)</h2>
+    <p>Recompute via brute LCS — slow.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🌱</span> From brute → recursion</h2>
+    <p>Walk backward: if A[i-1]==B[j-1] take that letter; else move to the larger neighbour.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🔁</span> Recursion</h2>
+    <p>Trace function on memo table.</p><pre class="code"># pseudo
+Trace function on memo table.</pre>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🧩</span> Memoization</h2>
+    <p>Reuse LCS table from Level 24.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🧱</span> Tabulation</h2>
+    <p>Same.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🚀</span> Space optimisation</h2>
+    <p>Same.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🧪</span> Dry run</h2>
+    
+    <p>Tap <em>Next step</em> to walk through the table cell-by-cell.</p>
+    <div data-stepper>
+      <div class="stepper">
+        <button data-step="prev" class="ghost">⟵ Prev</button>
+        <button data-step="next">Next ⟶</button>
+        <button data-step="all" class="ghost">Show all</button>
+        <button data-step="reset" class="ghost">↺</button>
+        <div class="progress"><span></span></div>
+        <div class="label">Step 1 / 2</div>
+      </div>
+      <div class="dryrun-step hidden"><div class="label">A,B</div>'abcde','ace'</div><div class="dryrun-step hidden"><div class="label">Trace</div>From dp[5][3]=3 backwards → 'ace' ✅</div>
+    </div>
+    
+  <div class="viz">
+    <p class="muted center">Trace dp table backwards</p>
+    <pre class="code">a b c d e
+a • → → → →
+c   ↓ • → →
+e         •  → 'ace'</pre>
+  </div>
+  
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">📊</span> Complexity</h2>
+    <p>O(n·m) time, O(n·m) space.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">💡</span> Key takeaway</h2>
+    <p><strong>DP tables don&rsquo;t just give numbers — you can rebuild the answer.</strong></p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🎯</span> Mini challenge</h2>
+    <p>Print all distinct LCSs (warning: can be exponential).</p><p><button class='btn small' data-celebrate>I tried it ✅</button></p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🎮</span> Game UI idea</h2>
+    <p>Walk back arrows on the LCS grid; pick up letters as you go.</p>
+  </div>
+
+  <nav class="bottom-nav">
+    <a class="up" href="level-24-lcs.html">⟵ L24 🧬 Twin Spy Notes</a>
+    <a class="next" href="level-26-longest-common-substring.html">L26 🪞 Mirror Words ⟶</a>
+  </nav>
+
+</main>
+
+<footer class="site">Algos Adventure · <a href="../index.html">Home</a> · <a href="../dp-roadmap.html">Roadmap</a></footer>
+<script src="../script.js"></script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Level 42: 🎫 K Tickets — DP Adventure</title>
+<meta name="description" content="Best Time to Buy and Sell Stock IV — playful walkthrough.">
+<link rel="stylesheet" href="../styles.css">
+<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><text y='52' font-size='52'>🧩</text></svg>">
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../index.html" class="brand">
+    <span class="logo">A</span><span>Algos&nbsp;Adventure</span>
+  </a>
+  <nav>
+    <a href="../dp-roadmap.html">Roadmap</a>
+    <a href="../index.html">Home</a>
+  </nav>
+</header>
+
+<main class="container-narrow">
+
+  <section class="level-header">
+    <div class="crumbs"><a href="../dp-roadmap.html">Roadmap</a> · World F · Stocks</div>
+    <span class="level-tag">Level 42</span>
+    <h1>🎫 K Tickets</h1>
+    <p class="muted">Best Time to Buy and Sell Stock IV</p>
+    <div class="pillrow">
+      <span class="badge">World F</span>
+      <span class="badge alt">Stocks</span>
+    </div>
+  </section>
+
+  
+  <div class="section-card">
+    <h2><span class="emoji">🎮</span> Objective</h2>
+    <p>At most K transactions. Maximise profit.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🧠</span> Problem (in tiny words)</h2>
+    <p>General K version.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🎭</span> Story</h2>
+    <p>The exchange now sets a custom limit K each season.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">😵</span> Brute force (the painful way)</h2>
+    <p>Combos.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🌱</span> From brute → recursion</h2>
+    <p>State (day, k, hold). Same recurrence as III but k up to K.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🔁</span> Recursion</h2>
+    <p>dp(day, k, hold).</p><pre class="code"># pseudo
+dp(day, k, hold).</pre>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🧩</span> Memoization</h2>
+    <p>3D cache (n·(K+1)·2).</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🧱</span> Tabulation</h2>
+    <p>Iterate days; update for each k.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🚀</span> Space optimisation</h2>
+    <p>O(K).</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🧪</span> Dry run</h2>
+    
+    <p>Tap <em>Next step</em> to walk through the table cell-by-cell.</p>
+    <div data-stepper>
+      <div class="stepper">
+        <button data-step="prev" class="ghost">⟵ Prev</button>
+        <button data-step="next">Next ⟶</button>
+        <button data-step="all" class="ghost">Show all</button>
+        <button data-step="reset" class="ghost">↺</button>
+        <div class="progress"><span></span></div>
+        <div class="label">Step 1 / 1</div>
+      </div>
+      <div class="dryrun-step hidden"><div class="label">Prices, K</div>[3,2,6,5,0,3], K=2 → 7 ✅</div>
+    </div>
+    <div class='viz'><p class='muted center'>state (day, k, hold)</p></div>
+  
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">📊</span> Complexity</h2>
+    <p>O(n·K).</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">💡</span> Key takeaway</h2>
+    <p><strong>When K ≥ n/2, problem reduces to Stock II (unlimited).</strong></p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🎯</span> Mini challenge</h2>
+    <p>Show the reduction for K large.</p><p><button class='btn small' data-celebrate>I tried it ✅</button></p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🎮</span> Game UI idea</h2>
+    <p>Slider for K, chart re-marks trades.</p>
+  </div>
+
+  <nav class="bottom-nav">
+    <a class="up" href="level-41-stock-3.html">⟵ L41 🎟️ Two Tickets Only</a>
+    <a class="next" href="level-43-stock-cooldown.html">L43 ❄️ One-Day Cooldown ⟶</a>
+  </nav>
+
+</main>
+
+<footer class="site">Algos Adventure · <a href="../index.html">Home</a> · <a href="../dp-roadmap.html">Roadmap</a></footer>
+<script src="../script.js"></script>
+</body>
+</html>

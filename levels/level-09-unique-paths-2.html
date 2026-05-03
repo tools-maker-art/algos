@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Level 09: 🪨 Boulders in the Way — DP Adventure</title>
+<meta name="description" content="Unique Paths II — playful walkthrough.">
+<link rel="stylesheet" href="../styles.css">
+<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><text y='52' font-size='52'>🧩</text></svg>">
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../index.html" class="brand">
+    <span class="logo">A</span><span>Algos&nbsp;Adventure</span>
+  </a>
+  <nav>
+    <a href="../dp-roadmap.html">Roadmap</a>
+    <a href="../index.html">Home</a>
+  </nav>
+</header>
+
+<main class="container-narrow">
+
+  <section class="level-header">
+    <div class="crumbs"><a href="../dp-roadmap.html">Roadmap</a> · World B · Grid DP</div>
+    <span class="level-tag">Level 09</span>
+    <h1>🪨 Boulders in the Way</h1>
+    <p class="muted">Unique Paths II</p>
+    <div class="pillrow">
+      <span class="badge">World B</span>
+      <span class="badge alt">Grid DP</span>
+    </div>
+  </section>
+
+  
+  <div class="section-card">
+    <h2><span class="emoji">🎮</span> Objective</h2>
+    <p>Same grid — now some cells are blocked. Count paths that avoid the obstacles.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🧠</span> Problem (in tiny words)</h2>
+    <p>Grid contains 0 (free) and 1 (obstacle). Count paths from (0,0) to (m-1,n-1) avoiding all 1s.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🎭</span> Story</h2>
+    <p>The fox now meets fallen boulders. Skip those cells entirely.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">😵</span> Brute force (the painful way)</h2>
+    <p>Same recursion — but skip blocked cells.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🌱</span> From brute → recursion</h2>
+    <p>If grid[i][j]==1, paths(i,j)=0. Else paths(i,j)=paths(i-1,j)+paths(i,j-1).</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🔁</span> Recursion</h2>
+    <p>Conditional recurrence as above.</p><pre class="code"># pseudo
+Conditional recurrence as above.</pre>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🧩</span> Memoization</h2>
+    <p>Cache.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🧱</span> Tabulation</h2>
+    <p>2D dp; if obstacle, leave 0.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🚀</span> Space optimisation</h2>
+    <p>Single row, in place.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🧪</span> Dry run</h2>
+    
+    <p>Tap <em>Next step</em> to walk through the table cell-by-cell.</p>
+    <div data-stepper>
+      <div class="stepper">
+        <button data-step="prev" class="ghost">⟵ Prev</button>
+        <button data-step="next">Next ⟶</button>
+        <button data-step="all" class="ghost">Show all</button>
+        <button data-step="reset" class="ghost">↺</button>
+        <div class="progress"><span></span></div>
+        <div class="label">Step 1 / 4</div>
+      </div>
+      <div class="dryrun-step hidden"><div class="label">Grid</div>[[0,0,0],[0,1,0],[0,0,0]]</div><div class="dryrun-step hidden"><div class="label">Row 0</div>[1,1,1]</div><div class="dryrun-step hidden"><div class="label">Row 1</div>[1,0,1]   (block at (1,1))</div><div class="dryrun-step hidden"><div class="label">Row 2</div>[1,1,2] ✅</div>
+    </div>
+    
+  <div class="viz">
+    <p class="muted center">3×3 with one boulder in the middle</p>
+    <div class="grid-viz" style="grid-template-columns:repeat(3,1fr)">
+      <div class="cell start">S</div><div class="cell"></div><div class="cell"></div>
+      <div class="cell"></div><div class="cell block">🪨</div><div class="cell"></div>
+      <div class="cell"></div><div class="cell"></div><div class="cell end">🍓</div>
+    </div>
+  </div>
+  
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">📊</span> Complexity</h2>
+    <p>O(m·n) time, O(n) space.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">💡</span> Key takeaway</h2>
+    <p><strong>Add &lsquo;walls&rsquo; by zeroing forbidden cells. The recurrence stays the same.</strong></p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🎯</span> Mini challenge</h2>
+    <p>If the start or end cell is blocked, what&rsquo;s the answer?  (0.)</p><p><button class='btn small' data-celebrate>I tried it ✅</button></p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🎮</span> Game UI idea</h2>
+    <p>Toggle cells to obstacles. Live recount of valid paths.</p>
+  </div>
+
+  <nav class="bottom-nav">
+    <a class="up" href="level-08-unique-paths.html">⟵ L08 🦊 Fox in the Forest</a>
+    <a class="next" href="level-10-min-path-sum.html">L10 💎 Cheapest Treasure Trail ⟶</a>
+  </nav>
+
+</main>
+
+<footer class="site">Algos Adventure · <a href="../index.html">Home</a> · <a href="../dp-roadmap.html">Roadmap</a></footer>
+<script src="../script.js"></script>
+</body>
+</html>
