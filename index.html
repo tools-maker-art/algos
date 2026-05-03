@@ -1,92 +1,114 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Little Coder Adventures | Learn Algorithms with Games</title>
-  <meta name="description" content="Learn algorithms through simple interactive games. Understand brute force, binary search, time complexity, and space complexity with fun visual stories.">
-  <link rel="stylesheet" href="styles.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Algos Adventure — Dynamic Programming Made Playful</title>
+<meta name="description" content="A playful, story-based learning game for Dynamic Programming. 53 hand-crafted levels for absolute beginners.">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><text y='52' font-size='52'>🧩</text></svg>">
 </head>
 <body>
-  <header class="site-header">
-    <a class="brand" href="index.html" aria-label="Little Coder Adventures home">
-      <span class="brand-icon" aria-hidden="true">🧭</span>
-      <span>Little Coder Adventures</span>
-    </a>
-    <nav class="top-nav" aria-label="Main navigation">
-      <a href="index.html">🏠 Home</a>
-      <a href="level-1-binary-search.html">📚 Level 1</a>
-      <a href="level-1-binary-search.html#play">🚀 Play</a>
-    </nav>
-  </header>
 
-  <main>
-    <section class="landing-hero">
-      <div class="hero-copy">
-        <p class="eyebrow">Tiny games. Big ideas.</p>
-        <h1>Little Coder Adventures</h1>
-        <p class="hero-lede">Learn algorithms through tiny games and big adventures.</p>
-        <p class="hero-subtitle">Start with simple stories. Play with ideas. Understand how computers think.</p>
-        <a class="primary-action" href="level-1-binary-search.html">Start Level 1</a>
-      </div>
-      <div class="hero-scene" aria-label="A cheerful coding adventure scene">
-        <div class="sun" aria-hidden="true"></div>
-        <div class="cloud cloud-one" aria-hidden="true"></div>
-        <div class="cloud cloud-two" aria-hidden="true"></div>
-        <div class="map-card">
-          <div class="map-path" aria-hidden="true"></div>
-          <span class="map-pin pin-a" aria-hidden="true">📚</span>
-          <span class="map-pin pin-b" aria-hidden="true">🧩</span>
-          <span class="map-pin pin-c" aria-hidden="true">🏁</span>
-          <span class="hero-kid" aria-hidden="true">🧒</span>
-        </div>
-      </div>
-    </section>
+<header class="topbar">
+  <a href="index.html" class="brand">
+    <span class="logo">A</span>
+    <span>Algos&nbsp;Adventure</span>
+  </a>
+  <nav>
+    <a href="dp-roadmap.html">Roadmap</a>
+    <a href="https://github.com/tools-maker-art/algos" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
 
-    <section class="levels-section" aria-labelledby="levels-title">
-      <div class="section-heading">
-        <p class="eyebrow">Choose an adventure</p>
-        <h2 id="levels-title">Algorithm Levels</h2>
-      </div>
+<main class="container">
 
-      <div class="level-grid">
-        <article class="level-card unlocked">
-          <span class="level-badge">Level 1</span>
-          <div class="level-icon" aria-hidden="true">📖</div>
-          <h3>The Million Book Mystery</h3>
-          <p>Learn what an algorithm is using brute force and binary search.</p>
-          <a class="card-button" href="level-1-binary-search.html">Start Level 1</a>
-        </article>
+  <section class="hero">
+    <span class="floaty a">🧩</span>
+    <span class="floaty b">🪙</span>
+    <span class="floaty c">🪜</span>
+    <span class="floaty d">🦊</span>
 
-        <article class="level-card locked" aria-disabled="true">
-          <span class="level-badge">Level 2</span>
-          <div class="level-icon" aria-hidden="true">🧸</div>
-          <h3>Sorting Playground</h3>
-          <p>Put things in order with playful sorting puzzles.</p>
-          <button class="card-button" disabled>Coming Soon</button>
-        </article>
+    <span class="badge">A friendly journey · 53 levels</span>
+    <h1>Dynamic Programming<br><span class="gradient">Adventure</span></h1>
+    <p class="lead">
+      Scared of DP? You won&rsquo;t be after this. Each problem is a tiny game with a story,
+      a struggle, and a clever &ldquo;a-ha!&rdquo; moment. Built for absolute beginners.
+    </p>
 
-        <article class="level-card locked" aria-disabled="true">
-          <span class="level-badge">Level 3</span>
-          <div class="level-icon" aria-hidden="true">🌀</div>
-          <h3>Maze Path Finder</h3>
-          <p>Help a little explorer find the best path through a maze.</p>
-          <button class="card-button" disabled>Coming Soon</button>
-        </article>
+    <div class="btn-row">
+      <a class="btn" href="dp-roadmap.html">🚀 Start Journey</a>
+      <a class="btn ghost" href="levels/level-01-fibonacci.html">▶ Play Level 1</a>
+    </div>
 
-        <article class="level-card locked" aria-disabled="true">
-          <span class="level-badge">Level 4</span>
-          <div class="level-icon" aria-hidden="true">✨</div>
-          <h3>Memory Magic</h3>
-          <p>Discover how computers remember helpful clues.</p>
-          <button class="card-button" disabled>Coming Soon</button>
-        </article>
-      </div>
-    </section>
-  </main>
+    <div class="badges" style="margin-top:18px">
+      <span class="badge good">No coding background needed</span>
+      <span class="badge alt">Stories &amp; visuals</span>
+      <span class="badge warn">Mobile friendly</span>
+    </div>
+  </section>
 
-  <footer class="site-footer">
-    <p>Made for curious beginners, kids, and grown-ups who like friendly explanations.</p>
-  </footer>
+  <section class="card-grid">
+    <div class="card">
+      <h3>🎭 Stories first</h3>
+      <p>Every problem starts as a tiny tale &mdash; a frog, a robber, a coin merchant. The math hides inside the story.</p>
+    </div>
+    <div class="card">
+      <h3>😵 Struggle, then 💡</h3>
+      <p>You&rsquo;ll see the brute-force pain first. Only then does recursion, memo, and tabulation feel like magic.</p>
+    </div>
+    <div class="card">
+      <h3>🧪 Step-by-step dry runs</h3>
+      <p>Tap &ldquo;Next step&rdquo; to walk through the table cell-by-cell. No giant code dumps.</p>
+    </div>
+    <div class="card">
+      <h3>🪜 53 levels, 8 worlds</h3>
+      <p>From Fibonacci to Word Break II. You unlock confidence one tiny win at a time.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>🗺️ The 8 Worlds</h2>
+    <p class="muted">A quick peek at what&rsquo;s ahead. Click through to dive in.</p>
+
+    <div class="card-grid">
+      <a class="card" href="dp-roadmap.html#world-A">
+        <h3>🪜 World A · Basics</h3><p>1D DP foundations &mdash; Fibonacci, stairs, frogs, robbers.</p>
+      </a>
+      <a class="card" href="dp-roadmap.html#world-B">
+        <h3>🌐 World B · Grid DP</h3><p>Walk around boards, dodge obstacles, pick cherries.</p>
+      </a>
+      <a class="card" href="dp-roadmap.html#world-C">
+        <h3>🎒 World C · Knapsack</h3><p>Pick or skip. Bag, boxes, coins, rods.</p>
+      </a>
+      <a class="card" href="dp-roadmap.html#world-D">
+        <h3>🔤 World D · Strings</h3><p>Match letters, fix typos, find common subsequences.</p>
+      </a>
+      <a class="card" href="dp-roadmap.html#world-E">
+        <h3>📈 World E · LIS</h3><p>Longest increasing magic &mdash; chains, bitonic, divisible.</p>
+      </a>
+      <a class="card" href="dp-roadmap.html#world-F">
+        <h3>💸 World F · Stocks</h3><p>Buy low, sell high. With cooldowns and fees.</p>
+      </a>
+      <a class="card" href="dp-roadmap.html#world-G">
+        <h3>✂️ World G · Partition</h3><p>Where to cut? MCM, sticks, balloons, palindromes.</p>
+      </a>
+      <a class="card" href="dp-roadmap.html#world-H">
+        <h3>🏰 World H · Advanced</h3><p>Histograms, rectangles, word break boss fights.</p>
+      </a>
+    </div>
+  </section>
+
+  <section class="section center">
+    <a class="btn" href="dp-roadmap.html">🚀 Begin the Adventure</a>
+  </section>
+
+</main>
+
+<footer class="site">
+  Made with 💜 for people who think DP is scary. &nbsp;·&nbsp; <a href="https://github.com/tools-maker-art/algos">View on GitHub</a>
+</footer>
+
+<script src="script.js"></script>
 </body>
 </html>

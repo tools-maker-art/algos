@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Level 01: 🐣 The Bunny Family Tree — DP Adventure</title>
+<meta name="description" content="Fibonacci Number — playful walkthrough.">
+<link rel="stylesheet" href="../styles.css">
+<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><text y='52' font-size='52'>🧩</text></svg>">
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../index.html" class="brand">
+    <span class="logo">A</span><span>Algos&nbsp;Adventure</span>
+  </a>
+  <nav>
+    <a href="../dp-roadmap.html">Roadmap</a>
+    <a href="../index.html">Home</a>
+  </nav>
+</header>
+
+<main class="container-narrow">
+
+  <section class="level-header">
+    <div class="crumbs"><a href="../dp-roadmap.html">Roadmap</a> · World A · Basics</div>
+    <span class="level-tag">Level 01</span>
+    <h1>🐣 The Bunny Family Tree</h1>
+    <p class="muted">Fibonacci Number</p>
+    <div class="pillrow">
+      <span class="badge">World A</span>
+      <span class="badge alt">Basics</span>
+    </div>
+  </section>
+
+  
+  <div class="section-card">
+    <h2><span class="emoji">🎮</span> Objective</h2>
+    <p>Find the N-th number in the famous Fibonacci sequence — without falling asleep counting.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🧠</span> Problem (in tiny words)</h2>
+    <p>Fibonacci is a list where each number is the sum of the two before it: 0, 1, 1, 2, 3, 5, 8, 13… We want the N-th one.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🎭</span> Story</h2>
+    <p>Two bunnies appear. Every month, every pair makes a new pair. How many pairs after N months? That count <em>is</em> the Fibonacci sequence. Cute and sneaky.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">😵</span> Brute force (the painful way)</h2>
+    <p>Write fib(n) = fib(n-1) + fib(n-2). Looks tiny — but fib(40) recomputes the same little numbers <strong>billions</strong> of times. Your laptop sweats.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🌱</span> From brute → recursion</h2>
+    <p>We notice the same fib(k) is asked over and over. So… write the answer down the first time, then reuse it. That&rsquo;s the leap from recursion to <em>memoization</em>.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🔁</span> Recursion</h2>
+    <p>fib(n) = fib(n-1) + fib(n-2), base: fib(0)=0, fib(1)=1.</p><pre class="code"># pseudo
+fib(n) = fib(n-1) + fib(n-2), base: fib(0)=0, fib(1)=1.</pre>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🧩</span> Memoization</h2>
+    <p>Keep an array memo[]. Before computing fib(n), check memo[n]. If known, return it. Else compute, store, return.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🧱</span> Tabulation</h2>
+    <p>Build dp[0..n] left to right: dp[0]=0, dp[1]=1, dp[i]=dp[i-1]+dp[i-2].</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🚀</span> Space optimisation</h2>
+    <p>Only the last two values matter. Keep two variables: prev2, prev1. O(1) memory.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🧪</span> Dry run</h2>
+    
+    <p>Tap <em>Next step</em> to walk through the table cell-by-cell.</p>
+    <div data-stepper>
+      <div class="stepper">
+        <button data-step="prev" class="ghost">⟵ Prev</button>
+        <button data-step="next">Next ⟶</button>
+        <button data-step="all" class="ghost">Show all</button>
+        <button data-step="reset" class="ghost">↺</button>
+        <div class="progress"><span></span></div>
+        <div class="label">Step 1 / 5</div>
+      </div>
+      <div class="dryrun-step hidden"><div class="label">Start</div>We want fib(5). prev2=0, prev1=1.</div><div class="dryrun-step hidden"><div class="label">i=2</div>curr = 0+1 = 1. Now prev2=1, prev1=1.</div><div class="dryrun-step hidden"><div class="label">i=3</div>curr = 1+1 = 2. prev2=1, prev1=2.</div><div class="dryrun-step hidden"><div class="label">i=4</div>curr = 1+2 = 3. prev2=2, prev1=3.</div><div class="dryrun-step hidden"><div class="label">i=5</div>curr = 2+3 = 5. ✅ Answer: <code class='inline'>5</code>.</div>
+    </div>
+    
+  <div class="viz">
+    <p class="muted center">A tiny recursion tree for <code class="inline">fib(4)</code>. Tap nodes to &ldquo;cache&rdquo; them.</p>
+    <div class="tree-viz">
+      <div class="tree-row"><span class="node">fib(4)</span></div>
+      <div class="tree-row"><span class="node">fib(3)</span><span class="node">fib(2)</span></div>
+      <div class="tree-row"><span class="node">fib(2)</span><span class="node">fib(1)</span><span class="node">fib(1)</span><span class="node">fib(0)</span></div>
+      <div class="tree-row"><span class="node">fib(1)</span><span class="node">fib(0)</span></div>
+    </div>
+  </div>
+  
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">📊</span> Complexity</h2>
+    <p>Brute recursion: O(2ⁿ) — explosive. Memo / Tab / Space-optimized: O(n) time, O(1) memory after optimisation.</p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">💡</span> Key takeaway</h2>
+    <p><strong>If you ever recompute the same thing twice, you&rsquo;re ready for DP.</strong></p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🎯</span> Mini challenge</h2>
+    <p>Find fib(20) using only two variables. (Answer: 6765.)</p><p><button class='btn small' data-celebrate>I tried it ✅</button></p>
+  </div>
+  <div class="section-card">
+    <h2><span class="emoji">🎮</span> Game UI idea</h2>
+    <p>Recursion tree: tap a node to mark it &lsquo;cached&rsquo;. Watch how memoization prunes giant duplicate subtrees.</p>
+  </div>
+
+  <nav class="bottom-nav">
+    <a class="up" href="../dp-roadmap.html">↑ Roadmap</a>
+    <a class="next" href="level-02-climbing-stairs.html">L02 🪜 Stair Sprint ⟶</a>
+  </nav>
+
+</main>
+
+<footer class="site">Algos Adventure · <a href="../index.html">Home</a> · <a href="../dp-roadmap.html">Roadmap</a></footer>
+<script src="../script.js"></script>
+</body>
+</html>
