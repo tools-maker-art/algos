@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Level 21 · 🪙 Tiny Cashier · DP Adventure</title>
+<meta name="description" content="Coin Change (min coins) — playful, interactive walkthrough.">
+<link rel="stylesheet" href="../styles.css">
+<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><text y='52' font-size='52'>🪙</text></svg>">
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../index.html" class="brand"><span class="logo">A</span><span>DP&nbsp;Adventure</span></a>
+  <nav>
+    <a href="../dp-roadmap.html">Map</a>
+    <a href="../index.html">Home</a>
+  </nav>
+</header>
+
+<main class="container-narrow">
+
+  <section class="level-top">
+    <div class="crumbs"><a href="../dp-roadmap.html">Map</a> · World C · Knapsack</div>
+    <h1>Level 21: <span class="gradient">🪙 Tiny Cashier</span></h1>
+    <p class="sub">Coin Change (min coins)</p>
+  </section>
+
+  <!-- Scene 1: Story + interactive visual -->
+  <section class="scene">
+    <div class="scene-head"><div class="scene-num">1</div><h2 class="scene-title">🪙 The story</h2></div>
+    <p class="one-liner">Make amount A using fewest coins.</p>
+    <div class="viz" data-viz style="background:#fbfaff;border:1px dashed var(--line);border-radius:14px;padding:14px"></div>
+    <details class="explainer">
+      <summary>what is the recurrence?</summary>
+      <div class="body">
+        <p>The DP recurrence in plain math:</p>
+        <div class="pic"><div class="row"><span class="chip acc" style="font-family:var(--mono)">min(A) = 1 + min over c≤A of min(A - c)</span></div></div>
+      </div>
+    </details>
+  </section>
+
+  <!-- Scene 2: Brute force + tree (if data) -->
+  <section class="scene">
+    <div class="scene-head"><div class="scene-num">2</div><h2 class="scene-title">🌳 Brute force: try every choice</h2></div>
+    <p class="one-liner">Try each coin recursively.</p>
+    <div class="tree-stage" data-tree></div>
+    <div class="btn-row">
+      <button class="btn" data-tree="expand">+ Expand choices</button>
+      <button class="btn ghost" data-tree="all">Show all</button>
+      <button class="btn ghost" data-tree="reset">↺</button>
+    </div>
+    <div class="metric-row">
+      <div class="metric"><div class="lbl">Calls so far</div><div class="val bad" id="tree-calls">1</div></div>
+      <div class="metric"><div class="lbl">Repeats</div><div class="val bad" id="tree-dups">0</div></div>
+    </div>
+<details class="explainer">
+  <summary>👀 see the Java code (step 1: brute force)</summary>
+  <div class="body"><div class="code-block">
+  <div class="code-head">
+    <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
+    <span class="upgrade bad">slow · repeats work</span>
+  </div>
+<pre><span <span class="kw">class</span>="kw">int</span> min(<span <span class="kw">class</span>="kw">int</span> a, <span <span class="kw">class</span>="kw">int</span>[] coins) {
+    <span <span class="kw">class</span>="kw">if</span> (a == <span <span class="kw">class</span>="num">0</span>) <span <span class="kw">class</span>="kw">return</span> <span <span class="kw">class</span>="num">0</span>;
+    <span <span class="kw">class</span>="kw">if</span> (a &lt; <span <span class="kw">class</span>="num">0</span>)  <span <span class="kw">class</span>="kw">return</span> <span class="kw">Integer</span>.MAX_VALUE;
+    <span <span class="kw">class</span>="kw">int</span> best = <span class="kw">Integer</span>.MAX_VALUE;
+    <span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> c : coins) {
+        <span <span class="kw">class</span>="kw">int</span> sub = min(a - c, coins);
+        <span <span class="kw">class</span>="kw">if</span> (sub != <span class="kw">Integer</span>.MAX_VALUE) best = <span class="kw">Math</span>.min(best, <span <span class="kw">class</span>="num">1</span> + sub);
+    }
+    <span <span class="kw">class</span>="kw">return</span> best;
+}</pre>
+</div></div>
+</details>
+  </section>
+
+  <!-- Scene 3: Memoization + interactive backpack -->
+  <section class="scene">
+    <div class="scene-head"><div class="scene-num">3</div><h2 class="scene-title">🎒 Memoization: save into the backpack</h2></div>
+    <p class="one-liner">Cache by amount.</p>
+    <div class="memo-stage">
+      <div>
+        <p class="muted" style="margin:0 0 8px">Click <b>Use memory</b> to walk through. New stickies appear in the backpack →</p>
+        <div class="btn-row">
+          <button class="btn" data-memo="next">▶ Use memory</button>
+          <button class="btn ghost" data-memo="all">Fast-forward</button>
+          <button class="btn ghost" data-memo="reset">↺</button>
+        </div>
+        <div class="metric-row">
+          <div class="metric"><div class="lbl">Stickies in backpack</div><div class="val good" id="memo-saved">0</div></div>
+          <div class="metric"><div class="lbl">Wasted work skipped</div><div class="val good" id="memo-skipped">0</div></div>
+        </div>
+        <p class="muted center" style="margin-top:8px;font-size:13px">step <span id="memo-step-lbl">0 / 0</span></p>
+      </div>
+      <div class="backpack">
+        <h4>🎒 Backpack <span class="muted" style="font-weight:600;font-size:12px">(answers we already found)</span></h4>
+        <div class="slots" data-memo></div>
+      </div>
+    </div>
+<details class="explainer">
+  <summary>👀 see the Java code (step 2: + memory)</summary>
+  <div class="body"><div class="code-block">
+  <div class="code-head">
+    <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
+    <span class="upgrade ">⬆ each tiny problem solved once</span>
+  </div>
+<pre><span <span class="kw">class</span>="cmt">// memo by amount</span></pre>
+</div></div>
+</details>
+  </section>
+
+  <!-- Scene 4: Tabulation + interactive table -->
+  <section class="scene">
+    <div class="scene-head"><div class="scene-num">4</div><h2 class="scene-title">🧱 Tabulation: fill boxes left → right</h2></div>
+    <p class="one-liner">dp[a] left to right.</p>
+    <div class="tab-row" data-tab></div>
+    <p class="tab-formula" id="tab-formula">Click <b>Next</b> to fill the next box →</p>
+    <div class="btn-row">
+      <button class="btn" data-tab="next">▶ Next box</button>
+      <button class="btn ghost" data-tab="all">Fill all</button>
+      <button class="btn ghost" data-tab="reset">↺</button>
+    </div>
+    <p class="muted center" style="margin-top:8px;font-size:13px">step <span id="tab-step-lbl">0 / 0</span></p>
+<details class="explainer">
+  <summary>👀 see the Java code (step 3: tabulation)</summary>
+  <div class="body"><div class="code-block">
+  <div class="code-head">
+    <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
+    <span class="upgrade ">⬆ no recursion · just a loop</span>
+  </div>
+<pre><span <span class="kw">class</span>="kw">int</span>[] dp = <span <span class="kw">class</span>="kw">new</span> <span <span class="kw">class</span>="kw">int</span>[A+<span <span class="kw">class</span>="num">1</span>];
+<span class="kw">Arrays</span>.fill(dp, A + <span <span class="kw">class</span>="num">1</span>);
+dp[<span <span class="kw">class</span>="num">0</span>] = <span <span class="kw">class</span>="num">0</span>;
+<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> a = <span <span class="kw">class</span>="num">1</span>; a &lt;= A; a++)
+    <span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> c : coins)
+        <span <span class="kw">class</span>="kw">if</span> (c &lt;= a) dp[a] = <span class="kw">Math</span>.min(dp[a], dp[a - c] + <span <span class="kw">class</span>="num">1</span>);
+<span <span class="kw">class</span>="kw">return</span> dp[A] &gt; A ? -<span <span class="kw">class</span>="num">1</span> : dp[A];</pre>
+</div></div>
+</details>
+  </section>
+
+  <!-- Scene 5: Space saver + interactive boxes -->
+  <section class="scene">
+    <div class="scene-head"><div class="scene-num">5</div><h2 class="scene-title">🪶 Space saver: keep only what you need</h2></div>
+    <p class="one-liner">1D dp[A+1].</p>
+    <div data-space></div>
+    <p class="muted center" style="margin-top:6px;font-size:13px"><span id="space-step-lbl">step 1</span></p>
+    <div class="btn-row" style="justify-content:center">
+      <button class="btn" data-space="next">▶ Next step</button>
+      <button class="btn ghost" data-space="all">Jump to end</button>
+      <button class="btn ghost" data-space="reset">↺</button>
+    </div>
+<details class="explainer">
+  <summary>👀 see the Java code (step 4: space saver)</summary>
+  <div class="body"><div class="code-block">
+  <div class="code-head">
+    <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
+    <span class="upgrade ">⬆ tiny memory</span>
+  </div>
+<pre><span <span class="kw">class</span>="cmt">// O(A)</span></pre>
+</div></div>
+</details>
+  </section>
+
+  <!-- Scene 6: Compare -->
+  <section class="scene">
+    <div class="scene-head"><div class="scene-num">6</div><h2 class="scene-title">⚡ Before vs After</h2></div>
+    <div class="compare">
+      <div class="compare-card bad">
+        <h4>😵 Brute force</h4>
+        <p class="muted" style="margin:0">Exponential.</p>
+        <div class="num" id="cmp-brute-num">— <small>tries</small></div>
+        <div class="compare-bar"><span style="width:100%"></span></div>
+      </div>
+      <div class="compare-card good">
+        <h4>🚀 DP</h4>
+        <p class="muted" style="margin:0">n·A.</p>
+        <div class="num" id="cmp-dp-num">— <small>steps</small></div>
+        <div class="compare-bar"><span id="cmp-dp-bar" style="width:25%"></span></div>
+      </div>
+    </div>
+    <p class="center" style="margin-top:18px"><span class="toast">🎉 Level 21 complete!</span></p>
+  </section>
+
+  <nav class="bottom-nav">
+    <a class="up" href="level-20-unbounded-knapsack.html">⟵ Prev level</a>
+    <a class="next" href="level-22-coin-change-2.html">Next level →</a>
+  </nav>
+
+</main>
+
+<footer class="site">DP Adventure · <a href="../index.html">Home</a></footer>
+
+<script type="application/json" id="level-data">{"viz": {"kind": "coins", "items": [1, 2, 5], "label": "coins \u00b7 target 11"}, "memo": {"entries": [{"k": "min(11)", "v": 3}]}, "tab": {"values": [0, 1, 1, 2, 2, 1, 2, 2, 3, 3, 2, 3], "labels": ["a=0", "a=1", "a=2", "a=3", "a=4", "a=5", "a=6", "a=7", "a=8", "a=9", "a=10", "a=11"], "formulas": ["<b>min(0)</b>", "<b>min(1)</b>", "<b>min(2)</b>", "<b>min(3)</b>", "<b>min(4)</b>", "<b>min(5)</b>", "<b>min(6)</b>", "<b>min(7)</b>", "<b>min(8)</b>", "<b>min(9)</b>", "<b>min(10)</b>", "<b>min(11)</b>"]}, "space": null, "compare": {"brute": 30, "dp": 12, "dpRatio": 40}}</script>
+<script src="../level-runtime.js"></script>
+</body>
+</html>
