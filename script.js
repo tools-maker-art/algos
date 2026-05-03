@@ -1,292 +1,403 @@
-/* DP Adventure — interactive helpers (vanilla JS) */
 (function () {
-  'use strict';
-  function $$(s, root) { return Array.prototype.slice.call((root || document).querySelectorAll(s)); }
-  function $(s, root) { return (root || document).querySelector(s); }
-  function el(tag, attrs, html) {
-    var n = document.createElement(tag);
-    if (attrs) for (var k in attrs) n.setAttribute(k, attrs[k]);
-    if (html != null) n.innerHTML = html;
-    return n;
-  }
-  function svgEl(tag, attrs) {
-    var n = document.createElementNS('http://www.w3.org/2000/svg', tag);
-    if (attrs) for (var k in attrs) n.setAttribute(k, attrs[k]);
-    return n;
+  "use strict";
+
+  var scene = 0;
+  var stairs = 5;
+  var timers = [];
+
+  var copy = [
+    {
+      kicker: "Scene 1 of 4",
+      title: "Try every path",
+      text: "Pick a stair count. Then let the computer try every 1-step and 2-step choice. This is brute force: simple, but it grows fast.",
+      label: "Brute force",
+      badge: "Try everything",
+      button: "Run brute force"
+    },
+    {
+      kicker: "Scene 2 of 4",
+      title: "The repeats are the problem",
+      text: "The red bubbles are questions we already asked. Brute force forgets, so it keeps paying for the same answer.",
+      label: "Repeated work",
+      badge: "Same question again",
+      button: "Highlight repeats"
+    },
+    {
+      kicker: "Scene 3 of 4",
+      title: "Remember tiny answers",
+      text: "Dynamic Programming means: solve a small question once, save it, and reuse it when the same question comes back.",
+      label: "Memory table",
+      badge: "Save and reuse",
+      button: "Use memory"
+    },
+    {
+      kicker: "Scene 4 of 4",
+      title: "Keep only what you need",
+      text: "For this stair game, the next answer only needs the last two answers. Less memory means less space.",
+      label: "Space saver",
+      badge: "Two boxes",
+      button: "Save space"
+    }
+  ];
+
+  function $(selector, root) {
+    return (root || document).querySelector(selector);
   }
 
-  /* ===== STORY ===== */
-  var storyState = { n: 5 };
+  function $$(selector, root) {
+    return Array.prototype.slice.call((root || document).querySelectorAll(selector));
+  }
+
+  function clearTimers() {
+    timers.forEach(function (timer) {
+      window.clearTimeout(timer);
+    });
+    timers = [];
+  }
+
+  function wait(fn, delay) {
+    timers.push(window.setTimeout(fn, delay));
+  }
+
   function ways(n) {
-    if (n <= 1) return 1;
-    var a = 1, b = 1;
-    for (var i = 2; i <= n; i++) { var c = a + b; a = b; b = c; }
+    var a = 1;
+    var b = 1;
+    for (var i = 2; i <= n; i += 1) {
+      var next = a + b;
+      a = b;
+      b = next;
+    }
     return b;
   }
-  function buildStairs() {
-    var stage = $('#stairs-stage'); if (!stage) return;
-    stage.innerHTML = '';
-    var n = storyState.n;
-    var maxH = 170, baseH = 30;
-    for (var i = 1; i <= n; i++) {
-      var h = baseH + (i / n) * (maxH - baseH);
-      var s = el('div', { 'class': 'step', 'data-i': i });
-      s.style.height = h + 'px';
-      stage.appendChild(s);
-    }
-    var bunny = el('div', { 'class': 'bunny', id: 'bunny' });
-    bunny.textContent = '🐰';
-    stage.appendChild(bunny);
-    setTimeout(function () { hopTo(0); }, 50);
-    var t = $('#story-ways'); if (t) t.textContent = ways(n);
-  }
-  function hopTo(stepIndex) {
-    var bunny = $('#bunny'); if (!bunny) return;
-    var stage = $('#stairs-stage');
-    var steps = $$('.step', stage);
-    if (stepIndex >= steps.length) stepIndex = steps.length - 1;
-    if (stepIndex < 0) stepIndex = 0;
-    var s = steps[stepIndex];
-    var rect = s.getBoundingClientRect();
-    var prect = stage.getBoundingClientRect();
-    bunny.style.left = (rect.left - prect.left + rect.width / 2 - 17) + 'px';
-    bunny.style.bottom = (rect.height - 4) + 'px';
-  }
-  document.addEventListener('click', function (e) {
-    var btn = e.target.closest('[data-hop]');
-    if (btn) {
-      var dir = btn.getAttribute('data-hop');
-      var stage = $('#stairs-stage');
-      var bunny = $('#bunny');
-      if (!stage || !bunny) return;
-      var steps = $$('.step', stage);
-      var current = 0;
-      for (var i = 0; i < steps.length; i++) {
-        var r = steps[i].getBoundingClientRect();
-        var br = bunny.getBoundingClientRect();
-        if (Math.abs(r.left + r.width / 2 - (br.left + br.width / 2)) < r.width / 2 + 4) { current = i; break; }
-      }
-      if (dir === '1') hopTo(current + 1);
-      if (dir === '2') hopTo(current + 2);
-      if (dir === 'r') hopTo(0);
-    }
-    var nb = e.target.closest('[data-set-n]');
-    if (nb) {
-      storyState.n = parseInt(nb.getAttribute('data-set-n'), 10);
-      $$('[data-set-n]').forEach(function (b) { b.classList.toggle('active', b === nb); });
-      buildStairs(); resetTree(); resetMemo(); resetTab(); resetSpace(); updateCompare();
-    }
-  });
 
-  /* ===== BRUTE-FORCE TREE ===== */
-  var treeState = { revealed: 1 };
-  function computeTree(n) {
-    var nodes = []; var seen = {}; var idc = 0;
-    function rec(val, depth, parent) {
-      var id = idc++;
-      var dup = !!seen[val];
-      var base = (val <= 1);
-      var node = { id: id, label: 'f(' + val + ')', val: val, depth: depth, parent: parent, isDup: dup, isBase: base };
-      nodes.push(node);
-      seen[val] = true;
-      if (!base) {
-        rec(val - 1, depth + 1, id);
-        rec(val - 2, depth + 1, id);
-      }
-      return node;
-    }
-    rec(n, 0, -1);
-    return nodes;
-  }
-  function renderTree() {
-    var stage = $('#tree-svg-wrap'); if (!stage) return;
-    stage.innerHTML = '';
-    var n = Math.min(6, storyState.n);
-    var all = computeTree(n);
-    var maxAvail = 0; all.forEach(function (x) { if (x.depth > maxAvail) maxAvail = x.depth; });
-    var maxDepth = Math.min(maxAvail, treeState.revealed);
-    var visible = all.filter(function (x) { return x.depth <= maxDepth; });
-    var byDepth = {};
-    visible.forEach(function (x) { (byDepth[x.depth] = byDepth[x.depth] || []).push(x); });
-    var rowH = 70, padX = 14, nodeW = 64, nodeH = 30;
-    var deepest = byDepth[maxDepth] || [];
-    var bottomCount = Math.max(1, deepest.length);
-    var width = Math.max(360, padX * 2 + bottomCount * (nodeW + 8));
-    var height = (maxDepth + 1) * rowH + 30;
-    var svg = svgEl('svg', { width: width, height: height, viewBox: '0 0 ' + width + ' ' + height, 'class': 'tree' });
-    var xs = {};
-    if (bottomCount === 1) {
-      xs[deepest[0].id] = width / 2;
-    } else {
-      deepest.forEach(function (x, i) {
-        xs[x.id] = padX + nodeW / 2 + i * ((width - padX * 2 - nodeW) / (bottomCount - 1));
-      });
-    }
-    var childMap = {};
-    visible.forEach(function (x) { if (x.parent >= 0) (childMap[x.parent] = childMap[x.parent] || []).push(x.id); });
-    for (var d = maxDepth - 1; d >= 0; d--) {
-      (byDepth[d] || []).forEach(function (x) {
-        var kids = childMap[x.id] || [];
-        if (kids.length) {
-          var s = 0; kids.forEach(function (k) { s += xs[k]; });
-          xs[x.id] = s / kids.length;
-        } else {
-          xs[x.id] = width / 2;
-        }
-      });
-    }
-    visible.forEach(function (x) {
-      if (x.parent < 0) return;
-      var pNode = visible.filter(function (q) { return q.id === x.parent; })[0]; if (!pNode) return;
-      var px = xs[pNode.id], py = pNode.depth * rowH + 15 + nodeH;
-      var cx = xs[x.id], cy = x.depth * rowH + 15;
-      var line = svgEl('line', { x1: px, y1: py, x2: cx, y2: cy, 'class': 'edge' + (x.isDup ? ' dim' : '') });
-      svg.appendChild(line);
-    });
-    var liveCalls = 0, liveDups = 0;
-    visible.forEach(function (x) {
-      var cx = xs[x.id], y = x.depth * rowH + 15;
-      var cls = 'node-bg' + (x.isDup ? ' dup' : '') + (x.isBase ? ' base' : '');
-      svg.appendChild(svgEl('rect', { x: cx - nodeW / 2, y: y, width: nodeW, height: nodeH, rx: 8, 'class': cls }));
-      var t = svgEl('text', { x: cx, y: y + 19, 'class': (x.isDup ? 'dup' : (x.isBase ? 'base' : '')) });
-      t.textContent = x.label;
-      svg.appendChild(t);
-      liveCalls++;
-      if (x.isDup) liveDups++;
-    });
-    stage.appendChild(svg);
-    var mc = $('#tree-calls'); if (mc) mc.textContent = liveCalls;
-    var md = $('#tree-dups'); if (md) md.textContent = liveDups;
-    var ws = $('#tree-ways'); if (ws) ws.textContent = ways(storyState.n);
-  }
-  function resetTree() { treeState.revealed = 1; renderTree(); }
-  document.addEventListener('click', function (e) {
-    if (e.target.closest('[data-tree="expand"]')) { treeState.revealed = Math.min(8, treeState.revealed + 1); renderTree(); }
-    else if (e.target.closest('[data-tree="all"]')) { treeState.revealed = 8; renderTree(); }
-    else if (e.target.closest('[data-tree="reset"]')) { resetTree(); }
-  });
-
-  /* ===== MEMOIZATION ===== */
-  var memoState = { i: -1, order: [] };
-  function buildMemoOrder() {
-    var n = storyState.n; var order = []; var stored = {};
-    function rec(k) {
-      if (k <= 1) {
-        order.push({ k: k, action: 'store', val: 1 }); stored[k] = 1; return 1;
-      }
-      if (stored.hasOwnProperty(k)) {
-        order.push({ k: k, action: 'hit', val: stored[k] }); return stored[k];
-      }
-      var a = rec(k - 1), b = rec(k - 2);
-      var v = a + b; stored[k] = v;
-      order.push({ k: k, action: 'store', val: v }); return v;
-    }
-    rec(n); return order;
-  }
-  function renderMemo() {
-    var slots = $('#memo-slots'); if (!slots) return;
-    slots.innerHTML = '';
-    var hits = 0, stores = 0; var added = {};
-    for (var idx = 0; idx <= memoState.i && idx < memoState.order.length; idx++) {
-      var step = memoState.order[idx];
-      if (step.action === 'store' && !added[step.k]) {
-        var slot = document.createElement('div');
-        slot.className = 'memo-slot';
-        slot.innerHTML = '<div class="k">f(' + step.k + ')</div><div class="v">= ' + step.val + '</div>';
-        slots.appendChild(slot); added[step.k] = true; stores++;
-      } else if (step.action === 'hit') { hits++; }
-    }
-    var ms = $('#memo-saved'); if (ms) ms.textContent = stores;
-    var mh = $('#memo-skipped'); if (mh) mh.textContent = hits;
-    var lbl = $('#memo-step-lbl'); if (lbl) lbl.textContent = (memoState.i + 1) + ' / ' + memoState.order.length;
-  }
-  function resetMemo() { memoState.order = buildMemoOrder(); memoState.i = -1; renderMemo(); }
-  document.addEventListener('click', function (e) {
-    if (e.target.closest('[data-memo="next"]')) { memoState.i = Math.min(memoState.order.length - 1, memoState.i + 1); renderMemo(); }
-    else if (e.target.closest('[data-memo="all"]')) { memoState.i = memoState.order.length - 1; renderMemo(); }
-    else if (e.target.closest('[data-memo="reset"]')) { resetMemo(); }
-  });
-
-  /* ===== TABULATION ===== */
-  var tabState = { i: -1 };
-  function renderTab() {
-    var row = $('#tab-row'); if (!row) return;
-    row.innerHTML = '';
-    var n = storyState.n;
-    var vals = []; vals[0] = 1; vals[1] = 1;
-    for (var i = 2; i <= n; i++) vals[i] = vals[i - 1] + vals[i - 2];
-    for (var k = 0; k <= n; k++) {
-      var c = document.createElement('div');
-      c.className = 'tab-cell';
-      if (k <= tabState.i) c.classList.add('filled');
-      if (k === tabState.i) c.classList.add('current');
-      c.innerHTML = '<span class="idx">dp[' + k + ']</span>' + (k <= tabState.i ? vals[k] : '?');
-      row.appendChild(c);
-    }
-    var f = $('#tab-formula');
-    if (f) {
-      if (tabState.i === 0 || tabState.i === 1) f.innerHTML = '<b>dp[' + tabState.i + ']</b> = base case = <b>1</b>';
-      else if (tabState.i >= 2) f.innerHTML = '<b>dp[' + tabState.i + ']</b> = dp[' + (tabState.i - 1) + '] + dp[' + (tabState.i - 2) + '] = <b>' + vals[tabState.i] + '</b>';
-      else f.innerHTML = 'Click <b>Next</b> to fill the table →';
-    }
-    var lbl = $('#tab-step-lbl'); if (lbl) lbl.textContent = (Math.max(0, tabState.i) + 1) + ' / ' + (n + 1);
-  }
-  function resetTab() { tabState.i = -1; renderTab(); }
-  document.addEventListener('click', function (e) {
-    if (e.target.closest('[data-tab="next"]')) { tabState.i = Math.min(storyState.n, tabState.i + 1); renderTab(); }
-    else if (e.target.closest('[data-tab="all"]')) { tabState.i = storyState.n; renderTab(); }
-    else if (e.target.closest('[data-tab="reset"]')) { resetTab(); }
-  });
-
-  /* ===== SPACE OPTIMIZATION ===== */
-  var spaceState = { step: 1, prev: 1, curr: 1 };
-  function renderSpace() {
-    var p = $('#space-prev'), c = $('#space-curr'); if (!p || !c) return;
-    p.textContent = spaceState.prev;
-    c.textContent = spaceState.curr;
-    var lbl = $('#space-step-lbl'); if (lbl) lbl.textContent = 'i = ' + spaceState.step + ' · uses just 2 boxes · answer so far = ' + spaceState.curr;
-  }
-  function resetSpace() { spaceState = { step: 1, prev: 1, curr: 1 }; renderSpace(); }
-  document.addEventListener('click', function (e) {
-    if (e.target.closest('[data-space="next"]')) {
-      if (spaceState.step >= storyState.n) return;
-      var nxt = spaceState.prev + spaceState.curr;
-      spaceState.prev = spaceState.curr;
-      spaceState.curr = nxt;
-      spaceState.step++;
-      var c = $('#space-curr');
-      if (c) { c.classList.add('curr'); setTimeout(function () { c.classList.remove('curr'); }, 350); }
-      renderSpace();
-    } else if (e.target.closest('[data-space="reset"]')) {
-      resetSpace();
-    } else if (e.target.closest('[data-space="all"]')) {
-      var a = 1, b = 1;
-      for (var i = 2; i <= storyState.n; i++) { var t = a + b; a = b; b = t; }
-      spaceState.prev = a; spaceState.curr = b; spaceState.step = storyState.n; renderSpace();
-    }
-  });
-
-  /* ===== COMPARE ===== */
   function bruteCalls(n) {
-    var a = 1, b = 1;
-    for (var i = 2; i <= n + 1; i++) { var c = a + b; a = b; b = c; }
-    return 2 * b - 1;
-  }
-  function updateCompare() {
-    var n = storyState.n;
-    var bc = bruteCalls(n);
-    var dpSteps = n + 1;
-    var bn = $('#cmp-brute-num'); if (bn) bn.innerHTML = bc + ' <small>calls</small>';
-    var dn = $('#cmp-dp-num'); if (dn) dn.innerHTML = dpSteps + ' <small>steps</small>';
-    var bb = $('#cmp-brute-bar'); if (bb) bb.style.width = '100%';
-    var db = $('#cmp-dp-bar'); if (db) db.style.width = Math.max(4, Math.min(100, (dpSteps / bc) * 100)) + '%';
+    if (n <= 1) return 1;
+    return 1 + bruteCalls(n - 1) + bruteCalls(n - 2);
   }
 
-  /* ===== INIT ===== */
-  buildStairs();
-  renderTree();
-  resetMemo();
-  renderTab();
-  renderSpace();
-  updateCompare();
-})();
+  function buildStairs() {
+    var board = $("#stairs-board");
+    if (!board) return;
+
+    board.innerHTML = "";
+    for (var i = 1; i <= stairs; i += 1) {
+      var stair = document.createElement("span");
+      stair.className = "stair";
+      stair.dataset.step = i;
+      stair.style.setProperty("--h", 42 + i * 22 + "px");
+      board.appendChild(stair);
+    }
+
+    var dot = document.createElement("div");
+    dot.className = "dot";
+    dot.id = "dot";
+    board.appendChild(dot);
+
+    var ribbon = document.createElement("div");
+    ribbon.className = "path-ribbon";
+    ribbon.id = "path-ribbon";
+    ribbon.textContent = "Press run to watch choices appear.";
+    board.appendChild(ribbon);
+
+    updateDot(0);
+  }
+
+  function updateDot(step) {
+    var board = $("#stairs-board");
+    var dot = $("#dot");
+    if (!board || !dot) return;
+
+    var items = $$(".stair", board);
+    if (!items.length) return;
+
+    if (step <= 0) {
+      dot.style.left = "18px";
+      dot.style.bottom = "54px";
+      return;
+    }
+
+    var target = items[Math.min(step, items.length) - 1];
+    var boardBox = board.getBoundingClientRect();
+    var targetBox = target.getBoundingClientRect();
+    dot.style.left = targetBox.left - boardBox.left + targetBox.width / 2 - dot.offsetWidth / 2 + "px";
+    dot.style.bottom = targetBox.height + 14 + "px";
+  }
+
+  function setRibbon(path) {
+    var ribbon = $("#path-ribbon");
+    if (!ribbon) return;
+
+    ribbon.innerHTML = "";
+    if (!path.length) {
+      ribbon.textContent = "Try paths made from 1-hop and 2-hop moves.";
+      return;
+    }
+    path.forEach(function (hop) {
+      var chip = document.createElement("span");
+      chip.textContent = hop;
+      ribbon.appendChild(chip);
+    });
+  }
+
+  function makeLevels(n) {
+    var rows = [];
+    var seen = Object.create(null);
+
+    function visit(left, depth) {
+      rows[depth] = rows[depth] || [];
+      var repeated = seen[left] === true;
+      rows[depth].push({ left: left, repeated: repeated });
+      seen[left] = true;
+      if (left > 1 && depth < 4) {
+        visit(left - 1, depth + 1);
+        visit(left - 2, depth + 1);
+      }
+    }
+
+    visit(n, 0);
+    return rows;
+  }
+
+  function renderTree(mode) {
+    var tree = $("#choice-tree");
+    if (!tree) return;
+
+    tree.innerHTML = "";
+
+    if (mode === "memory") {
+      var intro = document.createElement("p");
+      intro.textContent = "Saved answers";
+      intro.style.fontWeight = "900";
+      tree.appendChild(intro);
+
+      var shelf = document.createElement("div");
+      shelf.className = "memory-shelf";
+      for (var i = 0; i <= stairs; i += 1) {
+        var box = document.createElement("div");
+        box.className = "memory-box";
+        box.textContent = "step " + i + " = " + ways(i);
+        shelf.appendChild(box);
+      }
+      tree.appendChild(shelf);
+      return;
+    }
+
+    if (mode === "space") {
+      var wrap = document.createElement("div");
+      wrap.className = "space-demo";
+      var a = document.createElement("div");
+      var plus = document.createElement("div");
+      var b = document.createElement("div");
+      a.className = "space-box";
+      b.className = "space-box";
+      plus.className = "space-plus";
+      a.textContent = "prev";
+      b.textContent = "curr";
+      plus.textContent = "+";
+      wrap.appendChild(a);
+      wrap.appendChild(plus);
+      wrap.appendChild(b);
+      tree.appendChild(wrap);
+      return;
+    }
+
+    makeLevels(stairs).forEach(function (row, depth) {
+      var rowEl = document.createElement("div");
+      rowEl.className = "tree-row";
+      row.slice(0, 12).forEach(function (item, index) {
+        var node = document.createElement("span");
+        node.className = "tree-node";
+        node.textContent = "f(" + item.left + ")";
+        node.style.animationDelay = depth * 80 + index * 18 + "ms";
+        if (mode === "repeats" && item.repeated) node.classList.add("repeat");
+        rowEl.appendChild(node);
+      });
+      tree.appendChild(rowEl);
+    });
+  }
+
+  function animateBrute() {
+    var paths = [];
+
+    function walk(left, path) {
+      if (left === 0) {
+        paths.push(path.slice());
+        return;
+      }
+      if (left < 0) return;
+      path.push(1);
+      walk(left - 1, path);
+      path.pop();
+      path.push(2);
+      walk(left - 2, path);
+      path.pop();
+    }
+
+    walk(stairs, []);
+    updateDot(0);
+    setRibbon([]);
+    paths.slice(0, 8).forEach(function (path, pathIndex) {
+      wait(function () {
+        var total = 0;
+        setRibbon(path);
+        updateDot(0);
+        path.forEach(function (hop, hopIndex) {
+          wait(function () {
+            total += hop;
+            updateDot(total);
+          }, hopIndex * 280);
+        });
+      }, pathIndex * 980);
+    });
+  }
+
+  function animateMemory() {
+    var values = [];
+    for (var i = 0; i <= stairs; i += 1) values.push(ways(i));
+
+    var tree = $("#choice-tree");
+    if (!tree) return;
+    tree.innerHTML = "";
+
+    var label = document.createElement("p");
+    label.textContent = "Filling the memory table, one answer at a time.";
+    label.style.fontWeight = "900";
+    tree.appendChild(label);
+
+    var shelf = document.createElement("div");
+    shelf.className = "memory-shelf";
+    tree.appendChild(shelf);
+
+    values.forEach(function (value, index) {
+      wait(function () {
+        var box = document.createElement("div");
+        box.className = "memory-box";
+        box.textContent = "step " + index + " = " + value;
+        shelf.appendChild(box);
+        updateDot(index);
+      }, index * 360);
+    });
+  }
+
+  function animateSpace() {
+    var tree = $("#choice-tree");
+    if (!tree) return;
+
+    var prev = 1;
+    var curr = 1;
+    tree.innerHTML = "";
+    var wrap = document.createElement("div");
+    wrap.className = "space-demo";
+    var left = document.createElement("div");
+    var plus = document.createElement("div");
+    var right = document.createElement("div");
+    left.className = "space-box";
+    right.className = "space-box";
+    plus.className = "space-plus";
+    plus.textContent = "+";
+    wrap.appendChild(left);
+    wrap.appendChild(plus);
+    wrap.appendChild(right);
+    tree.appendChild(wrap);
+
+    function paint(step) {
+      left.textContent = prev;
+      right.textContent = curr;
+      updateDot(step);
+    }
+
+    paint(1);
+    for (var i = 2; i <= stairs; i += 1) {
+      wait((function (step) {
+        return function () {
+          var next = prev + curr;
+          prev = curr;
+          curr = next;
+          paint(step);
+        };
+      }(i)), i * 420);
+    }
+  }
+
+  function updateStats() {
+    var brute = bruteCalls(stairs);
+    var memo = stairs + 1;
+    var answer = ways(stairs);
+    $("#brute-count").textContent = brute;
+    $("#memo-count").textContent = memo;
+    $("#answer-count").textContent = answer;
+  }
+
+  function paintScene() {
+    var data = copy[scene];
+    $("#lesson-kicker").textContent = data.kicker;
+    $("#lesson-title").textContent = data.title;
+    $("#lesson-text").textContent = data.text;
+    $("#mode-label").textContent = data.label;
+    $("#mode-badge").textContent = data.badge;
+    $("#run-action").textContent = data.button;
+
+    $$(".step-tab").forEach(function (tab, index) {
+      tab.classList.toggle("active", index === scene);
+    });
+
+    if (scene === 0) renderTree("normal");
+    if (scene === 1) renderTree("repeats");
+    if (scene === 2) renderTree("memory");
+    if (scene === 3) renderTree("space");
+  }
+
+  function runAction() {
+    clearTimers();
+    if (scene === 0) {
+      renderTree("normal");
+      animateBrute();
+    }
+    if (scene === 1) {
+      renderTree("repeats");
+      setRibbon([]);
+    }
+    if (scene === 2) animateMemory();
+    if (scene === 3) animateSpace();
+  }
+
+  function bind() {
+    $$(".difficulty-picker button").forEach(function (button) {
+      button.addEventListener("click", function () {
+        stairs = parseInt(button.dataset.stairs, 10);
+        $$(".difficulty-picker button").forEach(function (item) {
+          item.classList.toggle("active", item === button);
+        });
+        clearTimers();
+        buildStairs();
+        updateStats();
+        paintScene();
+      });
+    });
+
+    $$(".step-tab").forEach(function (button) {
+      button.addEventListener("click", function () {
+        scene = parseInt(button.dataset.jumpStep, 10);
+        clearTimers();
+        setRibbon([]);
+        paintScene();
+      });
+    });
+
+    $("#next-step").addEventListener("click", function () {
+      scene = (scene + 1) % copy.length;
+      clearTimers();
+      setRibbon([]);
+      paintScene();
+    });
+
+    $("#run-action").addEventListener("click", runAction);
+  }
+
+  if ($("#game")) {
+    buildStairs();
+    updateStats();
+    paintScene();
+    bind();
+  }
+}());
