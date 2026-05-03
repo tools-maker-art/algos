@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Level 1 · Bunny &amp; the Stairs · DP Adventure</title>
-<meta name="description" content="A baby rabbit climbs magic stairs. Learn brute force → memo → tabulation → space-optimized DP through visuals and clicks.">
+<meta name="description" content="A baby rabbit climbs magic stairs. Visual brute-force, memo, tabulation, and space-saver demos for absolute beginners.">
 <link rel="stylesheet" href="../styles.css">
 <link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><text y='52' font-size='52'>🐰</text></svg>">
 </head>
@@ -23,7 +23,7 @@
   <section class="level-top">
     <div class="crumbs"><a href="../dp-roadmap.html">Map</a> · World A</div>
     <h1>Level 1: <span class="gradient">Bunny &amp; the Stairs</span></h1>
-    <p class="sub">Pick how many stairs the bunny must climb. Then watch the magic.</p>
+    <p class="sub">Pick how many stairs the bunny must climb. Every scene updates.</p>
     <div class="npicker" aria-label="Choose N">
       <button class="n" data-set-n="3">3</button>
       <button class="n" data-set-n="4">4</button>
@@ -32,35 +32,43 @@
     </div>
   </section>
 
-  <!-- Scene 1: Story -->
+  <!-- ============ Scene 1: Story ============ -->
   <section class="scene">
     <div class="scene-head">
       <div class="scene-num">1</div>
       <h2 class="scene-title">🐰 The story</h2>
     </div>
-    <p class="one-liner">A baby rabbit wants to climb magic stairs. It can hop <b>1</b> step or <b>2</b> steps at a time. <br><b>How many ways</b> can it reach the top?</p>
+    <p class="one-liner">A baby rabbit stands on the <b>ground</b>. It can hop <b>1 stair</b> or <b>2 stairs</b> at a time. <br><b>How many different ways</b> can it reach the top?</p>
 
     <div class="stairs-stage" id="stairs-stage"></div>
 
     <div class="btn-row" style="margin-top:14px">
       <button class="btn ghost" data-hop="1">⬆ hop 1</button>
       <button class="btn ghost" data-hop="2">⏫ hop 2</button>
-      <button class="btn ghost" data-hop="r">↺ reset</button>
+      <button class="btn ghost" data-hop="r">↺ back to start</button>
     </div>
 
     <div class="metric-row">
       <div class="metric"><div class="lbl">Total ways</div><div class="val good" id="story-ways">8</div></div>
       <div class="metric"><div class="lbl">Hop sizes</div><div class="val">1 · 2</div></div>
     </div>
+
+    <details class="explainer">
+      <summary>show me all <span id="all-paths-count">8</span> ways</summary>
+      <div class="body">
+        <p>Every way to reach the top is just a different mix of <b>hop&nbsp;1</b> and <b>hop&nbsp;2</b> moves. Here they all are:</p>
+        <div class="paths-box" id="all-paths"></div>
+      </div>
+    </details>
   </section>
 
-  <!-- Scene 2: Brute force -->
+  <!-- ============ Scene 2: Brute force ============ -->
   <section class="scene">
     <div class="scene-head">
       <div class="scene-num">2</div>
       <h2 class="scene-title">🌳 Brute force: try every choice</h2>
     </div>
-    <p class="one-liner">Each step splits into two paths: <b>−1</b> or <b>−2</b>. Click <b>Expand</b> to grow the tree. Watch the <span style="color:var(--bad);font-weight:900">red duplicates</span> pile up.</p>
+    <p class="one-liner">Ask: &ldquo;If <b>5 stairs</b> are left, how many ways?&rdquo; <br>That breaks into two smaller questions: <b>4 stairs left</b> and <b>3 stairs left</b>. Each of those breaks again&hellip;</p>
 
     <div class="tree-stage" id="tree-svg-wrap"></div>
 
@@ -71,51 +79,136 @@
     </div>
 
     <div class="metric-row">
-      <div class="metric"><div class="lbl">Calls so far</div><div class="val bad" id="tree-calls">1</div></div>
-      <div class="metric"><div class="lbl">Repeated work</div><div class="val bad" id="tree-dups">0</div></div>
+      <div class="metric"><div class="lbl">Bunny questions asked</div><div class="val bad" id="tree-calls">1</div></div>
+      <div class="metric"><div class="lbl">Same question repeated</div><div class="val bad" id="tree-dups">0</div></div>
       <div class="metric"><div class="lbl">Real answer</div><div class="val good" id="tree-ways">8</div></div>
     </div>
+
+    <details class="explainer">
+      <summary>what does this tree mean?</summary>
+      <div class="body">
+        <p>Each box is one little question: <b>&ldquo;how many ways with this many stairs left?&rdquo;</b></p>
+        <div class="pic">
+          <div class="row"><span class="chip">🪜 5</span> <span class="muted">5 stairs left to climb</span></div>
+          <div class="row"><span class="chip">🪜 4</span> <span class="muted">4 stairs left (after hopping 1)</span></div>
+          <div class="row"><span class="chip">🪜 3</span> <span class="muted">3 stairs left (after hopping 2)</span></div>
+          <div class="row"><span class="chip good">🏁 0</span> <span class="muted">we made it! +1 way</span></div>
+        </div>
+        <p>The <span style="color:var(--bad);font-weight:800">red boxes</span> are the same little question being asked <b>again</b>. That&rsquo;s wasted work.</p>
+      </div>
+    </details>
+
+    <details class="explainer">
+      <summary>👀 see the Java code (step 1: brute force)</summary>
+      <div class="body">
+        <div class="code-block">
+          <div class="code-head">
+            <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
+            <span class="upgrade bad">slow · repeats work</span>
+          </div>
+<pre><span class="cmt">// Try every choice. Sweet, simple — and slow.</span>
+<span class="kw">int</span> <span class="typ">ways</span>(<span class="kw">int</span> n) {
+    <span class="kw">if</span> (n == <span class="num">0</span>) <span class="kw">return</span> <span class="num">1</span>;   <span class="cmt">// already at the top → 1 way</span>
+    <span class="kw">if</span> (n == <span class="num">1</span>) <span class="kw">return</span> <span class="num">1</span>;   <span class="cmt">// only one tiny hop possible</span>
+
+    <span class="cmt">// Try hopping 1 stair  OR  hopping 2 stairs</span>
+    <span class="kw">return</span> ways(n - <span class="num">1</span>) + ways(n - <span class="num">2</span>);
+}
+
+<span class="cmt">// Problem: ways(3) gets called many times.</span>
+<span class="cmt">// For n = 30 this is ~1.6 million calls. Yikes.</span></pre>
+        </div>
+      </div>
+    </details>
   </section>
 
-  <!-- Scene 3: Memoization -->
+  <!-- ============ Scene 3: Memoization ============ -->
   <section class="scene">
     <div class="scene-head">
       <div class="scene-num">3</div>
-      <h2 class="scene-title">🎒 Memoization: save into the backpack</h2>
+      <h2 class="scene-title">🎒 Memoization: don&rsquo;t solve the same thing twice</h2>
     </div>
-    <p class="one-liner">When the bunny solves a tiny problem the first time, drop the answer in the backpack. Next time we need it, <b>just take it out</b>. No work needed!</p>
+    <p class="one-liner">The first time we figure out <b>&ldquo;3 stairs = 3 ways&rdquo;</b>, write it on a sticky note and drop it in the <b>backpack</b>. Next time someone asks, just read the sticky note!</p>
 
     <div class="memo-stage">
       <div>
-        <p class="muted" style="margin:0 0 8px">Click <b>Use memory</b> to step through. Stored answers appear in the backpack →</p>
+        <p class="muted" style="margin:0 0 8px">Click <b>Use memory</b> to walk through. New stickies appear in the backpack →</p>
         <div class="btn-row">
           <button class="btn" data-memo="next">▶ Use memory</button>
           <button class="btn ghost" data-memo="all">Fast-forward</button>
           <button class="btn ghost" data-memo="reset">↺</button>
         </div>
         <div class="metric-row">
-          <div class="metric"><div class="lbl">Saved in backpack</div><div class="val good" id="memo-saved">0</div></div>
-          <div class="metric"><div class="lbl">Repeated work skipped</div><div class="val good" id="memo-skipped">0</div></div>
+          <div class="metric"><div class="lbl">Stickies in backpack</div><div class="val good" id="memo-saved">0</div></div>
+          <div class="metric"><div class="lbl">Wasted work skipped</div><div class="val good" id="memo-skipped">0</div></div>
         </div>
         <p class="muted center" style="margin-top:8px;font-size:13px">step <span id="memo-step-lbl">0 / 0</span></p>
       </div>
       <div class="backpack">
-        <h4>🎒 Backpack <span class="muted" style="font-weight:600;font-size:12px">(memo table)</span></h4>
+        <h4>🎒 Backpack <span class="muted" style="font-weight:600;font-size:12px">(answers we already found)</span></h4>
         <div class="slots" id="memo-slots"></div>
       </div>
     </div>
+
+    <details class="explainer">
+      <summary>what does &ldquo;tiny problem&rdquo; mean?</summary>
+      <div class="body">
+        <p>The <b>big problem</b> is &ldquo;5 stairs, how many ways?&rdquo;</p>
+        <p>To answer it, we have to first know:</p>
+        <div class="pic">
+          <div class="row"><span class="chip">🪜 4 = ?</span><span class="muted">a smaller version of the same puzzle</span></div>
+          <div class="row"><span class="chip">🪜 3 = ?</span><span class="muted">an even smaller version</span></div>
+          <div class="row"><span class="chip">🪜 2 = ?</span><span class="muted">tinier still</span></div>
+          <div class="row"><span class="chip good">🪜 1 = 1</span><span class="muted">easy! just one way</span></div>
+          <div class="row"><span class="chip good">🪜 0 = 1</span><span class="muted">already at the top, count this way</span></div>
+        </div>
+        <p>Each of those is a <b>tiny problem</b>. Memoization just means: <b>write each tiny answer down once</b> and reuse it.</p>
+      </div>
+    </details>
+
+    <details class="explainer">
+      <summary>👀 see the Java code (step 2: + memory)</summary>
+      <div class="body">
+        <div class="code-block">
+          <div class="code-head">
+            <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
+            <span class="upgrade">⬆ each tiny problem solved once</span>
+          </div>
+<pre><span class="cmt">// New: a "backpack" array to remember answers.</span>
+<span class="kw">int</span>[] memo;
+
+<span class="kw">int</span> <span class="typ">ways</span>(<span class="kw">int</span> n) {
+    <span class="kw">if</span> (n == <span class="num">0</span> || n == <span class="num">1</span>) <span class="kw">return</span> <span class="num">1</span>;
+
+    <span class="hl"><span class="kw">if</span> (memo[n] != -<span class="num">1</span>) <span class="kw">return</span> memo[n];   <span class="cmt">// ✨ already in backpack!</span></span>
+
+    memo[n] = ways(n - <span class="num">1</span>) + ways(n - <span class="num">2</span>);
+    <span class="kw">return</span> memo[n];
+}
+
+<span class="kw">int</span> <span class="typ">solve</span>(<span class="kw">int</span> n) {
+    memo = <span class="kw">new int</span>[n + <span class="num">1</span>];
+    <span class="typ">Arrays</span>.fill(memo, -<span class="num">1</span>);   <span class="cmt">// -1 means "not solved yet"</span>
+    <span class="kw">return</span> ways(n);
+}
+
+<span class="cmt">// Now ways(3) is computed ONCE and reused.</span>
+<span class="cmt">// 1.6 million calls → about 30 calls for n = 30.</span></pre>
+        </div>
+      </div>
+    </details>
   </section>
 
-  <!-- Scene 4: Tabulation -->
+  <!-- ============ Scene 4: Tabulation ============ -->
   <section class="scene">
     <div class="scene-head">
       <div class="scene-num">4</div>
-      <h2 class="scene-title">🧱 Tabulation: fill boxes left → right</h2>
+      <h2 class="scene-title">🧱 Tabulation: build a small table from scratch</h2>
     </div>
-    <p class="one-liner">Forget recursion. Just fill a row of boxes. Each box = the answer for that step. Tap <b>Next</b> to fill one.</p>
+    <p class="one-liner">Forget recursion. Make a row of boxes, one per stair count. Fill them <b>left → right</b>. Each new box = sum of the last two boxes.</p>
 
     <div class="tab-row" id="tab-row"></div>
-    <p class="tab-formula" id="tab-formula">Click <b>Next</b> to fill the table →</p>
+    <p class="tab-formula" id="tab-formula">Click <b>Next</b> to fill the next box →</p>
 
     <div class="btn-row">
       <button class="btn" data-tab="next">▶ Next box</button>
@@ -123,15 +216,60 @@
       <button class="btn ghost" data-tab="reset">↺</button>
     </div>
     <p class="muted center" style="margin-top:8px;font-size:13px">step <span id="tab-step-lbl">0 / 0</span></p>
+
+    <details class="explainer">
+      <summary>what is &ldquo;tabulation&rdquo;?</summary>
+      <div class="body">
+        <p>It&rsquo;s like filling a tiny <b>scoreboard</b>:</p>
+        <div class="pic">
+          <div class="row">
+            <span class="chip good">0 stairs → 1</span>
+            <span class="chip good">1 stair → 1</span>
+            <span class="chip">2 stairs → 1+1 = 2</span>
+            <span class="chip">3 stairs → 1+2 = 3</span>
+            <span class="chip">4 stairs → 2+3 = 5</span>
+            <span class="chip">5 stairs → 3+5 = 8</span>
+          </div>
+        </div>
+        <p>We never recurse. We just walk the row left to right, adding the last two boxes. Done!</p>
+      </div>
+    </details>
+
+    <details class="explainer">
+      <summary>👀 see the Java code (step 3: no recursion at all)</summary>
+      <div class="body">
+        <div class="code-block">
+          <div class="code-head">
+            <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
+            <span class="upgrade">⬆ no recursion · just a loop</span>
+          </div>
+<pre><span class="kw">int</span> <span class="typ">ways</span>(<span class="kw">int</span> n) {
+    <span class="kw">int</span>[] dp = <span class="kw">new int</span>[n + <span class="num">1</span>];
+
+    dp[<span class="num">0</span>] = <span class="num">1</span>;   <span class="cmt">// base: 0 stairs → 1 way</span>
+    dp[<span class="num">1</span>] = <span class="num">1</span>;   <span class="cmt">// base: 1 stair  → 1 way</span>
+
+    <span class="hl"><span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">2</span>; i &lt;= n; i++) {</span>
+        dp[i] = dp[i - <span class="num">1</span>] + dp[i - <span class="num">2</span>];   <span class="cmt">// last two boxes</span>
+    }
+
+    <span class="kw">return</span> dp[n];
+}
+
+<span class="cmt">// We literally fill the scoreboard left → right.</span>
+<span class="cmt">// No call stack, no risk of recursion blowing up.</span></pre>
+        </div>
+      </div>
+    </details>
   </section>
 
-  <!-- Scene 5: Space optimization -->
+  <!-- ============ Scene 5: Space optimization ============ -->
   <section class="scene">
     <div class="scene-head">
       <div class="scene-num">5</div>
-      <h2 class="scene-title">🪶 Space saver: just two boxes</h2>
+      <h2 class="scene-title">🪶 Space saver: keep just two numbers in your head</h2>
     </div>
-    <p class="one-liner">We only ever need the <b>last two</b> answers. Throw the rest away! Two boxes are enough.</p>
+    <p class="one-liner">Look at the formula again: each new answer needs <b>only the last two</b>. So we can throw away the rest of the table — two numbers are enough.</p>
 
     <div class="space-stage">
       <div>
@@ -145,37 +283,85 @@
       </div>
       <div class="arrow">→</div>
       <div>
-        <div class="space-box" style="background:#fff;border-style:dashed">?</div>
+        <div class="space-box" id="space-next" style="background:#fff;border-style:dashed">?</div>
         <div class="muted center" style="margin-top:6px;font-size:12px;font-weight:800;letter-spacing:.5px;text-transform:uppercase">next</div>
       </div>
     </div>
-    <p class="muted center" style="margin-top:6px"><span id="space-step-lbl">i = 1 · uses just 2 boxes</span></p>
+    <p class="muted center" style="margin-top:6px"><span id="space-step-lbl">we are at stair 1 · current answer = 1</span></p>
 
     <div class="btn-row" style="justify-content:center">
       <button class="btn" data-space="next">▶ Next step</button>
       <button class="btn ghost" data-space="all">Jump to end</button>
       <button class="btn ghost" data-space="reset">↺</button>
     </div>
+
+    <details class="explainer">
+      <summary>what is the &ldquo;space saver&rdquo;?</summary>
+      <div class="body">
+        <p>Imagine remembering a long list vs. just remembering the <b>last two</b> numbers in your head — much easier!</p>
+        <div class="pic">
+          <div class="row"><span class="chip">prev</span><span class="muted">the answer two stairs back</span></div>
+          <div class="row"><span class="chip acc">curr</span><span class="muted">the answer one stair back</span></div>
+          <div class="row"><span class="chip good">next</span><span class="muted">prev + curr = the new answer</span></div>
+        </div>
+        <p>Then we <b>slide</b>: prev becomes curr, curr becomes next, repeat. Same answer as the table — but we never need more than 2 boxes of memory.</p>
+      </div>
+    </details>
+
+    <details class="explainer">
+      <summary>👀 see the Java code (step 4: only 2 ints!)</summary>
+      <div class="body">
+        <div class="code-block">
+          <div class="code-head">
+            <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
+            <span class="upgrade">⬆ only 2 ints of memory</span>
+          </div>
+<pre><span class="kw">int</span> <span class="typ">ways</span>(<span class="kw">int</span> n) {
+    <span class="kw">if</span> (n == <span class="num">0</span> || n == <span class="num">1</span>) <span class="kw">return</span> <span class="num">1</span>;
+
+    <span class="hl"><span class="kw">int</span> prev = <span class="num">1</span>;   <span class="cmt">// answer for (i - 2)</span></span>
+    <span class="hl"><span class="kw">int</span> curr = <span class="num">1</span>;   <span class="cmt">// answer for (i - 1)</span></span>
+
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">2</span>; i &lt;= n; i++) {
+        <span class="kw">int</span> next = prev + curr;   <span class="cmt">// new answer</span>
+        prev = curr;                <span class="cmt">// slide forward</span>
+        curr = next;
+    }
+
+    <span class="kw">return</span> curr;
+}
+
+<span class="cmt">// Same answer. Same speed. Just 2 ints of memory.</span></pre>
+        </div>
+        <div class="pic" style="margin-top:10px">
+          <p style="margin:0;font-weight:800;color:var(--ink)">📈 Journey of upgrades:</p>
+          <div class="row"><span class="chip" style="background:var(--bad-soft);color:var(--bad)">step 1: brute force</span><span class="muted">~ 2ⁿ calls, no memory</span></div>
+          <div class="row"><span class="chip">step 2: + memo</span><span class="muted">n calls, n memory</span></div>
+          <div class="row"><span class="chip acc">step 3: tabulation</span><span class="muted">n loop, n memory, no recursion</span></div>
+          <div class="row"><span class="chip good">step 4: space saver</span><span class="muted">n loop, just 2 ints!</span></div>
+        </div>
+      </div>
+    </details>
   </section>
 
-  <!-- Scene 6: Compare -->
+  <!-- ============ Scene 6: Compare ============ -->
   <section class="scene">
     <div class="scene-head">
       <div class="scene-num">6</div>
       <h2 class="scene-title">⚡ Before vs After</h2>
     </div>
-    <p class="one-liner">Same answer. Way less work.</p>
+    <p class="one-liner">Same answer. <b>Way</b> less work.</p>
 
     <div class="compare">
       <div class="compare-card bad">
         <h4>😵 Brute force</h4>
-        <p class="muted" style="margin:0">Tries every path. Repeats the same little problem over and over.</p>
-        <div class="num" id="cmp-brute-num">15 <small>calls</small></div>
+        <p class="muted" style="margin:0">Tries every path. Asks the same little question over and over.</p>
+        <div class="num" id="cmp-brute-num">15 <small>tries</small></div>
         <div class="compare-bar"><span id="cmp-brute-bar" style="width:100%"></span></div>
       </div>
       <div class="compare-card good">
         <h4>🚀 DP (with memory)</h4>
-        <p class="muted" style="margin:0">Solves each tiny problem <b>once</b>. Saves it. Reuses it.</p>
+        <p class="muted" style="margin:0">Solves each tiny problem <b>once</b>. Remembers it. Done.</p>
         <div class="num" id="cmp-dp-num">6 <small>steps</small></div>
         <div class="compare-bar"><span id="cmp-dp-bar" style="width:40%"></span></div>
       </div>
@@ -187,7 +373,7 @@
   </section>
 
   <nav class="bottom-nav">
-    <a class="up" href="../dp-roadmap.html">↑ Map</a>
+    <a class="up" href="../dp-roadmap.html">↑ Back to Map</a>
     <a class="next" href="../dp-roadmap.html">Next levels (soon) →</a>
   </nav>
 
