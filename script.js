@@ -15,8 +15,8 @@
     return n;
   }
 
-  /* ===== STORY ===== */
-  var storyState = { n: 5 };
+  /* ===== STORY: bunny starts on the GROUND (position -1) ===== */
+  var storyState = { n: 5, pos: -1 }; // pos = -1 means ground; 0..n-1 means step
   function ways(n) {
     if (n <= 1) return 1;
     var a = 1, b = 1;
@@ -27,6 +27,10 @@
     var stage = $('#stairs-stage'); if (!stage) return;
     stage.innerHTML = '';
     var n = storyState.n;
+    // Ground tile
+    var ground = el('div', { 'class': 'ground' });
+    ground.innerHTML = '<span class="ground-label">START</span>';
+    stage.appendChild(ground);
     var maxH = 170, baseH = 30;
     for (var i = 1; i <= n; i++) {
       var h = baseH + (i / n) * (maxH - baseH);
@@ -37,18 +41,26 @@
     var bunny = el('div', { 'class': 'bunny', id: 'bunny' });
     bunny.textContent = '🐰';
     stage.appendChild(bunny);
-    setTimeout(function () { hopTo(0); }, 50);
+    storyState.pos = -1;
+    setTimeout(function () { placeBunny(); }, 30);
     var t = $('#story-ways'); if (t) t.textContent = ways(n);
+    renderAllPaths();
   }
-  function hopTo(stepIndex) {
+  function placeBunny() {
     var bunny = $('#bunny'); if (!bunny) return;
     var stage = $('#stairs-stage');
-    var steps = $$('.step', stage);
-    if (stepIndex >= steps.length) stepIndex = steps.length - 1;
-    if (stepIndex < 0) stepIndex = 0;
-    var s = steps[stepIndex];
-    var rect = s.getBoundingClientRect();
+    var ground = $('.ground', stage);
     var prect = stage.getBoundingClientRect();
+    if (storyState.pos === -1 && ground) {
+      var gr = ground.getBoundingClientRect();
+      bunny.style.left = (gr.left - prect.left + gr.width / 2 - 17) + 'px';
+      bunny.style.bottom = '6px';
+      return;
+    }
+    var steps = $$('.step', stage);
+    if (storyState.pos >= steps.length) storyState.pos = steps.length - 1;
+    var s = steps[storyState.pos];
+    var rect = s.getBoundingClientRect();
     bunny.style.left = (rect.left - prect.left + rect.width / 2 - 17) + 'px';
     bunny.style.bottom = (rect.height - 4) + 'px';
   }
@@ -56,29 +68,49 @@
     var btn = e.target.closest('[data-hop]');
     if (btn) {
       var dir = btn.getAttribute('data-hop');
-      var stage = $('#stairs-stage');
-      var bunny = $('#bunny');
-      if (!stage || !bunny) return;
-      var steps = $$('.step', stage);
-      var current = 0;
-      for (var i = 0; i < steps.length; i++) {
-        var r = steps[i].getBoundingClientRect();
-        var br = bunny.getBoundingClientRect();
-        if (Math.abs(r.left + r.width / 2 - (br.left + br.width / 2)) < r.width / 2 + 4) { current = i; break; }
-      }
-      if (dir === '1') hopTo(current + 1);
-      if (dir === '2') hopTo(current + 2);
-      if (dir === 'r') hopTo(0);
+      if (dir === '1') storyState.pos = Math.min(storyState.n - 1, storyState.pos + 1);
+      if (dir === '2') storyState.pos = Math.min(storyState.n - 1, storyState.pos + 2);
+      if (dir === 'r') storyState.pos = -1;
+      placeBunny();
     }
     var nb = e.target.closest('[data-set-n]');
     if (nb) {
       storyState.n = parseInt(nb.getAttribute('data-set-n'), 10);
       $$('[data-set-n]').forEach(function (b) { b.classList.toggle('active', b === nb); });
-      buildStairs(); resetTree(); resetMemo(); resetTab(); resetSpace(); updateCompare();
+      buildStairs();
+      resetTree(); resetMemo(); resetTab(); resetSpace(); updateCompare();
     }
   });
 
-  /* ===== BRUTE-FORCE TREE ===== */
+  /* ===== ALL PATHS: enumerate every way to climb N stairs ===== */
+  function allPaths(n) {
+    if (n === 0) return [[]];
+    if (n < 0) return [];
+    var out = [];
+    allPaths(n - 1).forEach(function (p) { out.push([1].concat(p)); });
+    allPaths(n - 2).forEach(function (p) { out.push([2].concat(p)); });
+    return out;
+  }
+  function renderAllPaths() {
+    var box = $('#all-paths'); if (!box) return;
+    box.innerHTML = '';
+    var paths = allPaths(storyState.n);
+    paths.forEach(function (p, i) {
+      var row = el('div', { 'class': 'path-row' });
+      var idx = el('span', { 'class': 'path-idx' });
+      idx.textContent = (i + 1) + '.';
+      row.appendChild(idx);
+      p.forEach(function (h) {
+        var hop = el('span', { 'class': 'hop hop-' + h });
+        hop.textContent = h === 1 ? '⬆ 1' : '⏫ 2';
+        row.appendChild(hop);
+      });
+      box.appendChild(row);
+    });
+    var c = $('#all-paths-count'); if (c) c.textContent = paths.length;
+  }
+
+  /* ===== BRUTE-FORCE TREE — labeled with stair counts, not f(n) ===== */
   var treeState = { revealed: 1 };
   function computeTree(n) {
     var nodes = []; var seen = {}; var idc = 0;
@@ -86,7 +118,11 @@
       var id = idc++;
       var dup = !!seen[val];
       var base = (val <= 1);
-      var node = { id: id, label: 'f(' + val + ')', val: val, depth: depth, parent: parent, isDup: dup, isBase: base };
+      // Label: "🪜N" — N stairs left to climb.
+      var lbl = '🪜 ' + val;
+      if (val === 0) lbl = '🏁 0';
+      if (val === 1) lbl = '🪜 1';
+      var node = { id: id, label: lbl, val: val, depth: depth, parent: parent, isDup: dup, isBase: base };
       nodes.push(node);
       seen[val] = true;
       if (!base) {
@@ -108,7 +144,7 @@
     var visible = all.filter(function (x) { return x.depth <= maxDepth; });
     var byDepth = {};
     visible.forEach(function (x) { (byDepth[x.depth] = byDepth[x.depth] || []).push(x); });
-    var rowH = 70, padX = 14, nodeW = 64, nodeH = 30;
+    var rowH = 78, padX = 14, nodeW = 78, nodeH = 36;
     var deepest = byDepth[maxDepth] || [];
     var bottomCount = Math.max(1, deepest.length);
     var width = Math.max(360, padX * 2 + bottomCount * (nodeW + 8));
@@ -147,8 +183,8 @@
     visible.forEach(function (x) {
       var cx = xs[x.id], y = x.depth * rowH + 15;
       var cls = 'node-bg' + (x.isDup ? ' dup' : '') + (x.isBase ? ' base' : '');
-      svg.appendChild(svgEl('rect', { x: cx - nodeW / 2, y: y, width: nodeW, height: nodeH, rx: 8, 'class': cls }));
-      var t = svgEl('text', { x: cx, y: y + 19, 'class': (x.isDup ? 'dup' : (x.isBase ? 'base' : '')) });
+      svg.appendChild(svgEl('rect', { x: cx - nodeW / 2, y: y, width: nodeW, height: nodeH, rx: 10, 'class': cls }));
+      var t = svgEl('text', { x: cx, y: y + 22, 'class': (x.isDup ? 'dup' : (x.isBase ? 'base' : '')) });
       t.textContent = x.label;
       svg.appendChild(t);
       liveCalls++;
@@ -192,7 +228,7 @@
       if (step.action === 'store' && !added[step.k]) {
         var slot = document.createElement('div');
         slot.className = 'memo-slot';
-        slot.innerHTML = '<div class="k">f(' + step.k + ')</div><div class="v">= ' + step.val + '</div>';
+        slot.innerHTML = '<div class="k">🪜 ' + step.k + ' stairs</div><div class="v">= ' + step.val + ' way' + (step.val === 1 ? '' : 's') + '</div>';
         slots.appendChild(slot); added[step.k] = true; stores++;
       } else if (step.action === 'hit') { hits++; }
     }
@@ -220,14 +256,14 @@
       c.className = 'tab-cell';
       if (k <= tabState.i) c.classList.add('filled');
       if (k === tabState.i) c.classList.add('current');
-      c.innerHTML = '<span class="idx">dp[' + k + ']</span>' + (k <= tabState.i ? vals[k] : '?');
+      c.innerHTML = '<span class="idx">' + k + ' stairs</span>' + (k <= tabState.i ? vals[k] : '?');
       row.appendChild(c);
     }
     var f = $('#tab-formula');
     if (f) {
-      if (tabState.i === 0 || tabState.i === 1) f.innerHTML = '<b>dp[' + tabState.i + ']</b> = base case = <b>1</b>';
-      else if (tabState.i >= 2) f.innerHTML = '<b>dp[' + tabState.i + ']</b> = dp[' + (tabState.i - 1) + '] + dp[' + (tabState.i - 2) + '] = <b>' + vals[tabState.i] + '</b>';
-      else f.innerHTML = 'Click <b>Next</b> to fill the table →';
+      if (tabState.i === 0 || tabState.i === 1) f.innerHTML = '<b>' + tabState.i + ' stairs</b> → <b>1 way</b> (easy starter)';
+      else if (tabState.i >= 2) f.innerHTML = '<b>' + tabState.i + ' stairs</b> = ways for <b>' + (tabState.i - 1) + '</b> + ways for <b>' + (tabState.i - 2) + '</b> = <b>' + vals[tabState.i] + '</b>';
+      else f.innerHTML = 'Click <b>Next</b> to fill the next box →';
     }
     var lbl = $('#tab-step-lbl'); if (lbl) lbl.textContent = (Math.max(0, tabState.i) + 1) + ' / ' + (n + 1);
   }
@@ -241,22 +277,23 @@
   /* ===== SPACE OPTIMIZATION ===== */
   var spaceState = { step: 1, prev: 1, curr: 1 };
   function renderSpace() {
-    var p = $('#space-prev'), c = $('#space-curr'); if (!p || !c) return;
+    var p = $('#space-prev'), c = $('#space-curr'), nx = $('#space-next'); if (!p || !c) return;
     p.textContent = spaceState.prev;
     c.textContent = spaceState.curr;
-    var lbl = $('#space-step-lbl'); if (lbl) lbl.textContent = 'i = ' + spaceState.step + ' · uses just 2 boxes · answer so far = ' + spaceState.curr;
+    if (nx) nx.textContent = (spaceState.step >= storyState.n) ? '✓' : '?';
+    var lbl = $('#space-step-lbl'); if (lbl) lbl.textContent = 'we are at stair ' + spaceState.step + ' · current answer = ' + spaceState.curr;
   }
   function resetSpace() { spaceState = { step: 1, prev: 1, curr: 1 }; renderSpace(); }
   document.addEventListener('click', function (e) {
     if (e.target.closest('[data-space="next"]')) {
       if (spaceState.step >= storyState.n) return;
       var nxt = spaceState.prev + spaceState.curr;
+      var nbox = $('#space-next');
+      if (nbox) { nbox.textContent = nxt; nbox.classList.add('curr'); setTimeout(function () { nbox.classList.remove('curr'); }, 350); }
       spaceState.prev = spaceState.curr;
       spaceState.curr = nxt;
       spaceState.step++;
-      var c = $('#space-curr');
-      if (c) { c.classList.add('curr'); setTimeout(function () { c.classList.remove('curr'); }, 350); }
-      renderSpace();
+      setTimeout(renderSpace, 280);
     } else if (e.target.closest('[data-space="reset"]')) {
       resetSpace();
     } else if (e.target.closest('[data-space="all"]')) {
@@ -276,7 +313,7 @@
     var n = storyState.n;
     var bc = bruteCalls(n);
     var dpSteps = n + 1;
-    var bn = $('#cmp-brute-num'); if (bn) bn.innerHTML = bc + ' <small>calls</small>';
+    var bn = $('#cmp-brute-num'); if (bn) bn.innerHTML = bc + ' <small>tries</small>';
     var dn = $('#cmp-dp-num'); if (dn) dn.innerHTML = dpSteps + ' <small>steps</small>';
     var bb = $('#cmp-brute-bar'); if (bb) bb.style.width = '100%';
     var db = $('#cmp-dp-bar'); if (db) db.style.width = Math.max(4, Math.min(100, (dpSteps / bc) * 100)) + '%';
