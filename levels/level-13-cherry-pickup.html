@@ -61,14 +61,14 @@
     <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span> pick(<span <span class="kw">class</span>="kw">int</span> r1, <span <span class="kw">class</span>="kw">int</span> c1, <span <span class="kw">class</span>="kw">int</span> r2, <span <span class="kw">class</span>="kw">int</span> c2, <span <span class="kw">class</span>="kw">int</span>[][] g) {
-    <span <span class="kw">class</span>="kw">if</span> (r1 &gt;= n || c1 &gt;= n || r2 &gt;= n || c2 &gt;= n) <span <span class="kw">class</span>="kw">return</span> <span class="kw">Integer</span>.MIN_VALUE;
-    <span <span class="kw">class</span>="kw">if</span> (r1 == n-<span <span class="kw">class</span>="num">1</span> &amp;&amp; c1 == n-<span <span class="kw">class</span>="num">1</span>) <span <span class="kw">class</span>="kw">return</span> g[r1][c1];
-    <span <span class="kw">class</span>="kw">int</span> v = g[r1][c1] + (r1 == r2 &amp;&amp; c1 == c2 ? <span <span class="kw">class</span>="num">0</span> : g[r2][c2]);
-    <span <span class="kw">class</span>="kw">int</span> best = <span class="kw">Math</span>.max(
-        <span class="kw">Math</span>.max(pick(r1+<span <span class="kw">class</span>="num">1</span>,c1,r2+<span <span class="kw">class</span>="num">1</span>,c2,g), pick(r1+<span <span class="kw">class</span>="num">1</span>,c1,r2,c2+<span <span class="kw">class</span>="num">1</span>,g)),
-        <span class="kw">Math</span>.max(pick(r1,c1+<span <span class="kw">class</span>="num">1</span>,r2+<span <span class="kw">class</span>="num">1</span>,c2,g), pick(r1,c1+<span <span class="kw">class</span>="num">1</span>,r2,c2+<span <span class="kw">class</span>="num">1</span>,g)));
-    <span <span class="kw">class</span>="kw">return</span> v + best;
+<pre><span class="kw">int</span> pick(<span class="kw">int</span> r1, <span class="kw">int</span> c1, <span class="kw">int</span> r2, <span class="kw">int</span> c2, <span class="kw">int</span>[][] g) {
+    <span class="kw">if</span> (r1 &gt;= n || c1 &gt;= n || r2 &gt;= n || c2 &gt;= n) <span class="kw">return</span> <span class="kw">Integer</span>.MIN_VALUE;
+    <span class="kw">if</span> (r1 == n-<span class="num">1</span> &amp;&amp; c1 == n-<span class="num">1</span>) <span class="kw">return</span> g[r1][c1];
+    <span class="kw">int</span> v = g[r1][c1] + (r1 == r2 &amp;&amp; c1 == c2 ? <span class="num">0</span> : g[r2][c2]);
+    <span class="kw">int</span> best = <span class="kw">Math</span>.max(
+        <span class="kw">Math</span>.max(pick(r1+<span class="num">1</span>,c1,r2+<span class="num">1</span>,c2,g), pick(r1+<span class="num">1</span>,c1,r2,c2+<span class="num">1</span>,g)),
+        <span class="kw">Math</span>.max(pick(r1,c1+<span class="num">1</span>,r2+<span class="num">1</span>,c2,g), pick(r1,c1+<span class="num">1</span>,r2,c2+<span class="num">1</span>,g)));
+    <span class="kw">return</span> v + best;
 }</pre>
 </div></div>
 </details>
@@ -104,7 +104,7 @@
     <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// memoise (step, r1, r2). c2 derived: c2 = step + <span <span class="kw">class</span>="num">0</span> - r2.</span></pre>
+<pre><span class="cmt">// memoise (step, r1, r2). c2 derived: c2 = step + 0 - r2.</span></pre>
 </div></div>
 </details>
   </section>
@@ -128,7 +128,7 @@
     <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// <span <span class="kw">class</span>="num">3</span>D bottom-up by step total.</span></pre>
+<pre><span class="cmt">// 3D bottom-up by step total.</span></pre>
 </div></div>
 </details>
   </section>
@@ -151,7 +151,7 @@
     <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// <span <span class="kw">class</span>="num">2</span> layers of size n×n.</span></pre>
+<pre><span class="cmt">// 2 layers of size n×n.</span></pre>
 </div></div>
 </details>
   </section>

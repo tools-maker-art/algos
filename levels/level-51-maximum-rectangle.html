@@ -61,7 +61,7 @@
     <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// brute: every (top, bot, l, r)</span></pre>
+<pre><span class="cmt">// brute: every (top, bot, l, r)</span></pre>
 </div></div>
 </details>
   </section>
@@ -96,7 +96,7 @@
     <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// not natural</span></pre>
+<pre><span class="cmt">// not natural</span></pre>
 </div></div>
 </details>
   </section>
@@ -120,15 +120,15 @@
     <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span> m = mat.length, n = mat[<span <span class="kw">class</span>="num">0</span>].length;
-<span <span class="kw">class</span>="kw">int</span>[] heights = <span <span class="kw">class</span>="kw">new</span> <span <span class="kw">class</span>="kw">int</span>[n];
-<span <span class="kw">class</span>="kw">int</span> best = <span <span class="kw">class</span>="num">0</span>;
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> i = <span <span class="kw">class</span>="num">0</span>; i &lt; m; i++) {
-    <span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> j = <span <span class="kw">class</span>="num">0</span>; j &lt; n; j++)
-        heights[j] = (mat[i][j] == <span <span class="kw">class</span>="num">1</span>) ? heights[j] + <span <span class="kw">class</span>="num">1</span> : <span <span class="kw">class</span>="num">0</span>;
-    best = <span class="kw">Math</span>.max(best, largestRectangle(heights)); <span <span class="kw">class</span>="cmt">// L5<span <span class="kw">class</span>="num">0</span></span>
+<pre><span class="kw">int</span> m = mat.length, n = mat[<span class="num">0</span>].length;
+<span class="kw">int</span>[] heights = <span class="kw">new</span> <span class="kw">int</span>[n];
+<span class="kw">int</span> best = <span class="num">0</span>;
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; m; i++) {
+    <span class="kw">for</span> (<span class="kw">int</span> j = <span class="num">0</span>; j &lt; n; j++)
+        heights[j] = (mat[i][j] == <span class="num">1</span>) ? heights[j] + <span class="num">1</span> : <span class="num">0</span>;
+    best = <span class="kw">Math</span>.max(best, largestRectangle(heights)); <span class="cmt">// L50</span>
 }
-<span <span class="kw">class</span>="kw">return</span> best;</pre>
+<span class="kw">return</span> best;</pre>
 </div></div>
 </details>
   </section>
@@ -151,7 +151,7 @@
     <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// O(n) heights</span></pre>
+<pre><span class="cmt">// O(n) heights</span></pre>
 </div></div>
 </details>
   </section>

@@ -61,12 +61,12 @@
     <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span> cnt(<span <span class="kw">class</span>="kw">int</span> i, <span <span class="kw">class</span>="kw">int</span> j, <span <span class="kw">class</span>="kw">String</span> s, <span <span class="kw">class</span>="kw">String</span> t) {
-    <span <span class="kw">class</span>="kw">if</span> (j == <span <span class="kw">class</span>="num">0</span>) <span <span class="kw">class</span>="kw">return</span> <span <span class="kw">class</span>="num">1</span>;
-    <span <span class="kw">class</span>="kw">if</span> (i == <span <span class="kw">class</span>="num">0</span>) <span <span class="kw">class</span>="kw">return</span> <span <span class="kw">class</span>="num">0</span>;
-    <span <span class="kw">class</span>="kw">int</span> skip = cnt(i-<span <span class="kw">class</span>="num">1</span>, j, s, t);
-    <span <span class="kw">class</span>="kw">int</span> take = (s.charAt(i-<span <span class="kw">class</span>="num">1</span>) == t.charAt(j-<span <span class="kw">class</span>="num">1</span>)) ? cnt(i-<span <span class="kw">class</span>="num">1</span>, j-<span <span class="kw">class</span>="num">1</span>, s, t) : <span <span class="kw">class</span>="num">0</span>;
-    <span <span class="kw">class</span>="kw">return</span> skip + take;
+<pre><span class="kw">int</span> cnt(<span class="kw">int</span> i, <span class="kw">int</span> j, <span class="kw">String</span> s, <span class="kw">String</span> t) {
+    <span class="kw">if</span> (j == <span class="num">0</span>) <span class="kw">return</span> <span class="num">1</span>;
+    <span class="kw">if</span> (i == <span class="num">0</span>) <span class="kw">return</span> <span class="num">0</span>;
+    <span class="kw">int</span> skip = cnt(i-<span class="num">1</span>, j, s, t);
+    <span class="kw">int</span> take = (s.charAt(i-<span class="num">1</span>) == t.charAt(j-<span class="num">1</span>)) ? cnt(i-<span class="num">1</span>, j-<span class="num">1</span>, s, t) : <span class="num">0</span>;
+    <span class="kw">return</span> skip + take;
 }</pre>
 </div></div>
 </details>
@@ -102,7 +102,7 @@
     <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// cache (i, j)</span></pre>
+<pre><span class="cmt">// cache (i, j)</span></pre>
 </div></div>
 </details>
   </section>
@@ -126,15 +126,15 @@
     <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span>[][] dp = <span <span class="kw">class</span>="kw">new</span> <span <span class="kw">class</span>="kw">int</span>[n+<span <span class="kw">class</span>="num">1</span>][m+<span <span class="kw">class</span>="num">1</span>];
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> i = <span <span class="kw">class</span>="num">0</span>; i &lt;= n; i++) dp[i][<span <span class="kw">class</span>="num">0</span>] = <span <span class="kw">class</span>="num">1</span>;
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> i = <span <span class="kw">class</span>="num">1</span>; i &lt;= n; i++)
-    <span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> j = <span <span class="kw">class</span>="num">1</span>; j &lt;= m; j++) {
-        dp[i][j] = dp[i-<span <span class="kw">class</span>="num">1</span>][j];
-        <span <span class="kw">class</span>="kw">if</span> (s.charAt(i-<span <span class="kw">class</span>="num">1</span>) == t.charAt(j-<span <span class="kw">class</span>="num">1</span>))
-            dp[i][j] += dp[i-<span <span class="kw">class</span>="num">1</span>][j-<span <span class="kw">class</span>="num">1</span>];
+<pre><span class="kw">int</span>[][] dp = <span class="kw">new</span> <span class="kw">int</span>[n+<span class="num">1</span>][m+<span class="num">1</span>];
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt;= n; i++) dp[i][<span class="num">0</span>] = <span class="num">1</span>;
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= n; i++)
+    <span class="kw">for</span> (<span class="kw">int</span> j = <span class="num">1</span>; j &lt;= m; j++) {
+        dp[i][j] = dp[i-<span class="num">1</span>][j];
+        <span class="kw">if</span> (s.charAt(i-<span class="num">1</span>) == t.charAt(j-<span class="num">1</span>))
+            dp[i][j] += dp[i-<span class="num">1</span>][j-<span class="num">1</span>];
     }
-<span <span class="kw">class</span>="kw">return</span> dp[n][m];</pre>
+<span class="kw">return</span> dp[n][m];</pre>
 </div></div>
 </details>
   </section>
@@ -157,7 +157,7 @@
     <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// <span <span class="kw">class</span>="num">2</span> rows variant</span></pre>
+<pre><span class="cmt">// 2 rows variant</span></pre>
 </div></div>
 </details>
   </section>

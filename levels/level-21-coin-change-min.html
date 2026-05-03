@@ -61,15 +61,15 @@
     <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span> min(<span <span class="kw">class</span>="kw">int</span> a, <span <span class="kw">class</span>="kw">int</span>[] coins) {
-    <span <span class="kw">class</span>="kw">if</span> (a == <span <span class="kw">class</span>="num">0</span>) <span <span class="kw">class</span>="kw">return</span> <span <span class="kw">class</span>="num">0</span>;
-    <span <span class="kw">class</span>="kw">if</span> (a &lt; <span <span class="kw">class</span>="num">0</span>)  <span <span class="kw">class</span>="kw">return</span> <span class="kw">Integer</span>.MAX_VALUE;
-    <span <span class="kw">class</span>="kw">int</span> best = <span class="kw">Integer</span>.MAX_VALUE;
-    <span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> c : coins) {
-        <span <span class="kw">class</span>="kw">int</span> sub = min(a - c, coins);
-        <span <span class="kw">class</span>="kw">if</span> (sub != <span class="kw">Integer</span>.MAX_VALUE) best = <span class="kw">Math</span>.min(best, <span <span class="kw">class</span>="num">1</span> + sub);
+<pre><span class="kw">int</span> min(<span class="kw">int</span> a, <span class="kw">int</span>[] coins) {
+    <span class="kw">if</span> (a == <span class="num">0</span>) <span class="kw">return</span> <span class="num">0</span>;
+    <span class="kw">if</span> (a &lt; <span class="num">0</span>)  <span class="kw">return</span> <span class="kw">Integer</span>.MAX_VALUE;
+    <span class="kw">int</span> best = <span class="kw">Integer</span>.MAX_VALUE;
+    <span class="kw">for</span> (<span class="kw">int</span> c : coins) {
+        <span class="kw">int</span> sub = min(a - c, coins);
+        <span class="kw">if</span> (sub != <span class="kw">Integer</span>.MAX_VALUE) best = <span class="kw">Math</span>.min(best, <span class="num">1</span> + sub);
     }
-    <span <span class="kw">class</span>="kw">return</span> best;
+    <span class="kw">return</span> best;
 }</pre>
 </div></div>
 </details>
@@ -105,7 +105,7 @@
     <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// memo by amount</span></pre>
+<pre><span class="cmt">// memo by amount</span></pre>
 </div></div>
 </details>
   </section>
@@ -129,13 +129,13 @@
     <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span>[] dp = <span <span class="kw">class</span>="kw">new</span> <span <span class="kw">class</span>="kw">int</span>[A+<span <span class="kw">class</span>="num">1</span>];
-<span class="kw">Arrays</span>.fill(dp, A + <span <span class="kw">class</span>="num">1</span>);
-dp[<span <span class="kw">class</span>="num">0</span>] = <span <span class="kw">class</span>="num">0</span>;
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> a = <span <span class="kw">class</span>="num">1</span>; a &lt;= A; a++)
-    <span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> c : coins)
-        <span <span class="kw">class</span>="kw">if</span> (c &lt;= a) dp[a] = <span class="kw">Math</span>.min(dp[a], dp[a - c] + <span <span class="kw">class</span>="num">1</span>);
-<span <span class="kw">class</span>="kw">return</span> dp[A] &gt; A ? -<span <span class="kw">class</span>="num">1</span> : dp[A];</pre>
+<pre><span class="kw">int</span>[] dp = <span class="kw">new</span> <span class="kw">int</span>[A+<span class="num">1</span>];
+<span class="kw">Arrays</span>.fill(dp, A + <span class="num">1</span>);
+dp[<span class="num">0</span>] = <span class="num">0</span>;
+<span class="kw">for</span> (<span class="kw">int</span> a = <span class="num">1</span>; a &lt;= A; a++)
+    <span class="kw">for</span> (<span class="kw">int</span> c : coins)
+        <span class="kw">if</span> (c &lt;= a) dp[a] = <span class="kw">Math</span>.min(dp[a], dp[a - c] + <span class="num">1</span>);
+<span class="kw">return</span> dp[A] &gt; A ? -<span class="num">1</span> : dp[A];</pre>
 </div></div>
 </details>
   </section>
@@ -158,7 +158,7 @@ dp[<span <span class="kw">class</span>="num">0</span>] = <span <span class="kw">
     <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// O(A)</span></pre>
+<pre><span class="cmt">// O(A)</span></pre>
 </div></div>
 </details>
   </section>

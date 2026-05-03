@@ -61,7 +61,7 @@
     <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// recurse</span></pre>
+<pre><span class="cmt">// recurse</span></pre>
 </div></div>
 </details>
   </section>
@@ -96,7 +96,7 @@
     <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// <span <span class="kw">class</span>="num">3</span>D cache</span></pre>
+<pre><span class="cmt">// 3D cache</span></pre>
 </div></div>
 </details>
   </section>
@@ -120,15 +120,15 @@
     <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span>[] buy  = <span <span class="kw">class</span>="kw">new</span> <span <span class="kw">class</span>="kw">int</span>[K+<span <span class="kw">class</span>="num">1</span>];
-<span <span class="kw">class</span>="kw">int</span>[] sell = <span <span class="kw">class</span>="kw">new</span> <span <span class="kw">class</span>="kw">int</span>[K+<span <span class="kw">class</span>="num">1</span>];
+<pre><span class="kw">int</span>[] buy  = <span class="kw">new</span> <span class="kw">int</span>[K+<span class="num">1</span>];
+<span class="kw">int</span>[] sell = <span class="kw">new</span> <span class="kw">int</span>[K+<span class="num">1</span>];
 <span class="kw">Arrays</span>.fill(buy, <span class="kw">Integer</span>.MIN_VALUE);
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> p : prices)
-    <span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> k = <span <span class="kw">class</span>="num">1</span>; k &lt;= K; k++) {
-        buy[k]  = <span class="kw">Math</span>.max(buy[k],  sell[k-<span <span class="kw">class</span>="num">1</span>] - p);
+<span class="kw">for</span> (<span class="kw">int</span> p : prices)
+    <span class="kw">for</span> (<span class="kw">int</span> k = <span class="num">1</span>; k &lt;= K; k++) {
+        buy[k]  = <span class="kw">Math</span>.max(buy[k],  sell[k-<span class="num">1</span>] - p);
         sell[k] = <span class="kw">Math</span>.max(sell[k], buy[k]    + p);
     }
-<span <span class="kw">class</span>="kw">return</span> sell[K];</pre>
+<span class="kw">return</span> sell[K];</pre>
 </div></div>
 </details>
   </section>
@@ -151,7 +151,7 @@
     <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// O(K)</span></pre>
+<pre><span class="cmt">// O(K)</span></pre>
 </div></div>
 </details>
   </section>

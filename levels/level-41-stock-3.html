@@ -61,7 +61,7 @@
     <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// recurse (day, k, hold)</span></pre>
+<pre><span class="cmt">// recurse (day, k, hold)</span></pre>
 </div></div>
 </details>
   </section>
@@ -96,7 +96,7 @@
     <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// <span <span class="kw">class</span>="num">3</span>D cache</span></pre>
+<pre><span class="cmt">// 3D cache</span></pre>
 </div></div>
 </details>
   </section>
@@ -120,15 +120,15 @@
     <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span> b1 = -prices[<span <span class="kw">class</span>="num">0</span>], s1 = <span <span class="kw">class</span>="num">0</span>;
-<span <span class="kw">class</span>="kw">int</span> b2 = -prices[<span <span class="kw">class</span>="num">0</span>], s2 = <span <span class="kw">class</span>="num">0</span>;
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> i = <span <span class="kw">class</span>="num">1</span>; i &lt; n; i++) {
+<pre><span class="kw">int</span> b1 = -prices[<span class="num">0</span>], s1 = <span class="num">0</span>;
+<span class="kw">int</span> b2 = -prices[<span class="num">0</span>], s2 = <span class="num">0</span>;
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i &lt; n; i++) {
     b1 = <span class="kw">Math</span>.max(b1, -prices[i]);
     s1 = <span class="kw">Math</span>.max(s1, b1 + prices[i]);
     b2 = <span class="kw">Math</span>.max(b2, s1 - prices[i]);
     s2 = <span class="kw">Math</span>.max(s2, b2 + prices[i]);
 }
-<span <span class="kw">class</span>="kw">return</span> s2;</pre>
+<span class="kw">return</span> s2;</pre>
 </div></div>
 </details>
   </section>
@@ -151,7 +151,7 @@
     <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// <span <span class="kw">class</span>="num">4</span> ints</span></pre>
+<pre><span class="cmt">// 4 ints</span></pre>
 </div></div>
 </details>
   </section>

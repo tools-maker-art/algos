@@ -61,7 +61,7 @@
     <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// brute</span></pre>
+<pre><span class="cmt">// brute</span></pre>
 </div></div>
 </details>
   </section>
@@ -96,7 +96,7 @@
     <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// N/A</span></pre>
+<pre><span class="cmt">// N/A</span></pre>
 </div></div>
 </details>
   </section>
@@ -120,17 +120,17 @@
     <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span>[] left = <span <span class="kw">class</span>="kw">new</span> <span <span class="kw">class</span>="kw">int</span>[n], right = <span <span class="kw">class</span>="kw">new</span> <span <span class="kw">class</span>="kw">int</span>[n];
-<span class="kw">Arrays</span>.fill(left, <span <span class="kw">class</span>="num">1</span>); <span class="kw">Arrays</span>.fill(right, <span <span class="kw">class</span>="num">1</span>);
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> i = <span <span class="kw">class</span>="num">1</span>; i &lt; n; i++)
-    <span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> j = <span <span class="kw">class</span>="num">0</span>; j &lt; i; j++)
-        <span <span class="kw">class</span>="kw">if</span> (nums[j] &lt; nums[i]) left[i] = <span class="kw">Math</span>.max(left[i], left[j] + <span <span class="kw">class</span>="num">1</span>);
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> i = n-<span <span class="kw">class</span>="num">2</span>; i &gt;= <span <span class="kw">class</span>="num">0</span>; i--)
-    <span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> j = n-<span <span class="kw">class</span>="num">1</span>; j &gt; i; j--)
-        <span <span class="kw">class</span>="kw">if</span> (nums[j] &lt; nums[i]) right[i] = <span class="kw">Math</span>.max(right[i], right[j] + <span <span class="kw">class</span>="num">1</span>);
-<span <span class="kw">class</span>="kw">int</span> best = <span <span class="kw">class</span>="num">0</span>;
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> i = <span <span class="kw">class</span>="num">0</span>; i &lt; n; i++) best = <span class="kw">Math</span>.max(best, left[i] + right[i] - <span <span class="kw">class</span>="num">1</span>);
-<span <span class="kw">class</span>="kw">return</span> best;</pre>
+<pre><span class="kw">int</span>[] left = <span class="kw">new</span> <span class="kw">int</span>[n], right = <span class="kw">new</span> <span class="kw">int</span>[n];
+<span class="kw">Arrays</span>.fill(left, <span class="num">1</span>); <span class="kw">Arrays</span>.fill(right, <span class="num">1</span>);
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i &lt; n; i++)
+    <span class="kw">for</span> (<span class="kw">int</span> j = <span class="num">0</span>; j &lt; i; j++)
+        <span class="kw">if</span> (nums[j] &lt; nums[i]) left[i] = <span class="kw">Math</span>.max(left[i], left[j] + <span class="num">1</span>);
+<span class="kw">for</span> (<span class="kw">int</span> i = n-<span class="num">2</span>; i &gt;= <span class="num">0</span>; i--)
+    <span class="kw">for</span> (<span class="kw">int</span> j = n-<span class="num">1</span>; j &gt; i; j--)
+        <span class="kw">if</span> (nums[j] &lt; nums[i]) right[i] = <span class="kw">Math</span>.max(right[i], right[j] + <span class="num">1</span>);
+<span class="kw">int</span> best = <span class="num">0</span>;
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; n; i++) best = <span class="kw">Math</span>.max(best, left[i] + right[i] - <span class="num">1</span>);
+<span class="kw">return</span> best;</pre>
 </div></div>
 </details>
   </section>
@@ -153,7 +153,7 @@
     <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// O(n)</span></pre>
+<pre><span class="cmt">// O(n)</span></pre>
 </div></div>
 </details>
   </section>

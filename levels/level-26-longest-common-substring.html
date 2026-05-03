@@ -61,7 +61,7 @@
     <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// brute: try every (i, j, length)</span></pre>
+<pre><span class="cmt">// brute: try every (i, j, length)</span></pre>
 </div></div>
 </details>
   </section>
@@ -96,7 +96,7 @@
     <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// memo not natural — bottom-up easier</span></pre>
+<pre><span class="cmt">// memo not natural — bottom-up easier</span></pre>
 </div></div>
 </details>
   </section>
@@ -120,16 +120,16 @@
     <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span> best = <span <span class="kw">class</span>="num">0</span>;
-<span <span class="kw">class</span>="kw">int</span>[][] dp = <span <span class="kw">class</span>="kw">new</span> <span <span class="kw">class</span>="kw">int</span>[n+<span <span class="kw">class</span>="num">1</span>][m+<span <span class="kw">class</span>="num">1</span>];
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> i = <span <span class="kw">class</span>="num">1</span>; i &lt;= n; i++)
-    <span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> j = <span <span class="kw">class</span>="num">1</span>; j &lt;= m; j++) {
-        <span <span class="kw">class</span>="kw">if</span> (a.charAt(i-<span <span class="kw">class</span>="num">1</span>) == b.charAt(j-<span <span class="kw">class</span>="num">1</span>)) {
-            dp[i][j] = dp[i-<span <span class="kw">class</span>="num">1</span>][j-<span <span class="kw">class</span>="num">1</span>] + <span <span class="kw">class</span>="num">1</span>;
+<pre><span class="kw">int</span> best = <span class="num">0</span>;
+<span class="kw">int</span>[][] dp = <span class="kw">new</span> <span class="kw">int</span>[n+<span class="num">1</span>][m+<span class="num">1</span>];
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= n; i++)
+    <span class="kw">for</span> (<span class="kw">int</span> j = <span class="num">1</span>; j &lt;= m; j++) {
+        <span class="kw">if</span> (a.charAt(i-<span class="num">1</span>) == b.charAt(j-<span class="num">1</span>)) {
+            dp[i][j] = dp[i-<span class="num">1</span>][j-<span class="num">1</span>] + <span class="num">1</span>;
             best = <span class="kw">Math</span>.max(best, dp[i][j]);
         }
     }
-<span <span class="kw">class</span>="kw">return</span> best;</pre>
+<span class="kw">return</span> best;</pre>
 </div></div>
 </details>
   </section>
@@ -152,7 +152,7 @@
     <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// <span <span class="kw">class</span>="num">2</span> rows variant works similarly.</span></pre>
+<pre><span class="cmt">// 2 rows variant works similarly.</span></pre>
 </div></div>
 </details>
   </section>

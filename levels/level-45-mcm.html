@@ -61,12 +61,12 @@
     <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span> dp(<span <span class="kw">class</span>="kw">int</span> i, <span <span class="kw">class</span>="kw">int</span> j, <span <span class="kw">class</span>="kw">int</span>[] d) {
-    <span <span class="kw">class</span>="kw">if</span> (i == j) <span <span class="kw">class</span>="kw">return</span> <span <span class="kw">class</span>="num">0</span>;
-    <span <span class="kw">class</span>="kw">int</span> best = <span class="kw">Integer</span>.MAX_VALUE;
-    <span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> k = i; k &lt; j; k++)
-        best = <span class="kw">Math</span>.min(best, dp(i, k, d) + dp(k+<span <span class="kw">class</span>="num">1</span>, j, d) + d[i-<span <span class="kw">class</span>="num">1</span>]*d[k]*d[j]);
-    <span <span class="kw">class</span>="kw">return</span> best;
+<pre><span class="kw">int</span> dp(<span class="kw">int</span> i, <span class="kw">int</span> j, <span class="kw">int</span>[] d) {
+    <span class="kw">if</span> (i == j) <span class="kw">return</span> <span class="num">0</span>;
+    <span class="kw">int</span> best = <span class="kw">Integer</span>.MAX_VALUE;
+    <span class="kw">for</span> (<span class="kw">int</span> k = i; k &lt; j; k++)
+        best = <span class="kw">Math</span>.min(best, dp(i, k, d) + dp(k+<span class="num">1</span>, j, d) + d[i-<span class="num">1</span>]*d[k]*d[j]);
+    <span class="kw">return</span> best;
 }</pre>
 </div></div>
 </details>
@@ -102,7 +102,7 @@
     <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// cache (i, j)</span></pre>
+<pre><span class="cmt">// cache (i, j)</span></pre>
 </div></div>
 </details>
   </section>
@@ -126,15 +126,15 @@
     <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span>[][] dp = <span <span class="kw">class</span>="kw">new</span> <span <span class="kw">class</span>="kw">int</span>[n][n];
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> len = <span <span class="kw">class</span>="num">2</span>; len &lt; n; len++)
-    <span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> i = <span <span class="kw">class</span>="num">1</span>; i + len - <span <span class="kw">class</span>="num">1</span> &lt; n; i++) {
-        <span <span class="kw">class</span>="kw">int</span> j = i + len - <span <span class="kw">class</span>="num">1</span>;
+<pre><span class="kw">int</span>[][] dp = <span class="kw">new</span> <span class="kw">int</span>[n][n];
+<span class="kw">for</span> (<span class="kw">int</span> len = <span class="num">2</span>; len &lt; n; len++)
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i + len - <span class="num">1</span> &lt; n; i++) {
+        <span class="kw">int</span> j = i + len - <span class="num">1</span>;
         dp[i][j] = <span class="kw">Integer</span>.MAX_VALUE;
-        <span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> k = i; k &lt; j; k++)
-            dp[i][j] = <span class="kw">Math</span>.min(dp[i][j], dp[i][k] + dp[k+<span <span class="kw">class</span>="num">1</span>][j] + d[i-<span <span class="kw">class</span>="num">1</span>]*d[k]*d[j]);
+        <span class="kw">for</span> (<span class="kw">int</span> k = i; k &lt; j; k++)
+            dp[i][j] = <span class="kw">Math</span>.min(dp[i][j], dp[i][k] + dp[k+<span class="num">1</span>][j] + d[i-<span class="num">1</span>]*d[k]*d[j]);
     }
-<span <span class="kw">class</span>="kw">return</span> dp[<span <span class="kw">class</span>="num">1</span>][n-<span <span class="kw">class</span>="num">1</span>];</pre>
+<span class="kw">return</span> dp[<span class="num">1</span>][n-<span class="num">1</span>];</pre>
 </div></div>
 </details>
   </section>
@@ -157,7 +157,7 @@
     <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// O(n²) table required</span></pre>
+<pre><span class="cmt">// O(n²) table required</span></pre>
 </div></div>
 </details>
   </section>

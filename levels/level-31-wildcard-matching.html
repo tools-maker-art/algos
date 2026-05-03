@@ -61,7 +61,7 @@
     <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// recurse with the rules</span></pre>
+<pre><span class="cmt">// recurse with the rules</span></pre>
 </div></div>
 </details>
   </section>
@@ -96,7 +96,7 @@
     <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// cache (i, j)</span></pre>
+<pre><span class="cmt">// cache (i, j)</span></pre>
 </div></div>
 </details>
   </section>
@@ -120,17 +120,17 @@
     <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">boolean</span>[][] dp = <span <span class="kw">class</span>="kw">new</span> <span <span class="kw">class</span>="kw">boolean</span>[n+<span <span class="kw">class</span>="num">1</span>][m+<span <span class="kw">class</span>="num">1</span>];
-dp[<span <span class="kw">class</span>="num">0</span>][<span <span class="kw">class</span>="num">0</span>] = <span class="kw">true</span>;
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> j = <span <span class="kw">class</span>="num">1</span>; j &lt;= m; j++)
-    <span <span class="kw">class</span>="kw">if</span> (p.charAt(j-<span <span class="kw">class</span>="num">1</span>) == &#x2<span <span class="kw">class</span>="num">7</span>;*&#x2<span <span class="kw">class</span>="num">7</span>;) dp[<span <span class="kw">class</span>="num">0</span>][j] = dp[<span <span class="kw">class</span>="num">0</span>][j-<span <span class="kw">class</span>="num">1</span>];
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> i = <span <span class="kw">class</span>="num">1</span>; i &lt;= n; i++)
-    <span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> j = <span <span class="kw">class</span>="num">1</span>; j &lt;= m; j++) {
-        <span <span class="kw">class</span>="kw">char</span> pc = p.charAt(j-<span <span class="kw">class</span>="num">1</span>);
-        <span <span class="kw">class</span>="kw">if</span> (pc == &#x2<span <span class="kw">class</span>="num">7</span>;?&#x2<span <span class="kw">class</span>="num">7</span>; || pc == s.charAt(i-<span <span class="kw">class</span>="num">1</span>)) dp[i][j] = dp[i-<span <span class="kw">class</span>="num">1</span>][j-<span <span class="kw">class</span>="num">1</span>];
-        <span <span class="kw">class</span>="kw">else</span> <span <span class="kw">class</span>="kw">if</span> (pc == &#x2<span <span class="kw">class</span>="num">7</span>;*&#x2<span <span class="kw">class</span>="num">7</span>;) dp[i][j] = dp[i-<span <span class="kw">class</span>="num">1</span>][j] || dp[i][j-<span <span class="kw">class</span>="num">1</span>];
+<pre><span class="kw">boolean</span>[][] dp = <span class="kw">new</span> <span class="kw">boolean</span>[n+<span class="num">1</span>][m+<span class="num">1</span>];
+dp[<span class="num">0</span>][<span class="num">0</span>] = <span class="kw">true</span>;
+<span class="kw">for</span> (<span class="kw">int</span> j = <span class="num">1</span>; j &lt;= m; j++)
+    <span class="kw">if</span> (p.charAt(j-<span class="num">1</span>) == <span class="str">&#x27;*&#x27;</span>) dp[<span class="num">0</span>][j] = dp[<span class="num">0</span>][j-<span class="num">1</span>];
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= n; i++)
+    <span class="kw">for</span> (<span class="kw">int</span> j = <span class="num">1</span>; j &lt;= m; j++) {
+        <span class="kw">char</span> pc = p.charAt(j-<span class="num">1</span>);
+        <span class="kw">if</span> (pc == <span class="str">&#x27;?&#x27;</span> || pc == s.charAt(i-<span class="num">1</span>)) dp[i][j] = dp[i-<span class="num">1</span>][j-<span class="num">1</span>];
+        <span class="kw">else</span> <span class="kw">if</span> (pc == <span class="str">&#x27;*&#x27;</span>) dp[i][j] = dp[i-<span class="num">1</span>][j] || dp[i][j-<span class="num">1</span>];
     }
-<span <span class="kw">class</span>="kw">return</span> dp[n][m];</pre>
+<span class="kw">return</span> dp[n][m];</pre>
 </div></div>
 </details>
   </section>
@@ -153,7 +153,7 @@ dp[<span <span class="kw">class</span>="num">0</span>][<span <span class="kw">cl
     <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// <span <span class="kw">class</span>="num">2</span>-row variant</span></pre>
+<pre><span class="cmt">// 2-row variant</span></pre>
 </div></div>
 </details>
   </section>

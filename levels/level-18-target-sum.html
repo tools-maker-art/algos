@@ -61,10 +61,10 @@
     <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span> count(<span <span class="kw">class</span>="kw">int</span> i, <span <span class="kw">class</span>="kw">int</span> sum, <span <span class="kw">class</span>="kw">int</span>[] nums, <span <span class="kw">class</span>="kw">int</span> T) {
-    <span <span class="kw">class</span>="kw">if</span> (i == nums.length) <span <span class="kw">class</span>="kw">return</span> sum == T ? <span <span class="kw">class</span>="num">1</span> : <span <span class="kw">class</span>="num">0</span>;
-    <span <span class="kw">class</span>="kw">return</span> count(i+<span <span class="kw">class</span>="num">1</span>, sum + nums[i], nums, T)
-         + count(i+<span <span class="kw">class</span>="num">1</span>, sum - nums[i], nums, T);
+<pre><span class="kw">int</span> count(<span class="kw">int</span> i, <span class="kw">int</span> sum, <span class="kw">int</span>[] nums, <span class="kw">int</span> T) {
+    <span class="kw">if</span> (i == nums.length) <span class="kw">return</span> sum == T ? <span class="num">1</span> : <span class="num">0</span>;
+    <span class="kw">return</span> count(i+<span class="num">1</span>, sum + nums[i], nums, T)
+         + count(i+<span class="num">1</span>, sum - nums[i], nums, T);
 }</pre>
 </div></div>
 </details>
@@ -100,7 +100,7 @@
     <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// memoise (i, sum) — offset sum</span></pre>
+<pre><span class="cmt">// memoise (i, sum) — offset sum</span></pre>
 </div></div>
 </details>
   </section>
@@ -124,15 +124,15 @@
     <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span> s = <span <span class="kw">class</span>="num">0</span>; <span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> x : nums) s += x;
-<span <span class="kw">class</span>="kw">if</span> (<span class="kw">Math</span>.abs(T) &gt; s || (s + T) % <span <span class="kw">class</span>="num">2</span> != <span <span class="kw">class</span>="num">0</span>) <span <span class="kw">class</span>="kw">return</span> <span <span class="kw">class</span>="num">0</span>;
-<span <span class="kw">class</span>="kw">int</span> P = (s + T) / <span <span class="kw">class</span>="num">2</span>;
-<span <span class="kw">class</span>="kw">int</span>[] dp = <span <span class="kw">class</span>="kw">new</span> <span <span class="kw">class</span>="kw">int</span>[P+<span <span class="kw">class</span>="num">1</span>];
-dp[<span <span class="kw">class</span>="num">0</span>] = <span <span class="kw">class</span>="num">1</span>;
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> x : nums)
-    <span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> k = P; k &gt;= x; k--)
+<pre><span class="kw">int</span> s = <span class="num">0</span>; <span class="kw">for</span> (<span class="kw">int</span> x : nums) s += x;
+<span class="kw">if</span> (<span class="kw">Math</span>.abs(T) &gt; s || (s + T) % <span class="num">2</span> != <span class="num">0</span>) <span class="kw">return</span> <span class="num">0</span>;
+<span class="kw">int</span> P = (s + T) / <span class="num">2</span>;
+<span class="kw">int</span>[] dp = <span class="kw">new</span> <span class="kw">int</span>[P+<span class="num">1</span>];
+dp[<span class="num">0</span>] = <span class="num">1</span>;
+<span class="kw">for</span> (<span class="kw">int</span> x : nums)
+    <span class="kw">for</span> (<span class="kw">int</span> k = P; k &gt;= x; k--)
         dp[k] += dp[k - x];
-<span <span class="kw">class</span>="kw">return</span> dp[P];</pre>
+<span class="kw">return</span> dp[P];</pre>
 </div></div>
 </details>
   </section>
@@ -155,7 +155,7 @@ dp[<span <span class="kw">class</span>="num">0</span>] = <span <span class="kw">
     <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// O(P)</span></pre>
+<pre><span class="cmt">// O(P)</span></pre>
 </div></div>
 </details>
   </section>

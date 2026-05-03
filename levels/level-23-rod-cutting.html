@@ -61,12 +61,12 @@
     <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span> best(<span <span class="kw">class</span>="kw">int</span> N, <span <span class="kw">class</span>="kw">int</span>[] price) {
-    <span <span class="kw">class</span>="kw">if</span> (N == <span <span class="kw">class</span>="num">0</span>) <span <span class="kw">class</span>="kw">return</span> <span <span class="kw">class</span>="num">0</span>;
-    <span <span class="kw">class</span>="kw">int</span> b = <span <span class="kw">class</span>="num">0</span>;
-    <span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> i = <span <span class="kw">class</span>="num">1</span>; i &lt;= N; i++)
-        b = <span class="kw">Math</span>.max(b, price[i-<span <span class="kw">class</span>="num">1</span>] + best(N - i, price));
-    <span <span class="kw">class</span>="kw">return</span> b;
+<pre><span class="kw">int</span> best(<span class="kw">int</span> N, <span class="kw">int</span>[] price) {
+    <span class="kw">if</span> (N == <span class="num">0</span>) <span class="kw">return</span> <span class="num">0</span>;
+    <span class="kw">int</span> b = <span class="num">0</span>;
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= N; i++)
+        b = <span class="kw">Math</span>.max(b, price[i-<span class="num">1</span>] + best(N - i, price));
+    <span class="kw">return</span> b;
 }</pre>
 </div></div>
 </details>
@@ -102,7 +102,7 @@
     <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// memo by remaining length</span></pre>
+<pre><span class="cmt">// memo by remaining length</span></pre>
 </div></div>
 </details>
   </section>
@@ -126,11 +126,11 @@
     <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span>[] dp = <span <span class="kw">class</span>="kw">new</span> <span <span class="kw">class</span>="kw">int</span>[N+<span <span class="kw">class</span>="num">1</span>];
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> len = <span <span class="kw">class</span>="num">1</span>; len &lt;= N; len++)
-    <span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> i = <span <span class="kw">class</span>="num">1</span>; i &lt;= len; i++)
-        dp[len] = <span class="kw">Math</span>.max(dp[len], price[i-<span <span class="kw">class</span>="num">1</span>] + dp[len - i]);
-<span <span class="kw">class</span>="kw">return</span> dp[N];</pre>
+<pre><span class="kw">int</span>[] dp = <span class="kw">new</span> <span class="kw">int</span>[N+<span class="num">1</span>];
+<span class="kw">for</span> (<span class="kw">int</span> len = <span class="num">1</span>; len &lt;= N; len++)
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= len; i++)
+        dp[len] = <span class="kw">Math</span>.max(dp[len], price[i-<span class="num">1</span>] + dp[len - i]);
+<span class="kw">return</span> dp[N];</pre>
 </div></div>
 </details>
   </section>
@@ -153,7 +153,7 @@
     <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// O(N)</span></pre>
+<pre><span class="cmt">// O(N)</span></pre>
 </div></div>
 </details>
   </section>

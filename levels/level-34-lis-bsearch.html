@@ -61,7 +61,7 @@
     <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// brute: classic O(n²)</span></pre>
+<pre><span class="cmt">// brute: classic O(n²)</span></pre>
 </div></div>
 </details>
   </section>
@@ -96,7 +96,7 @@
     <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// not applicable — iterative</span></pre>
+<pre><span class="cmt">// not applicable — iterative</span></pre>
 </div></div>
 </details>
   </section>
@@ -120,19 +120,19 @@
     <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span>[] tails = <span <span class="kw">class</span>="kw">new</span> <span <span class="kw">class</span>="kw">int</span>[n];
-<span <span class="kw">class</span>="kw">int</span> len = <span <span class="kw">class</span>="num">0</span>;
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> x : nums) {
-    <span <span class="kw">class</span>="kw">int</span> lo = <span <span class="kw">class</span>="num">0</span>, hi = len;
-    <span <span class="kw">class</span>="kw">while</span> (lo &lt; hi) {
-        <span <span class="kw">class</span>="kw">int</span> mid = (lo + hi) &gt;&gt;&gt; <span <span class="kw">class</span>="num">1</span>;
-        <span <span class="kw">class</span>="kw">if</span> (tails[mid] &lt; x) lo = mid + <span <span class="kw">class</span>="num">1</span>;
-        <span <span class="kw">class</span>="kw">else</span> hi = mid;
+<pre><span class="kw">int</span>[] tails = <span class="kw">new</span> <span class="kw">int</span>[n];
+<span class="kw">int</span> len = <span class="num">0</span>;
+<span class="kw">for</span> (<span class="kw">int</span> x : nums) {
+    <span class="kw">int</span> lo = <span class="num">0</span>, hi = len;
+    <span class="kw">while</span> (lo &lt; hi) {
+        <span class="kw">int</span> mid = (lo + hi) &gt;&gt;&gt; <span class="num">1</span>;
+        <span class="kw">if</span> (tails[mid] &lt; x) lo = mid + <span class="num">1</span>;
+        <span class="kw">else</span> hi = mid;
     }
     tails[lo] = x;
-    <span <span class="kw">class</span>="kw">if</span> (lo == len) len++;
+    <span class="kw">if</span> (lo == len) len++;
 }
-<span <span class="kw">class</span>="kw">return</span> len;</pre>
+<span class="kw">return</span> len;</pre>
 </div></div>
 </details>
   </section>
@@ -155,7 +155,7 @@
     <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// O(n)</span></pre>
+<pre><span class="cmt">// O(n)</span></pre>
 </div></div>
 </details>
   </section>

@@ -61,7 +61,7 @@
     <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// recurse (day, holding)</span></pre>
+<pre><span class="cmt">// recurse (day, holding)</span></pre>
 </div></div>
 </details>
   </section>
@@ -96,7 +96,7 @@
     <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// cache (day, holding)</span></pre>
+<pre><span class="cmt">// cache (day, holding)</span></pre>
 </div></div>
 </details>
   </section>
@@ -120,13 +120,13 @@
     <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span> cash = <span <span class="kw">class</span>="num">0</span>, hold = -prices[<span <span class="kw">class</span>="num">0</span>];
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> i = <span <span class="kw">class</span>="num">1</span>; i &lt; n; i++) {
-    <span <span class="kw">class</span>="kw">int</span> newCash = <span class="kw">Math</span>.max(cash, hold + prices[i]);
-    <span <span class="kw">class</span>="kw">int</span> newHold = <span class="kw">Math</span>.max(hold, cash - prices[i]);
+<pre><span class="kw">int</span> cash = <span class="num">0</span>, hold = -prices[<span class="num">0</span>];
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i &lt; n; i++) {
+    <span class="kw">int</span> newCash = <span class="kw">Math</span>.max(cash, hold + prices[i]);
+    <span class="kw">int</span> newHold = <span class="kw">Math</span>.max(hold, cash - prices[i]);
     cash = newCash; hold = newHold;
 }
-<span <span class="kw">class</span>="kw">return</span> cash;</pre>
+<span class="kw">return</span> cash;</pre>
 </div></div>
 </details>
   </section>
@@ -149,7 +149,7 @@
     <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// <span <span class="kw">class</span>="num">2</span> ints</span></pre>
+<pre><span class="cmt">// 2 ints</span></pre>
 </div></div>
 </details>
   </section>

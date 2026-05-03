@@ -61,7 +61,7 @@
     <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// brute = enumerate subsequences</span></pre>
+<pre><span class="cmt">// brute = enumerate subsequences</span></pre>
 </div></div>
 </details>
   </section>
@@ -96,7 +96,7 @@
     <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// memo = LCS as in L2<span <span class="kw">class</span>="num">4</span></span></pre>
+<pre><span class="cmt">// memo = LCS as in L24</span></pre>
 </div></div>
 </details>
   </section>
@@ -120,14 +120,14 @@
     <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
-<pre>StringBuilder sb = <span <span class="kw">class</span>="kw">new</span> StringBuilder();
-<span <span class="kw">class</span>="kw">int</span> i = n, j = m;
-<span <span class="kw">class</span>="kw">while</span> (i &gt; <span <span class="kw">class</span>="num">0</span> &amp;&amp; j &gt; <span <span class="kw">class</span>="num">0</span>) {
-    <span <span class="kw">class</span>="kw">if</span> (a.charAt(i-<span <span class="kw">class</span>="num">1</span>) == b.charAt(j-<span <span class="kw">class</span>="num">1</span>)) { sb.append(a.charAt(i-<span <span class="kw">class</span>="num">1</span>)); i--; j--; }
-    <span <span class="kw">class</span>="kw">else</span> <span <span class="kw">class</span>="kw">if</span> (dp[i-<span <span class="kw">class</span>="num">1</span>][j] &gt;= dp[i][j-<span <span class="kw">class</span>="num">1</span>]) i--;
-    <span <span class="kw">class</span>="kw">else</span> j--;
+<pre>StringBuilder sb = <span class="kw">new</span> StringBuilder();
+<span class="kw">int</span> i = n, j = m;
+<span class="kw">while</span> (i &gt; <span class="num">0</span> &amp;&amp; j &gt; <span class="num">0</span>) {
+    <span class="kw">if</span> (a.charAt(i-<span class="num">1</span>) == b.charAt(j-<span class="num">1</span>)) { sb.append(a.charAt(i-<span class="num">1</span>)); i--; j--; }
+    <span class="kw">else</span> <span class="kw">if</span> (dp[i-<span class="num">1</span>][j] &gt;= dp[i][j-<span class="num">1</span>]) i--;
+    <span class="kw">else</span> j--;
 }
-<span <span class="kw">class</span>="kw">return</span> sb.reverse().toString();</pre>
+<span class="kw">return</span> sb.reverse().toString();</pre>
 </div></div>
 </details>
   </section>
@@ -150,7 +150,7 @@
     <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// printing requires the full table</span></pre>
+<pre><span class="cmt">// printing requires the full table</span></pre>
 </div></div>
 </details>
   </section>

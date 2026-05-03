@@ -61,15 +61,15 @@
     <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span> n = h.length, best = <span <span class="kw">class</span>="num">0</span>;
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> i = <span <span class="kw">class</span>="num">0</span>; i &lt; n; i++) {
-    <span <span class="kw">class</span>="kw">int</span> min = h[i];
-    <span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> j = i; j &lt; n; j++) {
+<pre><span class="kw">int</span> n = h.length, best = <span class="num">0</span>;
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; n; i++) {
+    <span class="kw">int</span> min = h[i];
+    <span class="kw">for</span> (<span class="kw">int</span> j = i; j &lt; n; j++) {
         min = <span class="kw">Math</span>.min(min, h[j]);
-        best = <span class="kw">Math</span>.max(best, min * (j - i + <span <span class="kw">class</span>="num">1</span>));
+        best = <span class="kw">Math</span>.max(best, min * (j - i + <span class="num">1</span>));
     }
 }
-<span <span class="kw">class</span>="kw">return</span> best;</pre>
+<span class="kw">return</span> best;</pre>
 </div></div>
 </details>
   </section>
@@ -104,7 +104,7 @@
     <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// stack approach is canonical</span></pre>
+<pre><span class="cmt">// stack approach is canonical</span></pre>
 </div></div>
 </details>
   </section>
@@ -128,7 +128,7 @@
     <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// nested-loop O(n²) above is the tabular baseline</span></pre>
+<pre><span class="cmt">// nested-loop O(n²) above is the tabular baseline</span></pre>
 </div></div>
 </details>
   </section>
@@ -151,18 +151,18 @@
     <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
-<pre><span class="kw">Deque</span>&lt;<span class="kw">Integer</span>&gt; st = <span <span class="kw">class</span>="kw">new</span> <span class="kw">ArrayDeque</span>&lt;&gt;();
-<span <span class="kw">class</span>="kw">int</span> best = <span <span class="kw">class</span>="num">0</span>;
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> i = <span <span class="kw">class</span>="num">0</span>; i &lt;= h.length; i++) {
-    <span <span class="kw">class</span>="kw">int</span> curr = (i == h.length) ? <span <span class="kw">class</span>="num">0</span> : h[i];
-    <span <span class="kw">class</span>="kw">while</span> (!st.isEmpty() &amp;&amp; curr &lt; h[st.peek()]) {
-        <span <span class="kw">class</span>="kw">int</span> top = st.pop();
-        <span <span class="kw">class</span>="kw">int</span> width = st.isEmpty() ? i : i - st.peek() - <span <span class="kw">class</span>="num">1</span>;
+<pre><span class="kw">Deque</span>&lt;<span class="kw">Integer</span>&gt; st = <span class="kw">new</span> <span class="kw">ArrayDeque</span>&lt;&gt;();
+<span class="kw">int</span> best = <span class="num">0</span>;
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt;= h.length; i++) {
+    <span class="kw">int</span> curr = (i == h.length) ? <span class="num">0</span> : h[i];
+    <span class="kw">while</span> (!st.isEmpty() &amp;&amp; curr &lt; h[st.peek()]) {
+        <span class="kw">int</span> top = st.pop();
+        <span class="kw">int</span> width = st.isEmpty() ? i : i - st.peek() - <span class="num">1</span>;
         best = <span class="kw">Math</span>.max(best, h[top] * width);
     }
     st.push(i);
 }
-<span <span class="kw">class</span>="kw">return</span> best;</pre>
+<span class="kw">return</span> best;</pre>
 </div></div>
 </details>
   </section>

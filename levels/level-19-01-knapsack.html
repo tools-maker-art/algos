@@ -61,11 +61,11 @@
     <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span> best(<span <span class="kw">class</span>="kw">int</span> i, <span <span class="kw">class</span>="kw">int</span> w, <span <span class="kw">class</span>="kw">int</span>[] wt, <span <span class="kw">class</span>="kw">int</span>[] val) {
-    <span <span class="kw">class</span>="kw">if</span> (i &lt; <span <span class="kw">class</span>="num">0</span> || w == <span <span class="kw">class</span>="num">0</span>) <span <span class="kw">class</span>="kw">return</span> <span <span class="kw">class</span>="num">0</span>;
-    <span <span class="kw">class</span>="kw">int</span> skip = best(i-<span <span class="kw">class</span>="num">1</span>, w, wt, val);
-    <span <span class="kw">class</span>="kw">int</span> pick = (w &gt;= wt[i]) ? val[i] + best(i-<span <span class="kw">class</span>="num">1</span>, w - wt[i], wt, val) : <span <span class="kw">class</span>="num">0</span>;
-    <span <span class="kw">class</span>="kw">return</span> <span class="kw">Math</span>.max(skip, pick);
+<pre><span class="kw">int</span> best(<span class="kw">int</span> i, <span class="kw">int</span> w, <span class="kw">int</span>[] wt, <span class="kw">int</span>[] val) {
+    <span class="kw">if</span> (i &lt; <span class="num">0</span> || w == <span class="num">0</span>) <span class="kw">return</span> <span class="num">0</span>;
+    <span class="kw">int</span> skip = best(i-<span class="num">1</span>, w, wt, val);
+    <span class="kw">int</span> pick = (w &gt;= wt[i]) ? val[i] + best(i-<span class="num">1</span>, w - wt[i], wt, val) : <span class="num">0</span>;
+    <span class="kw">return</span> <span class="kw">Math</span>.max(skip, pick);
 }</pre>
 </div></div>
 </details>
@@ -102,12 +102,12 @@
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
 <pre><span class="kw">Integer</span>[][] memo;
-<span <span class="kw">class</span>="kw">int</span> best(<span <span class="kw">class</span>="kw">int</span> i, <span <span class="kw">class</span>="kw">int</span> w, <span <span class="kw">class</span>="kw">int</span>[] wt, <span <span class="kw">class</span>="kw">int</span>[] val) {
-    <span <span class="kw">class</span>="kw">if</span> (i &lt; <span <span class="kw">class</span>="num">0</span> || w == <span <span class="kw">class</span>="num">0</span>) <span <span class="kw">class</span>="kw">return</span> <span <span class="kw">class</span>="num">0</span>;
-    <span <span class="kw">class</span>="kw">if</span> (memo[i][w] != <span class="kw">null</span>) <span <span class="kw">class</span>="kw">return</span> memo[i][w];
-    <span <span class="kw">class</span>="kw">int</span> skip = best(i-<span <span class="kw">class</span>="num">1</span>, w, wt, val);
-    <span <span class="kw">class</span>="kw">int</span> pick = (w &gt;= wt[i]) ? val[i] + best(i-<span <span class="kw">class</span>="num">1</span>, w - wt[i], wt, val) : <span <span class="kw">class</span>="num">0</span>;
-    <span <span class="kw">class</span>="kw">return</span> memo[i][w] = <span class="kw">Math</span>.max(skip, pick);
+<span class="kw">int</span> best(<span class="kw">int</span> i, <span class="kw">int</span> w, <span class="kw">int</span>[] wt, <span class="kw">int</span>[] val) {
+    <span class="kw">if</span> (i &lt; <span class="num">0</span> || w == <span class="num">0</span>) <span class="kw">return</span> <span class="num">0</span>;
+    <span class="kw">if</span> (memo[i][w] != <span class="kw">null</span>) <span class="kw">return</span> memo[i][w];
+    <span class="kw">int</span> skip = best(i-<span class="num">1</span>, w, wt, val);
+    <span class="kw">int</span> pick = (w &gt;= wt[i]) ? val[i] + best(i-<span class="num">1</span>, w - wt[i], wt, val) : <span class="num">0</span>;
+    <span class="kw">return</span> memo[i][w] = <span class="kw">Math</span>.max(skip, pick);
 }</pre>
 </div></div>
 </details>
@@ -132,14 +132,14 @@
     <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span>[][] dp = <span <span class="kw">class</span>="kw">new</span> <span <span class="kw">class</span>="kw">int</span>[n+<span <span class="kw">class</span>="num">1</span>][W+<span <span class="kw">class</span>="num">1</span>];
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> i = <span <span class="kw">class</span>="num">1</span>; i &lt;= n; i++)
-    <span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> w = <span <span class="kw">class</span>="num">0</span>; w &lt;= W; w++) {
-        dp[i][w] = dp[i-<span <span class="kw">class</span>="num">1</span>][w];
-        <span <span class="kw">class</span>="kw">if</span> (w &gt;= wt[i-<span <span class="kw">class</span>="num">1</span>])
-            dp[i][w] = <span class="kw">Math</span>.max(dp[i][w], val[i-<span <span class="kw">class</span>="num">1</span>] + dp[i-<span <span class="kw">class</span>="num">1</span>][w - wt[i-<span <span class="kw">class</span>="num">1</span>]]);
+<pre><span class="kw">int</span>[][] dp = <span class="kw">new</span> <span class="kw">int</span>[n+<span class="num">1</span>][W+<span class="num">1</span>];
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= n; i++)
+    <span class="kw">for</span> (<span class="kw">int</span> w = <span class="num">0</span>; w &lt;= W; w++) {
+        dp[i][w] = dp[i-<span class="num">1</span>][w];
+        <span class="kw">if</span> (w &gt;= wt[i-<span class="num">1</span>])
+            dp[i][w] = <span class="kw">Math</span>.max(dp[i][w], val[i-<span class="num">1</span>] + dp[i-<span class="num">1</span>][w - wt[i-<span class="num">1</span>]]);
     }
-<span <span class="kw">class</span>="kw">return</span> dp[n][W];</pre>
+<span class="kw">return</span> dp[n][W];</pre>
 </div></div>
 </details>
   </section>
@@ -162,11 +162,11 @@
     <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span>[] dp = <span <span class="kw">class</span>="kw">new</span> <span <span class="kw">class</span>="kw">int</span>[W+<span <span class="kw">class</span>="num">1</span>];
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> i = <span <span class="kw">class</span>="num">0</span>; i &lt; n; i++)
-    <span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> w = W; w &gt;= wt[i]; w--)
+<pre><span class="kw">int</span>[] dp = <span class="kw">new</span> <span class="kw">int</span>[W+<span class="num">1</span>];
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; n; i++)
+    <span class="kw">for</span> (<span class="kw">int</span> w = W; w &gt;= wt[i]; w--)
         dp[w] = <span class="kw">Math</span>.max(dp[w], val[i] + dp[w - wt[i]]);
-<span <span class="kw">class</span>="kw">return</span> dp[W];</pre>
+<span class="kw">return</span> dp[W];</pre>
 </div></div>
 </details>
   </section>

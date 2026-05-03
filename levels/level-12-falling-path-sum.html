@@ -61,11 +61,11 @@
     <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span> fall(<span <span class="kw">class</span>="kw">int</span> i, <span <span class="kw">class</span>="kw">int</span> j, <span <span class="kw">class</span>="kw">int</span>[][] g) {
-    <span <span class="kw">class</span>="kw">if</span> (j &lt; <span <span class="kw">class</span>="num">0</span> || j &gt;= g[<span <span class="kw">class</span>="num">0</span>].length) <span <span class="kw">class</span>="kw">return</span> <span class="kw">Integer</span>.MAX_VALUE;
-    <span <span class="kw">class</span>="kw">if</span> (i == <span <span class="kw">class</span>="num">0</span>) <span <span class="kw">class</span>="kw">return</span> g[<span <span class="kw">class</span>="num">0</span>][j];
-    <span <span class="kw">class</span>="kw">return</span> g[i][j] + <span class="kw">Math</span>.min(fall(i-<span <span class="kw">class</span>="num">1</span>,j-<span <span class="kw">class</span>="num">1</span>,g),
-                <span class="kw">Math</span>.min(fall(i-<span <span class="kw">class</span>="num">1</span>,j,g), fall(i-<span <span class="kw">class</span>="num">1</span>,j+<span <span class="kw">class</span>="num">1</span>,g)));
+<pre><span class="kw">int</span> fall(<span class="kw">int</span> i, <span class="kw">int</span> j, <span class="kw">int</span>[][] g) {
+    <span class="kw">if</span> (j &lt; <span class="num">0</span> || j &gt;= g[<span class="num">0</span>].length) <span class="kw">return</span> <span class="kw">Integer</span>.MAX_VALUE;
+    <span class="kw">if</span> (i == <span class="num">0</span>) <span class="kw">return</span> g[<span class="num">0</span>][j];
+    <span class="kw">return</span> g[i][j] + <span class="kw">Math</span>.min(fall(i-<span class="num">1</span>,j-<span class="num">1</span>,g),
+                <span class="kw">Math</span>.min(fall(i-<span class="num">1</span>,j,g), fall(i-<span class="num">1</span>,j+<span class="num">1</span>,g)));
 }</pre>
 </div></div>
 </details>
@@ -102,12 +102,12 @@
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
 <pre><span class="kw">Integer</span>[][] memo;
-<span <span class="kw">class</span>="kw">int</span> fall(<span <span class="kw">class</span>="kw">int</span> i, <span <span class="kw">class</span>="kw">int</span> j, <span <span class="kw">class</span>="kw">int</span>[][] g) {
-    <span <span class="kw">class</span>="kw">if</span> (j &lt; <span <span class="kw">class</span>="num">0</span> || j &gt;= g[<span <span class="kw">class</span>="num">0</span>].length) <span <span class="kw">class</span>="kw">return</span> <span class="kw">Integer</span>.MAX_VALUE;
-    <span <span class="kw">class</span>="kw">if</span> (i == <span <span class="kw">class</span>="num">0</span>) <span <span class="kw">class</span>="kw">return</span> g[<span <span class="kw">class</span>="num">0</span>][j];
-    <span <span class="kw">class</span>="kw">if</span> (memo[i][j] != <span class="kw">null</span>) <span <span class="kw">class</span>="kw">return</span> memo[i][j];
-    <span <span class="kw">class</span>="kw">return</span> memo[i][j] = g[i][j] + <span class="kw">Math</span>.min(fall(i-<span <span class="kw">class</span>="num">1</span>,j-<span <span class="kw">class</span>="num">1</span>,g),
-        <span class="kw">Math</span>.min(fall(i-<span <span class="kw">class</span>="num">1</span>,j,g), fall(i-<span <span class="kw">class</span>="num">1</span>,j+<span <span class="kw">class</span>="num">1</span>,g)));
+<span class="kw">int</span> fall(<span class="kw">int</span> i, <span class="kw">int</span> j, <span class="kw">int</span>[][] g) {
+    <span class="kw">if</span> (j &lt; <span class="num">0</span> || j &gt;= g[<span class="num">0</span>].length) <span class="kw">return</span> <span class="kw">Integer</span>.MAX_VALUE;
+    <span class="kw">if</span> (i == <span class="num">0</span>) <span class="kw">return</span> g[<span class="num">0</span>][j];
+    <span class="kw">if</span> (memo[i][j] != <span class="kw">null</span>) <span class="kw">return</span> memo[i][j];
+    <span class="kw">return</span> memo[i][j] = g[i][j] + <span class="kw">Math</span>.min(fall(i-<span class="num">1</span>,j-<span class="num">1</span>,g),
+        <span class="kw">Math</span>.min(fall(i-<span class="num">1</span>,j,g), fall(i-<span class="num">1</span>,j+<span class="num">1</span>,g)));
 }</pre>
 </div></div>
 </details>
@@ -132,18 +132,18 @@
     <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
-<pre><span <span class="kw">class</span>="kw">int</span>[][] dp = <span <span class="kw">class</span>="kw">new</span> <span <span class="kw">class</span>="kw">int</span>[m][n];
-dp[<span <span class="kw">class</span>="num">0</span>] = g[<span <span class="kw">class</span>="num">0</span>].clone();
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> i = <span <span class="kw">class</span>="num">1</span>; i &lt; m; i++)
-    <span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> j = <span <span class="kw">class</span>="num">0</span>; j &lt; n; j++) {
-        <span <span class="kw">class</span>="kw">int</span> a = dp[i-<span <span class="kw">class</span>="num">1</span>][j];
-        <span <span class="kw">class</span>="kw">int</span> b = (j &gt; <span <span class="kw">class</span>="num">0</span>) ? dp[i-<span <span class="kw">class</span>="num">1</span>][j-<span <span class="kw">class</span>="num">1</span>] : <span class="kw">Integer</span>.MAX_VALUE;
-        <span <span class="kw">class</span>="kw">int</span> c = (j &lt; n-<span <span class="kw">class</span>="num">1</span>) ? dp[i-<span <span class="kw">class</span>="num">1</span>][j+<span <span class="kw">class</span>="num">1</span>] : <span class="kw">Integer</span>.MAX_VALUE;
+<pre><span class="kw">int</span>[][] dp = <span class="kw">new</span> <span class="kw">int</span>[m][n];
+dp[<span class="num">0</span>] = g[<span class="num">0</span>].clone();
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i &lt; m; i++)
+    <span class="kw">for</span> (<span class="kw">int</span> j = <span class="num">0</span>; j &lt; n; j++) {
+        <span class="kw">int</span> a = dp[i-<span class="num">1</span>][j];
+        <span class="kw">int</span> b = (j &gt; <span class="num">0</span>) ? dp[i-<span class="num">1</span>][j-<span class="num">1</span>] : <span class="kw">Integer</span>.MAX_VALUE;
+        <span class="kw">int</span> c = (j &lt; n-<span class="num">1</span>) ? dp[i-<span class="num">1</span>][j+<span class="num">1</span>] : <span class="kw">Integer</span>.MAX_VALUE;
         dp[i][j] = g[i][j] + <span class="kw">Math</span>.min(a, <span class="kw">Math</span>.min(b, c));
     }
-<span <span class="kw">class</span>="kw">int</span> best = <span class="kw">Integer</span>.MAX_VALUE;
-<span <span class="kw">class</span>="kw">for</span> (<span <span class="kw">class</span>="kw">int</span> v : dp[m-<span <span class="kw">class</span>="num">1</span>]) best = <span class="kw">Math</span>.min(best, v);
-<span <span class="kw">class</span>="kw">return</span> best;</pre>
+<span class="kw">int</span> best = <span class="kw">Integer</span>.MAX_VALUE;
+<span class="kw">for</span> (<span class="kw">int</span> v : dp[m-<span class="num">1</span>]) best = <span class="kw">Math</span>.min(best, v);
+<span class="kw">return</span> best;</pre>
 </div></div>
 </details>
   </section>
@@ -166,7 +166,7 @@ dp[<span <span class="kw">class</span>="num">0</span>] = g[<span <span class="kw
     <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
-<pre><span <span class="kw">class</span>="cmt">// keep one row at a time — see tab pattern</span></pre>
+<pre><span class="cmt">// keep one row at a time — see tab pattern</span></pre>
 </div></div>
 </details>
   </section>
