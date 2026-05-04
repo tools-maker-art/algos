@@ -265,6 +265,35 @@ footer.site{text-align:center;padding:30px 14px;color:var(--muted);font-size:13p
 .stick-piece{min-width:48px;min-height:46px;border-radius:8px;background:linear-gradient(180deg,#fff,#ffe9c4)}
 .code-block pre .str{color:#a15c00;font-weight:800}
 
+/* Rich story-game panel for every generated level */
+.journey-card{display:grid;gap:12px}
+.journey-head{background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:14px;box-shadow:0 8px 18px rgba(80,50,180,.06)}
+.journey-head h3{margin:6px 0 6px;font-size:22px;line-height:1.15}
+.journey-head p{margin:0 0 12px;color:var(--ink-soft);font-size:15px}
+.journey-stage{position:relative;min-height:220px;display:flex;align-items:flex-end;justify-content:center;overflow:hidden;border-radius:16px;border:1.5px solid var(--line);background:linear-gradient(180deg,#fff 0%,#fbf6ff 62%,#efe5ff 62%,#efe5ff 100%);padding:18px}
+.journey-stage::before{content:"START";position:absolute;left:16px;bottom:20px;padding:6px 10px;border-radius:10px;background:#e7d6b3;color:#5a3a08;font-weight:900;font-size:11px;letter-spacing:.6px}
+.journey-track{position:relative;z-index:2;align-items:flex-end;margin-left:54px}
+.journey-hero{z-index:4;left:22px;bottom:42px;transition:left .42s cubic-bezier(.2,1.7,.45,1),top .42s cubic-bezier(.2,1.7,.45,1),transform .25s ease}
+.journey-hero::before{content:"";left:8px}
+.journey-hero::after{content:"";right:8px}
+.journey-hero.demo{transform:translateY(-8px)}
+.step-card{display:flex;align-items:flex-end;justify-content:center;color:#fff;text-shadow:0 1px 0 rgba(0,0,0,.18)}
+.step-card::before{content:"";position:absolute}
+.ways-panel{border:1px dashed var(--primary-soft);border-radius:14px;background:#fbfaff;padding:0 14px}
+.ways-panel > summary{list-style:none;cursor:pointer;padding:11px 0;font-weight:900;color:var(--primary);font-size:14.5px}
+.ways-panel > summary::-webkit-details-marker{display:none}
+.ways-panel > summary::before{content:"+";display:inline-grid;place-items:center;width:22px;height:22px;margin-right:6px;border-radius:50%;background:var(--primary);color:#fff;font-weight:900}
+.ways-panel[open] > summary::before{content:"-"}
+.ways-panel p{margin:2px 0 10px;color:var(--ink-soft);font-size:14px}
+.ways-list{max-height:260px;overflow:auto;background:#fff;border:1px dashed var(--line);border-radius:12px;padding:10px 12px;margin-bottom:12px}
+.way-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:6px 0;border-bottom:1px dashed #efeafd}
+.way-row:last-child{border-bottom:0}
+.way-idx{min-width:28px;color:var(--muted);font-weight:900;font-size:13px}
+.way-chip{display:inline-flex;align-items:center;min-height:25px;padding:3px 9px;border-radius:8px;background:var(--primary-soft);color:var(--primary);font-family:var(--mono);font-size:12px;font-weight:900}
+.way-chip.alt{background:var(--accent-soft);color:var(--accent)}
+.journey-grid{z-index:2;margin-left:54px}
+.journey-grid .game-cell{min-height:58px}
+
 @media (max-width:600px){
   body{font-size:17px}
   .topbar{padding:12px 14px}
@@ -275,6 +304,9 @@ footer.site{text-align:center;padding:30px 14px;color:var(--muted);font-size:13p
   .space-box{width:78px;height:78px;font-size:22px}
   .game-card{grid-template-columns:1fr}
   .game-playfield{min-height:220px}
+  .journey-stage{min-height:230px;padding:12px;overflow:auto;justify-content:flex-start}
+  .journey-track,.journey-grid{margin-left:48px}
+  .way-chip{font-size:11px;padding:3px 7px}
 }
 
 /* ===== Ground tile + bunny start ===== */
