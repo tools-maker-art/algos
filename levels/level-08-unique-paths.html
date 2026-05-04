@@ -55,16 +55,16 @@
       <div class="metric"><div class="lbl">Repeats</div><div class="val bad" id="tree-dups">0</div></div>
     </div>
 <details class="explainer">
-  <summary>👀 see the Java code (step 1: brute force)</summary>
+  <summary>👀 see the pseudocode (step 1: brute force)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; brute force idea</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
-<pre><span class="kw">int</span> paths(<span class="kw">int</span> i, <span class="kw">int</span> j) {
-    <span class="kw">if</span> (i == <span class="num">0</span> || j == <span class="num">0</span>) <span class="kw">return</span> <span class="num">1</span>;
-    <span class="kw">return</span> paths(i-<span class="num">1</span>, j) + paths(i, j-<span class="num">1</span>);
-}</pre>
+<pre>paths(i, j):
+    <span class="kw">if</span> (i == <span class="num">0</span> or j == <span class="num">0</span>) <span class="kw">return</span> <span class="num">1</span>
+    <span class="kw">return</span> paths(i-<span class="num">1</span>, j) + paths(i, j-<span class="num">1</span>)
+</pre>
 </div></div>
 </details>
   </section>
@@ -93,18 +93,18 @@
       </div>
     </div>
 <details class="explainer">
-  <summary>👀 see the Java code (step 2: + memory)</summary>
+  <summary>👀 see the pseudocode (step 2: + memory)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; ask memory first</span>
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
-<pre><span class="kw">int</span>[][] memo;
-<span class="kw">int</span> paths(<span class="kw">int</span> i, <span class="kw">int</span> j) {
-    <span class="kw">if</span> (i == <span class="num">0</span> || j == <span class="num">0</span>) <span class="kw">return</span> <span class="num">1</span>;
-    <span class="kw">if</span> (memo[i][j] != <span class="num">0</span>) <span class="kw">return</span> memo[i][j];
-    <span class="kw">return</span> memo[i][j] = paths(i-<span class="num">1</span>, j) + paths(i, j-<span class="num">1</span>);
-}</pre>
+<pre>memo
+paths(i, j):
+    <span class="kw">if</span> (i == <span class="num">0</span> or j == <span class="num">0</span>) <span class="kw">return</span> <span class="num">1</span>
+    <span class="kw">if</span> (memo[i][j] != <span class="num">0</span>) <span class="kw">return</span> memo[i][j]
+    <span class="kw">return</span> memo[i][j] = paths(i-<span class="num">1</span>, j) + paths(i, j-<span class="num">1</span>)
+</pre>
 </div></div>
 </details>
   </section>
@@ -122,19 +122,21 @@
     </div>
     <p class="muted center" style="margin-top:8px;font-size:13px">step <span id="tab-step-lbl">0 / 0</span></p>
 <details class="explainer">
-  <summary>👀 see the Java code (step 3: tabulation)</summary>
+  <summary>👀 see the pseudocode (step 3: tabulation)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; fill the scoreboard</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
-<pre><span class="kw">int</span>[][] dp = <span class="kw">new</span> <span class="kw">int</span>[m][n];
-<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; m; i++) dp[i][<span class="num">0</span>] = <span class="num">1</span>;
-<span class="kw">for</span> (<span class="kw">int</span> j = <span class="num">0</span>; j &lt; n; j++) dp[<span class="num">0</span>][j] = <span class="num">1</span>;
-<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i &lt; m; i++)
-    <span class="kw">for</span> (<span class="kw">int</span> j = <span class="num">1</span>; j &lt; n; j++)
-        dp[i][j] = dp[i-<span class="num">1</span>][j] + dp[i][j-<span class="num">1</span>];
-<span class="kw">return</span> dp[m-<span class="num">1</span>][n-<span class="num">1</span>];</pre>
+<pre>dp = <span class="kw">new</span> boxes
+<span class="kw">for</span> i from <span class="num">0</span> to before m:
+    dp[i][<span class="num">0</span>] = <span class="num">1</span>
+<span class="kw">for</span> j from <span class="num">0</span> to before n:
+    dp[<span class="num">0</span>][j] = <span class="num">1</span>
+<span class="kw">for</span> i from <span class="num">1</span> to before m:
+<span class="kw">for</span> j from <span class="num">1</span> to before n:
+dp[i][j] = dp[i-<span class="num">1</span>][j] + dp[i][j-<span class="num">1</span>]
+<span class="kw">return</span> dp[m-<span class="num">1</span>][n-<span class="num">1</span>]</pre>
 </div></div>
 </details>
   </section>
@@ -151,18 +153,18 @@
       <button class="btn ghost" data-space="reset">↺</button>
     </div>
 <details class="explainer">
-  <summary>👀 see the Java code (step 4: space saver)</summary>
+  <summary>👀 see the pseudocode (step 4: space saver)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; carry less memory</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
-<pre><span class="kw">int</span>[] dp = <span class="kw">new</span> <span class="kw">int</span>[n];
-<span class="kw">Arrays</span>.fill(dp, <span class="num">1</span>);
-<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i &lt; m; i++)
-    <span class="kw">for</span> (<span class="kw">int</span> j = <span class="num">1</span>; j &lt; n; j++)
-        dp[j] += dp[j-<span class="num">1</span>];
-<span class="kw">return</span> dp[n-<span class="num">1</span>];</pre>
+<pre>dp = <span class="kw">new</span> boxes
+<span class="kw">Arrays</span>.fill(dp, <span class="num">1</span>)
+<span class="kw">for</span> i from <span class="num">1</span> to before m:
+<span class="kw">for</span> j from <span class="num">1</span> to before n:
+dp[j] += dp[j-<span class="num">1</span>]
+<span class="kw">return</span> dp[n-<span class="num">1</span>]</pre>
 </div></div>
 </details>
   </section>

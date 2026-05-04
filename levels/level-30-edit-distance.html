@@ -55,19 +55,19 @@
       <div class="metric"><div class="lbl">Repeats</div><div class="val bad" id="tree-dups">0</div></div>
     </div>
 <details class="explainer">
-  <summary>👀 see the Java code (step 1: brute force)</summary>
+  <summary>👀 see the pseudocode (step 1: brute force)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; brute force idea</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
-<pre><span class="kw">int</span> dp(<span class="kw">int</span> i, <span class="kw">int</span> j, <span class="kw">String</span> a, <span class="kw">String</span> b) {
-    <span class="kw">if</span> (i == <span class="num">0</span>) <span class="kw">return</span> j;
-    <span class="kw">if</span> (j == <span class="num">0</span>) <span class="kw">return</span> i;
-    <span class="kw">if</span> (a.charAt(i-<span class="num">1</span>) == b.charAt(j-<span class="num">1</span>)) <span class="kw">return</span> dp(i-<span class="num">1</span>, j-<span class="num">1</span>, a, b);
-    <span class="kw">return</span> <span class="num">1</span> + <span class="kw">Math</span>.min(dp(i-<span class="num">1</span>, j, a, b),
-              <span class="kw">Math</span>.min(dp(i, j-<span class="num">1</span>, a, b), dp(i-<span class="num">1</span>, j-<span class="num">1</span>, a, b)));
-}</pre>
+<pre>dp(i, j, a, b):
+    <span class="kw">if</span> (i == <span class="num">0</span>) <span class="kw">return</span> j
+    <span class="kw">if</span> (j == <span class="num">0</span>) <span class="kw">return</span> i
+    <span class="kw">if</span> a.charAt(i-<span class="num">1</span>) == b.charAt(j-<span class="num">1</span>)) <span class="kw">return</span> dp(i-<span class="num">1</span>, j-<span class="num">1</span>, a, b:
+    <span class="kw">return</span> <span class="num">1</span> + min(dp(i-<span class="num">1</span>, j, a, b),
+    min(dp(i, j-<span class="num">1</span>, a, b), dp(i-<span class="num">1</span>, j-<span class="num">1</span>, a, b)))
+</pre>
 </div></div>
 </details>
   </section>
@@ -96,22 +96,22 @@
       </div>
     </div>
 <details class="explainer">
-  <summary>👀 see the Java code (step 2: + memory)</summary>
+  <summary>👀 see the pseudocode (step 2: + memory)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; ask memory first</span>
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
-<pre><span class="kw">Integer</span>[][] memo;
-<span class="kw">int</span> dp(<span class="kw">int</span> i, <span class="kw">int</span> j, <span class="kw">String</span> a, <span class="kw">String</span> b) {
-    <span class="kw">if</span> (i == <span class="num">0</span>) <span class="kw">return</span> j;
-    <span class="kw">if</span> (j == <span class="num">0</span>) <span class="kw">return</span> i;
-    <span class="kw">if</span> (memo[i][j] != <span class="kw">null</span>) <span class="kw">return</span> memo[i][j];
-    <span class="kw">if</span> (a.charAt(i-<span class="num">1</span>) == b.charAt(j-<span class="num">1</span>))
-        <span class="kw">return</span> memo[i][j] = dp(i-<span class="num">1</span>, j-<span class="num">1</span>, a, b);
-    <span class="kw">return</span> memo[i][j] = <span class="num">1</span> + <span class="kw">Math</span>.min(dp(i-<span class="num">1</span>, j, a, b),
-        <span class="kw">Math</span>.min(dp(i, j-<span class="num">1</span>, a, b), dp(i-<span class="num">1</span>, j-<span class="num">1</span>, a, b)));
-}</pre>
+<pre>memo
+dp(i, j, a, b):
+    <span class="kw">if</span> (i == <span class="num">0</span>) <span class="kw">return</span> j
+    <span class="kw">if</span> (j == <span class="num">0</span>) <span class="kw">return</span> i
+    <span class="kw">if</span> (memo[i][j] != empty) <span class="kw">return</span> memo[i][j]
+    <span class="kw">if</span> a.charAt(i-<span class="num">1</span>) == b.charAt(j-<span class="num">1</span>):
+    <span class="kw">return</span> memo[i][j] = dp(i-<span class="num">1</span>, j-<span class="num">1</span>, a, b)
+    <span class="kw">return</span> memo[i][j] = <span class="num">1</span> + min(dp(i-<span class="num">1</span>, j, a, b),
+    min(dp(i, j-<span class="num">1</span>, a, b), dp(i-<span class="num">1</span>, j-<span class="num">1</span>, a, b)))
+</pre>
 </div></div>
 </details>
   </section>
@@ -129,24 +129,27 @@
     </div>
     <p class="muted center" style="margin-top:8px;font-size:13px">step <span id="tab-step-lbl">0 / 0</span></p>
 <details class="explainer">
-  <summary>👀 see the Java code (step 3: tabulation)</summary>
+  <summary>👀 see the pseudocode (step 3: tabulation)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; fill the scoreboard</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
-<pre><span class="kw">int</span>[][] dp = <span class="kw">new</span> <span class="kw">int</span>[n+<span class="num">1</span>][m+<span class="num">1</span>];
-<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt;= n; i++) dp[i][<span class="num">0</span>] = i;
-<span class="kw">for</span> (<span class="kw">int</span> j = <span class="num">0</span>; j &lt;= m; j++) dp[<span class="num">0</span>][j] = j;
-<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= n; i++)
-    <span class="kw">for</span> (<span class="kw">int</span> j = <span class="num">1</span>; j &lt;= m; j++) {
-        <span class="kw">if</span> (a.charAt(i-<span class="num">1</span>) == b.charAt(j-<span class="num">1</span>))
-            dp[i][j] = dp[i-<span class="num">1</span>][j-<span class="num">1</span>];
-        <span class="kw">else</span>
-            dp[i][j] = <span class="num">1</span> + <span class="kw">Math</span>.min(dp[i-<span class="num">1</span>][j],
-                <span class="kw">Math</span>.min(dp[i][j-<span class="num">1</span>], dp[i-<span class="num">1</span>][j-<span class="num">1</span>]));
-    }
-<span class="kw">return</span> dp[n][m];</pre>
+<pre>dp = <span class="kw">new</span> boxes
+<span class="kw">for</span> i from <span class="num">0</span> to n:
+    dp[i][<span class="num">0</span>] = i
+<span class="kw">for</span> j from <span class="num">0</span> to m:
+    dp[<span class="num">0</span>][j] = j
+<span class="kw">for</span> i from <span class="num">1</span> to n:
+<span class="kw">for</span> j from <span class="num">1</span> to m:
+
+<span class="kw">if</span> a.charAt(i-<span class="num">1</span>) == b.charAt(j-<span class="num">1</span>):
+dp[i][j] = dp[i-<span class="num">1</span>][j-<span class="num">1</span>]
+otherwise:
+dp[i][j] = <span class="num">1</span> + min(dp[i-<span class="num">1</span>][j],
+min(dp[i][j-<span class="num">1</span>], dp[i-<span class="num">1</span>][j-<span class="num">1</span>]))
+
+<span class="kw">return</span> dp[n][m]</pre>
 </div></div>
 </details>
   </section>
@@ -163,23 +166,26 @@
       <button class="btn ghost" data-space="reset">↺</button>
     </div>
 <details class="explainer">
-  <summary>👀 see the Java code (step 4: space saver)</summary>
+  <summary>👀 see the pseudocode (step 4: space saver)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; carry less memory</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
-<pre><span class="kw">int</span>[] prev = <span class="kw">new</span> <span class="kw">int</span>[m+<span class="num">1</span>], curr = <span class="kw">new</span> <span class="kw">int</span>[m+<span class="num">1</span>];
-<span class="kw">for</span> (<span class="kw">int</span> j = <span class="num">0</span>; j &lt;= m; j++) prev[j] = j;
-<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= n; i++) {
-    curr[<span class="num">0</span>] = i;
-    <span class="kw">for</span> (<span class="kw">int</span> j = <span class="num">1</span>; j &lt;= m; j++) {
-        <span class="kw">if</span> (a.charAt(i-<span class="num">1</span>) == b.charAt(j-<span class="num">1</span>)) curr[j] = prev[j-<span class="num">1</span>];
-        <span class="kw">else</span> curr[j] = <span class="num">1</span> + <span class="kw">Math</span>.min(prev[j], <span class="kw">Math</span>.min(curr[j-<span class="num">1</span>], prev[j-<span class="num">1</span>]));
-    }
-    <span class="kw">int</span>[] t = prev; prev = curr; curr = t;
-}
-<span class="kw">return</span> prev[m];</pre>
+<pre>prev = <span class="kw">new</span> boxes, curr = <span class="kw">new</span> boxes
+<span class="kw">for</span> j from <span class="num">0</span> to m:
+    prev[j] = j
+<span class="kw">for</span> i from <span class="num">1</span> to n:
+
+curr[<span class="num">0</span>] = i
+<span class="kw">for</span> j from <span class="num">1</span> to m:
+
+<span class="kw">if</span> (a.charAt(i-<span class="num">1</span>) == b.charAt(j-<span class="num">1</span>)) curr[j] = prev[j-<span class="num">1</span>]
+<span class="kw">else</span> curr[j] = <span class="num">1</span> + min(prev[j], min(curr[j-<span class="num">1</span>], prev[j-<span class="num">1</span>]))
+
+t = prev; prev = curr; curr = t
+
+<span class="kw">return</span> prev[m]</pre>
 </div></div>
 </details>
   </section>

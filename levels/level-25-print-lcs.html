@@ -55,10 +55,10 @@
       <div class="metric"><div class="lbl">Repeats</div><div class="val bad" id="tree-dups">0</div></div>
     </div>
 <details class="explainer">
-  <summary>👀 see the Java code (step 1: brute force)</summary>
+  <summary>👀 see the pseudocode (step 1: brute force)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; brute force idea</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
 <pre><span class="cmt">// brute = enumerate subsequences</span></pre>
@@ -90,10 +90,10 @@
       </div>
     </div>
 <details class="explainer">
-  <summary>👀 see the Java code (step 2: + memory)</summary>
+  <summary>👀 see the pseudocode (step 2: + memory)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; ask memory first</span>
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
 <pre><span class="cmt">// memo = LCS as in L24</span></pre>
@@ -114,20 +114,20 @@
     </div>
     <p class="muted center" style="margin-top:8px;font-size:13px">step <span id="tab-step-lbl">0 / 0</span></p>
 <details class="explainer">
-  <summary>👀 see the Java code (step 3: tabulation)</summary>
+  <summary>👀 see the pseudocode (step 3: tabulation)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; fill the scoreboard</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
-<pre>StringBuilder sb = <span class="kw">new</span> StringBuilder();
-<span class="kw">int</span> i = n, j = m;
-<span class="kw">while</span> (i &gt; <span class="num">0</span> &amp;&amp; j &gt; <span class="num">0</span>) {
-    <span class="kw">if</span> (a.charAt(i-<span class="num">1</span>) == b.charAt(j-<span class="num">1</span>)) { sb.append(a.charAt(i-<span class="num">1</span>)); i--; j--; }
-    <span class="kw">else</span> <span class="kw">if</span> (dp[i-<span class="num">1</span>][j] &gt;= dp[i][j-<span class="num">1</span>]) i--;
-    <span class="kw">else</span> j--;
-}
-<span class="kw">return</span> sb.reverse().toString();</pre>
+<pre>StringBuilder sb = <span class="kw">new</span> StringBuilder()
+i = n, j = m
+<span class="kw">while</span> (i &gt; <span class="num">0</span> and j &gt; <span class="num">0</span>)
+    <span class="kw">if</span> (a.charAt(i-<span class="num">1</span>) == b.charAt(j-<span class="num">1</span>))  sb.append(a.charAt(i-<span class="num">1</span>)); i--; j--;
+    <span class="kw">else</span> <span class="kw">if</span> (dp[i-<span class="num">1</span>][j] &gt;= dp[i][j-<span class="num">1</span>]) i--
+    <span class="kw">else</span> j--
+
+<span class="kw">return</span> sb.reverse().toString()</pre>
 </div></div>
 </details>
   </section>
@@ -144,10 +144,10 @@
       <button class="btn ghost" data-space="reset">↺</button>
     </div>
 <details class="explainer">
-  <summary>👀 see the Java code (step 4: space saver)</summary>
+  <summary>👀 see the pseudocode (step 4: space saver)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; carry less memory</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
 <pre><span class="cmt">// printing requires the full table</span></pre>

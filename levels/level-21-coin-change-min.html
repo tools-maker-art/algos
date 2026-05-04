@@ -55,22 +55,22 @@
       <div class="metric"><div class="lbl">Repeats</div><div class="val bad" id="tree-dups">0</div></div>
     </div>
 <details class="explainer">
-  <summary>👀 see the Java code (step 1: brute force)</summary>
+  <summary>👀 see the pseudocode (step 1: brute force)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; brute force idea</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
-<pre><span class="kw">int</span> min(<span class="kw">int</span> a, <span class="kw">int</span>[] coins) {
-    <span class="kw">if</span> (a == <span class="num">0</span>) <span class="kw">return</span> <span class="num">0</span>;
-    <span class="kw">if</span> (a &lt; <span class="num">0</span>)  <span class="kw">return</span> <span class="kw">Integer</span>.MAX_VALUE;
-    <span class="kw">int</span> best = <span class="kw">Integer</span>.MAX_VALUE;
-    <span class="kw">for</span> (<span class="kw">int</span> c : coins) {
-        <span class="kw">int</span> sub = min(a - c, coins);
-        <span class="kw">if</span> (sub != <span class="kw">Integer</span>.MAX_VALUE) best = <span class="kw">Math</span>.min(best, <span class="num">1</span> + sub);
-    }
-    <span class="kw">return</span> best;
-}</pre>
+<pre>min(a, coins):
+    <span class="kw">if</span> (a == <span class="num">0</span>) <span class="kw">return</span> <span class="num">0</span>
+    <span class="kw">if</span> (a &lt; <span class="num">0</span>)  <span class="kw">return</span> very_big_number
+    best = very_big_number
+    <span class="kw">for</span> each c in coins:
+        sub = min(a - c, coins)
+        <span class="kw">if</span> sub != very_big_number) best = min(best, <span class="num">1</span> + sub:
+
+    <span class="kw">return</span> best
+</pre>
 </div></div>
 </details>
   </section>
@@ -99,10 +99,10 @@
       </div>
     </div>
 <details class="explainer">
-  <summary>👀 see the Java code (step 2: + memory)</summary>
+  <summary>👀 see the pseudocode (step 2: + memory)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; ask memory first</span>
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
 <pre><span class="cmt">// memo by amount</span></pre>
@@ -123,19 +123,19 @@
     </div>
     <p class="muted center" style="margin-top:8px;font-size:13px">step <span id="tab-step-lbl">0 / 0</span></p>
 <details class="explainer">
-  <summary>👀 see the Java code (step 3: tabulation)</summary>
+  <summary>👀 see the pseudocode (step 3: tabulation)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; fill the scoreboard</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
-<pre><span class="kw">int</span>[] dp = <span class="kw">new</span> <span class="kw">int</span>[A+<span class="num">1</span>];
-<span class="kw">Arrays</span>.fill(dp, A + <span class="num">1</span>);
-dp[<span class="num">0</span>] = <span class="num">0</span>;
-<span class="kw">for</span> (<span class="kw">int</span> a = <span class="num">1</span>; a &lt;= A; a++)
-    <span class="kw">for</span> (<span class="kw">int</span> c : coins)
-        <span class="kw">if</span> (c &lt;= a) dp[a] = <span class="kw">Math</span>.min(dp[a], dp[a - c] + <span class="num">1</span>);
-<span class="kw">return</span> dp[A] &gt; A ? -<span class="num">1</span> : dp[A];</pre>
+<pre>dp = <span class="kw">new</span> boxes
+<span class="kw">Arrays</span>.fill(dp, A + <span class="num">1</span>)
+dp[<span class="num">0</span>] = <span class="num">0</span>
+<span class="kw">for</span> a from <span class="num">1</span> to A:
+<span class="kw">for</span> each c in coins:
+<span class="kw">if</span> c &lt;= a) dp[a] = min(dp[a], dp[a - c] + <span class="num">1</span>:
+<span class="kw">return</span> dp[A] &gt; A <span class="kw">if</span> -<span class="num">1</span> <span class="kw">else</span> dp[A]</pre>
 </div></div>
 </details>
   </section>
@@ -152,10 +152,10 @@ dp[<span class="num">0</span>] = <span class="num">0</span>;
       <button class="btn ghost" data-space="reset">↺</button>
     </div>
 <details class="explainer">
-  <summary>👀 see the Java code (step 4: space saver)</summary>
+  <summary>👀 see the pseudocode (step 4: space saver)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; carry less memory</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
 <pre><span class="cmt">// O(A)</span></pre>

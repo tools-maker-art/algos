@@ -55,21 +55,23 @@
       <div class="metric"><div class="lbl">Repeats</div><div class="val bad" id="tree-dups">0</div></div>
     </div>
 <details class="explainer">
-  <summary>👀 see the Java code (step 1: brute force)</summary>
+  <summary>👀 see the pseudocode (step 1: brute force)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; brute force idea</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
-<pre><span class="kw">int</span> n = h.length, best = <span class="num">0</span>;
-<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; n; i++) {
-    <span class="kw">int</span> min = h[i];
-    <span class="kw">for</span> (<span class="kw">int</span> j = i; j &lt; n; j++) {
-        min = <span class="kw">Math</span>.min(min, h[j]);
-        best = <span class="kw">Math</span>.max(best, min * (j - i + <span class="num">1</span>));
-    }
-}
-<span class="kw">return</span> best;</pre>
+<pre>n = h.length, best = <span class="num">0</span>
+<span class="kw">for</span> i from <span class="num">0</span> to before n:
+
+min = h[i]
+<span class="kw">for</span> j from i to before n:
+
+min = min(min, h[j])
+best = max(best, min * (j - i + <span class="num">1</span>))
+
+
+<span class="kw">return</span> best</pre>
 </div></div>
 </details>
   </section>
@@ -98,10 +100,10 @@
       </div>
     </div>
 <details class="explainer">
-  <summary>👀 see the Java code (step 2: + memory)</summary>
+  <summary>👀 see the pseudocode (step 2: + memory)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; ask memory first</span>
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
 <pre><span class="cmt">// stack approach is canonical</span></pre>
@@ -122,10 +124,10 @@
     </div>
     <p class="muted center" style="margin-top:8px;font-size:13px">step <span id="tab-step-lbl">0 / 0</span></p>
 <details class="explainer">
-  <summary>👀 see the Java code (step 3: tabulation)</summary>
+  <summary>👀 see the pseudocode (step 3: tabulation)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; fill the scoreboard</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
 <pre><span class="cmt">// nested-loop O(n²) above is the tabular baseline</span></pre>
@@ -145,24 +147,25 @@
       <button class="btn ghost" data-space="reset">↺</button>
     </div>
 <details class="explainer">
-  <summary>👀 see the Java code (step 4: space saver)</summary>
+  <summary>👀 see the pseudocode (step 4: space saver)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; carry less memory</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
-<pre><span class="kw">Deque</span>&lt;<span class="kw">Integer</span>&gt; st = <span class="kw">new</span> <span class="kw">ArrayDeque</span>&lt;&gt;();
-<span class="kw">int</span> best = <span class="num">0</span>;
-<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt;= h.length; i++) {
-    <span class="kw">int</span> curr = (i == h.length) ? <span class="num">0</span> : h[i];
-    <span class="kw">while</span> (!st.isEmpty() &amp;&amp; curr &lt; h[st.peek()]) {
-        <span class="kw">int</span> top = st.pop();
-        <span class="kw">int</span> width = st.isEmpty() ? i : i - st.peek() - <span class="num">1</span>;
-        best = <span class="kw">Math</span>.max(best, h[top] * width);
-    }
-    st.push(i);
-}
-<span class="kw">return</span> best;</pre>
+<pre><span class="kw">Deque</span>&lt;<span class="kw">Integer</span>&gt; st = copy of
+best = <span class="num">0</span>
+<span class="kw">for</span> i from <span class="num">0</span> to h.length:
+
+curr = (i == h.length) <span class="kw">if</span> <span class="num">0</span> <span class="kw">else</span> h[i]
+<span class="kw">while</span> (!st is empty and curr &lt; h[st.peek()])
+    top = st.pop()
+    width = st is empty <span class="kw">if</span> i <span class="kw">else</span> i - st.peek() - <span class="num">1</span>
+    best = max(best, h[top] * width)
+
+st.push(i)
+
+<span class="kw">return</span> best</pre>
 </div></div>
 </details>
   </section>

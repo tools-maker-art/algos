@@ -55,10 +55,10 @@
       <div class="metric"><div class="lbl">Repeats</div><div class="val bad" id="tree-dups">0</div></div>
     </div>
 <details class="explainer">
-  <summary>👀 see the Java code (step 1: brute force)</summary>
+  <summary>👀 see the pseudocode (step 1: brute force)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; brute force idea</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
 <pre><span class="cmt">// brute</span></pre>
@@ -90,10 +90,10 @@
       </div>
     </div>
 <details class="explainer">
-  <summary>👀 see the Java code (step 2: + memory)</summary>
+  <summary>👀 see the pseudocode (step 2: + memory)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; ask memory first</span>
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
 <pre><span class="cmt">// not natural</span></pre>
@@ -114,24 +114,25 @@
     </div>
     <p class="muted center" style="margin-top:8px;font-size:13px">step <span id="tab-step-lbl">0 / 0</span></p>
 <details class="explainer">
-  <summary>👀 see the Java code (step 3: tabulation)</summary>
+  <summary>👀 see the pseudocode (step 3: tabulation)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; fill the scoreboard</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
-<pre><span class="kw">Arrays</span>.sort(nums);
-<span class="kw">int</span>[] dp = <span class="kw">new</span> <span class="kw">int</span>[n], par = <span class="kw">new</span> <span class="kw">int</span>[n];
-<span class="kw">Arrays</span>.fill(dp, <span class="num">1</span>); <span class="kw">Arrays</span>.fill(par, -<span class="num">1</span>);
-<span class="kw">int</span> best = <span class="num">0</span>;
-<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; n; i++) {
-    <span class="kw">for</span> (<span class="kw">int</span> j = <span class="num">0</span>; j &lt; i; j++)
-        <span class="kw">if</span> (nums[i] % nums[j] == <span class="num">0</span> &amp;&amp; dp[j] + <span class="num">1</span> &gt; dp[i]) {
-            dp[i] = dp[j] + <span class="num">1</span>; par[i] = j;
-        }
-    <span class="kw">if</span> (dp[i] &gt; dp[best]) best = i;
-}
-<span class="kw">return</span> dp[best];</pre>
+<pre><span class="kw">Arrays</span>.sort(nums)
+dp = <span class="kw">new</span> boxes, par = <span class="kw">new</span> boxes
+<span class="kw">Arrays</span>.fill(dp, <span class="num">1</span>); <span class="kw">Arrays</span>.fill(par, -<span class="num">1</span>)
+best = <span class="num">0</span>
+<span class="kw">for</span> i from <span class="num">0</span> to before n:
+
+<span class="kw">for</span> j from <span class="num">0</span> to before i:
+<span class="kw">if</span> (nums[i] % nums[j] == <span class="num">0</span> and dp[j] + <span class="num">1</span> &gt; dp[i])
+    dp[i] = dp[j] + <span class="num">1</span>; par[i] = j
+
+<span class="kw">if</span> (dp[i] &gt; dp[best]) best = i
+
+<span class="kw">return</span> dp[best]</pre>
 </div></div>
 </details>
   </section>
@@ -148,10 +149,10 @@
       <button class="btn ghost" data-space="reset">↺</button>
     </div>
 <details class="explainer">
-  <summary>👀 see the Java code (step 4: space saver)</summary>
+  <summary>👀 see the pseudocode (step 4: space saver)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; carry less memory</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
 <pre><span class="cmt">// O(n)</span></pre>

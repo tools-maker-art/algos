@@ -55,19 +55,19 @@
       <div class="metric"><div class="lbl">Repeats</div><div class="val bad" id="tree-dups">0</div></div>
     </div>
 <details class="explainer">
-  <summary>👀 see the Java code (step 1: brute force)</summary>
+  <summary>👀 see the pseudocode (step 1: brute force)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; brute force idea</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
-<pre><span class="kw">int</span> dp(<span class="kw">int</span> i, <span class="kw">int</span> j, <span class="kw">int</span>[] d) {
-    <span class="kw">if</span> (i == j) <span class="kw">return</span> <span class="num">0</span>;
-    <span class="kw">int</span> best = <span class="kw">Integer</span>.MAX_VALUE;
-    <span class="kw">for</span> (<span class="kw">int</span> k = i; k &lt; j; k++)
-        best = <span class="kw">Math</span>.min(best, dp(i, k, d) + dp(k+<span class="num">1</span>, j, d) + d[i-<span class="num">1</span>]*d[k]*d[j]);
-    <span class="kw">return</span> best;
-}</pre>
+<pre>dp(i, j, d):
+    <span class="kw">if</span> (i == j) <span class="kw">return</span> <span class="num">0</span>
+    best = very_big_number
+    <span class="kw">for</span> k from i to before j:
+    best = min(best, dp(i, k, d) + dp(k+<span class="num">1</span>, j, d) + d[i-<span class="num">1</span>]*d[k]*d[j])
+    <span class="kw">return</span> best
+</pre>
 </div></div>
 </details>
   </section>
@@ -96,10 +96,10 @@
       </div>
     </div>
 <details class="explainer">
-  <summary>👀 see the Java code (step 2: + memory)</summary>
+  <summary>👀 see the pseudocode (step 2: + memory)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; ask memory first</span>
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
 <pre><span class="cmt">// cache (i, j)</span></pre>
@@ -120,21 +120,21 @@
     </div>
     <p class="muted center" style="margin-top:8px;font-size:13px">step <span id="tab-step-lbl">0 / 0</span></p>
 <details class="explainer">
-  <summary>👀 see the Java code (step 3: tabulation)</summary>
+  <summary>👀 see the pseudocode (step 3: tabulation)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; fill the scoreboard</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
-<pre><span class="kw">int</span>[][] dp = <span class="kw">new</span> <span class="kw">int</span>[n][n];
-<span class="kw">for</span> (<span class="kw">int</span> len = <span class="num">2</span>; len &lt; n; len++)
-    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i + len - <span class="num">1</span> &lt; n; i++) {
-        <span class="kw">int</span> j = i + len - <span class="num">1</span>;
-        dp[i][j] = <span class="kw">Integer</span>.MAX_VALUE;
-        <span class="kw">for</span> (<span class="kw">int</span> k = i; k &lt; j; k++)
-            dp[i][j] = <span class="kw">Math</span>.min(dp[i][j], dp[i][k] + dp[k+<span class="num">1</span>][j] + d[i-<span class="num">1</span>]*d[k]*d[j]);
-    }
-<span class="kw">return</span> dp[<span class="num">1</span>][n-<span class="num">1</span>];</pre>
+<pre>dp = <span class="kw">new</span> boxes
+<span class="kw">for</span> len from <span class="num">2</span> to before n:
+<span class="kw">for</span> (i = <span class="num">1</span>; i + len - <span class="num">1</span> &lt; n; i++)
+    j = i + len - <span class="num">1</span>
+    dp[i][j] = very_big_number
+    <span class="kw">for</span> k from i to before j:
+    dp[i][j] = min(dp[i][j], dp[i][k] + dp[k+<span class="num">1</span>][j] + d[i-<span class="num">1</span>]*d[k]*d[j])
+
+<span class="kw">return</span> dp[<span class="num">1</span>][n-<span class="num">1</span>]</pre>
 </div></div>
 </details>
   </section>
@@ -151,10 +151,10 @@
       <button class="btn ghost" data-space="reset">↺</button>
     </div>
 <details class="explainer">
-  <summary>👀 see the Java code (step 4: space saver)</summary>
+  <summary>👀 see the pseudocode (step 4: space saver)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; carry less memory</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
 <pre><span class="cmt">// O(n²) table required</span></pre>

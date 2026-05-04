@@ -55,10 +55,10 @@
       <div class="metric"><div class="lbl">Repeats</div><div class="val bad" id="tree-dups">0</div></div>
     </div>
 <details class="explainer">
-  <summary>👀 see the Java code (step 1: brute force)</summary>
+  <summary>👀 see the pseudocode (step 1: brute force)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; brute force idea</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
 <pre><span class="cmt">// DFS through dict</span></pre>
@@ -90,26 +90,27 @@
       </div>
     </div>
 <details class="explainer">
-  <summary>👀 see the Java code (step 2: + memory)</summary>
+  <summary>👀 see the pseudocode (step 2: + memory)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; ask memory first</span>
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
-<pre><span class="kw">Map</span>&lt;<span class="kw">Integer</span>, <span class="kw">List</span>&lt;<span class="kw">String</span>&gt;&gt; memo = <span class="kw">new</span> <span class="kw">HashMap</span>&lt;&gt;();
-<span class="kw">List</span>&lt;<span class="kw">String</span>&gt; build(<span class="kw">int</span> i, <span class="kw">String</span> s, <span class="kw">Set</span>&lt;<span class="kw">String</span>&gt; d) {
-    <span class="kw">if</span> (memo.containsKey(i)) <span class="kw">return</span> memo.get(i);
-    <span class="kw">List</span>&lt;<span class="kw">String</span>&gt; ans = <span class="kw">new</span> <span class="kw">ArrayList</span>&lt;&gt;();
-    <span class="kw">if</span> (i == s.length()) { ans.add(<span class="str">&quot;&quot;</span>); memo.put(i, ans); <span class="kw">return</span> ans; }
-    <span class="kw">for</span> (<span class="kw">int</span> j = i + <span class="num">1</span>; j &lt;= s.length(); j++) {
-        <span class="kw">String</span> pref = s.substring(i, j);
-        <span class="kw">if</span> (d.contains(pref))
-            <span class="kw">for</span> (<span class="kw">String</span> tail : build(j, s, d))
-                ans.add(pref + (tail.isEmpty() ? <span class="str">&quot;&quot;</span> : <span class="str">&quot; &quot;</span> + tail));
-    }
-    memo.put(i, ans);
-    <span class="kw">return</span> ans;
-}</pre>
+<pre><span class="kw">Map</span>&lt;<span class="kw">Integer</span>, <span class="kw">List</span>&lt;<span class="kw">String</span>&gt;&gt; memo = copy of
+build(i, s, d):
+    <span class="kw">if</span> memo.containsKey(i)) <span class="kw">return</span> memo.get(i:
+    ans = copy of
+    <span class="kw">if</span> (i == s.length)  ans.add(<span class="str">&quot;&quot;</span>); memo.put(i, ans); <span class="kw">return</span> ans;
+    <span class="kw">for</span> j from i + <span class="num">1</span> to s.length:
+
+    pref = s.substring(i, j)
+    <span class="kw">if</span> d.contains(pref):
+    <span class="kw">for</span> each tail in build(j, s, d:
+    ans.add(pref + (tail is empty <span class="kw">if</span> <span class="str">&quot;&quot;</span> <span class="kw">else</span> <span class="str">&quot; &quot;</span> + tail))
+
+memo.put(i, ans)
+<span class="kw">return</span> ans
+</pre>
 </div></div>
 </details>
   </section>
@@ -127,10 +128,10 @@
     </div>
     <p class="muted center" style="margin-top:8px;font-size:13px">step <span id="tab-step-lbl">0 / 0</span></p>
 <details class="explainer">
-  <summary>👀 see the Java code (step 3: tabulation)</summary>
+  <summary>👀 see the pseudocode (step 3: tabulation)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; fill the scoreboard</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
 <pre><span class="cmt">// memo above is the tabular answer</span></pre>
@@ -150,10 +151,10 @@
       <button class="btn ghost" data-space="reset">↺</button>
     </div>
 <details class="explainer">
-  <summary>👀 see the Java code (step 4: space saver)</summary>
+  <summary>👀 see the pseudocode (step 4: space saver)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; carry less memory</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
 <pre><span class="cmt">// output-bounded</span></pre>
