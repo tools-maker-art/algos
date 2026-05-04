@@ -55,10 +55,10 @@
       <div class="metric"><div class="lbl">Repeats</div><div class="val bad" id="tree-dups">0</div></div>
     </div>
 <details class="explainer">
-  <summary>👀 see the Java code (step 1: brute force)</summary>
+  <summary>👀 see the pseudocode (step 1: brute force)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; brute force idea</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
 <pre><span class="cmt">// brute BFS through prefixes</span></pre>
@@ -90,10 +90,10 @@
       </div>
     </div>
 <details class="explainer">
-  <summary>👀 see the Java code (step 2: + memory)</summary>
+  <summary>👀 see the pseudocode (step 2: + memory)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; ask memory first</span>
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
 <pre><span class="cmt">// memo dp[word]</span></pre>
@@ -114,25 +114,26 @@
     </div>
     <p class="muted center" style="margin-top:8px;font-size:13px">step <span id="tab-step-lbl">0 / 0</span></p>
 <details class="explainer">
-  <summary>👀 see the Java code (step 3: tabulation)</summary>
+  <summary>👀 see the pseudocode (step 3: tabulation)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; fill the scoreboard</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
-<pre><span class="kw">Arrays</span>.sort(words, (a,b) -&gt; a.length() - b.length());
-<span class="kw">Map</span>&lt;<span class="kw">String</span>,<span class="kw">Integer</span>&gt; dp = <span class="kw">new</span> <span class="kw">HashMap</span>&lt;&gt;();
-<span class="kw">int</span> best = <span class="num">1</span>;
-<span class="kw">for</span> (<span class="kw">String</span> w : words) {
-    <span class="kw">int</span> curr = <span class="num">1</span>;
-    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; w.length(); i++) {
-        <span class="kw">String</span> pred = w.substring(<span class="num">0</span>, i) + w.substring(i+<span class="num">1</span>);
-        <span class="kw">if</span> (dp.containsKey(pred)) curr = <span class="kw">Math</span>.max(curr, dp.get(pred) + <span class="num">1</span>);
-    }
-    dp.put(w, curr);
-    best = <span class="kw">Math</span>.max(best, curr);
-}
-<span class="kw">return</span> best;</pre>
+<pre><span class="kw">Arrays</span>.sort(words, (a,b) -&gt; a.length - b.length)
+dp = copy of
+best = <span class="num">1</span>
+<span class="kw">for</span> each w in words:
+    curr = <span class="num">1</span>
+    <span class="kw">for</span> i from <span class="num">0</span> to before w.length:
+
+    pred = w.substring(<span class="num">0</span>, i) + w.substring(i+<span class="num">1</span>)
+    <span class="kw">if</span> dp.containsKey(pred)) curr = max(curr, dp.get(pred) + <span class="num">1</span>:
+
+dp.put(w, curr)
+best = max(best, curr)
+
+<span class="kw">return</span> best</pre>
 </div></div>
 </details>
   </section>
@@ -149,10 +150,10 @@
       <button class="btn ghost" data-space="reset">↺</button>
     </div>
 <details class="explainer">
-  <summary>👀 see the Java code (step 4: space saver)</summary>
+  <summary>👀 see the pseudocode (step 4: space saver)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; carry less memory</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
 <pre><span class="cmt">// single map</span></pre>

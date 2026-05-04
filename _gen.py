@@ -13,7 +13,7 @@ OUT.mkdir(exist_ok=True)
 
 def esc(s): return html.escape(str(s))
 
-JAVA_KW = {"int","return","if","else","for","while","new","void","boolean","char","String","static","public","private","class","import","true","false","null","Math","Arrays","HashSet","HashMap","Set","Map","List","ArrayList","Deque","ArrayDeque","Integer","Collections","switch","case","break","continue"}
+PSEUDO_KW = {"int","return","if","else","for","while","new","void","boolean","char","String","static","public","private","class","import","true","false","null","Math","Arrays","HashSet","HashMap","Set","Map","List","ArrayList","Deque","ArrayDeque","Integer","Collections","switch","case","break","continue"}
 def jhi(code):
     token = re.compile(r'//[^\n]*|"(?:\\.|[^"\\])*"|\'(?:\\.|[^\'\\])*\'|\b\d+\b|\b[A-Za-z_][A-Za-z_0-9]*\b')
     parts = []
@@ -28,7 +28,7 @@ def jhi(code):
             parts.append(f'<span class="str">{safe}</span>')
         elif raw.isdigit():
             parts.append(f'<span class="num">{safe}</span>')
-        elif raw in JAVA_KW:
+        elif raw in PSEUDO_KW:
             parts.append(f'<span class="kw">{safe}</span>')
         else:
             parts.append(safe)
@@ -36,10 +36,85 @@ def jhi(code):
     parts.append(esc(code[last:]))
     return "".join(parts)
 
+def _plain_params(params):
+    out = []
+    for part in params.split(","):
+        p = part.strip()
+        p = re.sub(r'^(final\s+)?(?:int|boolean|char|String|Integer|Boolean)(?:\[\])?\s+', '', p)
+        p = re.sub(r'^(?:int|boolean|String)(?:\[\]){2}\s+', '', p)
+        p = re.sub(r'^(?:List|Set|Map)<[^>]+>\s+', '', p)
+        out.append(p)
+    return ", ".join([p for p in out if p])
+
+def pseudoize(code):
+    lines = []
+    indent = 0
+    sig = re.compile(r'^(?:public\s+|private\s+|static\s+)*(?:int|boolean|void|char|String|Integer|Boolean|List<[^>]+>|Set<[^>]+>|Map<[^>]+>|Boolean\[\]|int\[\]|int\[\]\[\]|String\[\])\s+([A-Za-z_]\w*)\((.*)\)\s*\{?$')
+    for raw in code.splitlines():
+        s = raw.strip()
+        while s.startswith("}"):
+            indent = max(0, indent - 1)
+            s = s[1:].strip()
+        if not s:
+            lines.append("")
+            continue
+
+        opens = s.count("{")
+        closes = s.count("}")
+
+        m = sig.match(s)
+        if m:
+            lines.append("    " * indent + f"{m.group(1)}({_plain_params(m.group(2))}):")
+            indent += max(0, opens - closes)
+            continue
+
+        s = s.replace("{", "").replace("}", "").rstrip(";")
+        s = s.replace("Math.", "").replace("Integer.MAX_VALUE", "very_big_number")
+        s = s.replace("&&", "and").replace("||", "or").replace("true", "yes").replace("false", "no").replace("null", "empty")
+        s = re.sub(r'new\s+(?:int|boolean|String)(\[[^\]]+\])+', 'new boxes', s)
+        s = re.sub(r'new\s+(?:HashSet|HashMap|ArrayList|ArrayDeque)<>\(([^)]*)\)', r'copy of \1', s)
+        s = re.sub(r'\b(?:int|boolean|char|String|Integer|Boolean)(?:\[\]){0,2}\s+', '', s)
+        s = re.sub(r'\b(?:List|Set|Map)<[^>]+>\s+', '', s)
+        s = s.replace(".length()", ".length").replace(".isEmpty()", " is empty")
+
+        m = re.match(r'for\s*\((\w+)\s*=\s*([^;]+);\s*\1\s*<=\s*([^;]+);\s*\1\+\+\)\s*(.+)', s)
+        if m:
+            lines.append("    " * indent + f"for {m.group(1)} from {m.group(2)} to {m.group(3)}:")
+            lines.append("    " * (indent + 1) + m.group(4))
+            continue
+        m = re.match(r'for\s*\((\w+)\s*=\s*([^;]+);\s*\1\s*<\s*([^;]+);\s*\1\+\+\)\s*(.+)', s)
+        if m:
+            lines.append("    " * indent + f"for {m.group(1)} from {m.group(2)} to before {m.group(3)}:")
+            lines.append("    " * (indent + 1) + m.group(4))
+            continue
+
+        m = re.match(r'for\s*\((\w+)\s*=\s*([^;]+);\s*\1\s*<=\s*([^;]+);\s*\1\+\+\)', s)
+        if m:
+            s = f"for {m.group(1)} from {m.group(2)} to {m.group(3)}:"
+        m = re.match(r'for\s*\((\w+)\s*=\s*([^;]+);\s*\1\s*<\s*([^;]+);\s*\1\+\+\)', s)
+        if m:
+            s = f"for {m.group(1)} from {m.group(2)} to before {m.group(3)}:"
+        m = re.match(r'for\s*\((\w+)\s*:\s*([^)]+)\)', s)
+        if m:
+            s = f"for each {m.group(1)} in {m.group(2)}:"
+        s = re.sub(r'^if\s*\((.*)\)$', r'if \1:', s)
+        s = re.sub(r'^else if\s*\((.*)\)$', r'otherwise if \1:', s)
+        s = re.sub(r'^else$', 'otherwise:', s)
+        s = re.sub(r'^while\s*\((.*)\)$', r'while \1:', s)
+        s = s.replace(" ? ", " if ")
+        s = s.replace(" : ", " else ")
+
+        lines.append("    " * indent + s)
+        indent += max(0, opens - closes)
+        if closes > opens:
+            indent = max(0, indent - (closes - opens))
+    return "\n".join(line.rstrip() for line in lines)
+
 def jcode_block(title, hint, hint_cls, code):
+    code = pseudoize(code)
     return f"""<div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; {title}</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; {title}</span>
     <span class="upgrade {hint_cls}">{hint}</span>
   </div>
 <pre>{jhi(code)}</pre>
@@ -47,7 +122,7 @@ def jcode_block(title, hint, hint_cls, code):
 
 def code_details(name, title, hint, hint_cls, code):
     return f"""<details class="explainer">
-  <summary>👀 see the Java code ({name})</summary>
+  <summary>👀 see the pseudocode ({name})</summary>
   <div class="body">{jcode_block(title, hint, hint_cls, code)}</div>
 </details>"""
 
@@ -1197,10 +1272,10 @@ PAGE = """<!doctype html>
 """
 
 def render(level, prev, nxt):
-    j_brute = code_details('step 1: brute force', 'brute force recursion', 'slow · repeats work', 'bad', level['brute'])
-    j_memo  = code_details('step 2: + memory', 'recursion + memoization', '⬆ each tiny problem solved once', '', level['memo'])
-    j_tab   = code_details('step 3: tabulation', 'bottom-up tabulation', '⬆ no recursion · just a loop', '', level['tab'])
-    j_space = code_details('step 4: space saver', 'space-optimised DP', '⬆ tiny memory', '', level.get('space','// see tab version above'))
+    j_brute = code_details('step 1: brute force', 'brute force idea', 'slow · repeats work', 'bad', level['brute'])
+    j_memo  = code_details('step 2: + memory', 'ask memory first', '⬆ each tiny problem solved once', '', level['memo'])
+    j_tab   = code_details('step 3: tabulation', 'fill the scoreboard', '⬆ no recursion · just a loop', '', level['tab'])
+    j_space = code_details('step 4: space saver', 'carry less memory', '⬆ tiny memory', '', level.get('space','// see tab version above'))
     prev_link = f'<a class="up" href="{prev}">⟵ Prev level</a>' if prev else f'<a class="up" href="../dp-roadmap.html">↑ Map</a>'
     next_link = f'<a class="next" href="{nxt}">Next level →</a>' if nxt else f'<a class="next" href="../dp-roadmap.html">🏁 Map</a>'
     return PAGE.format(

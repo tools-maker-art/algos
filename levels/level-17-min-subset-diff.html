@@ -55,10 +55,10 @@
       <div class="metric"><div class="lbl">Repeats</div><div class="val bad" id="tree-dups">0</div></div>
     </div>
 <details class="explainer">
-  <summary>👀 see the Java code (step 1: brute force)</summary>
+  <summary>👀 see the pseudocode (step 1: brute force)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; brute force idea</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
 <pre><span class="cmt">// brute subset reachability</span></pre>
@@ -90,10 +90,10 @@
       </div>
     </div>
 <details class="explainer">
-  <summary>👀 see the Java code (step 2: + memory)</summary>
+  <summary>👀 see the pseudocode (step 2: + memory)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; ask memory first</span>
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
 <pre><span class="cmt">// memo via reachable(i,k)</span></pre>
@@ -114,22 +114,22 @@
     </div>
     <p class="muted center" style="margin-top:8px;font-size:13px">step <span id="tab-step-lbl">0 / 0</span></p>
 <details class="explainer">
-  <summary>👀 see the Java code (step 3: tabulation)</summary>
+  <summary>👀 see the pseudocode (step 3: tabulation)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; fill the scoreboard</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
-<pre><span class="kw">int</span> total = <span class="num">0</span>; <span class="kw">for</span> (<span class="kw">int</span> x : nums) total += x;
-<span class="kw">boolean</span>[] dp = <span class="kw">new</span> <span class="kw">boolean</span>[total+<span class="num">1</span>];
-dp[<span class="num">0</span>] = <span class="kw">true</span>;
-<span class="kw">for</span> (<span class="kw">int</span> x : nums)
-    <span class="kw">for</span> (<span class="kw">int</span> k = total; k &gt;= x; k--)
-        dp[k] = dp[k] || dp[k - x];
-<span class="kw">int</span> best = <span class="kw">Integer</span>.MAX_VALUE;
-<span class="kw">for</span> (<span class="kw">int</span> k = <span class="num">0</span>; k &lt;= total/<span class="num">2</span>; k++)
-    <span class="kw">if</span> (dp[k]) best = <span class="kw">Math</span>.min(best, total - <span class="num">2</span>*k);
-<span class="kw">return</span> best;</pre>
+<pre>total = <span class="num">0</span>; <span class="kw">for</span> (x <span class="kw">else</span> nums) total += x
+dp = <span class="kw">new</span> boxes
+dp[<span class="num">0</span>] = yes
+<span class="kw">for</span> each x in nums:
+<span class="kw">for</span> (k = total; k &gt;= x; k--)
+dp[k] = dp[k] or dp[k - x]
+best = very_big_number
+<span class="kw">for</span> k from <span class="num">0</span> to total/<span class="num">2</span>:
+<span class="kw">if</span> dp[k]) best = min(best, total - <span class="num">2</span>*k:
+<span class="kw">return</span> best</pre>
 </div></div>
 </details>
   </section>
@@ -146,10 +146,10 @@ dp[<span class="num">0</span>] = <span class="kw">true</span>;
       <button class="btn ghost" data-space="reset">↺</button>
     </div>
 <details class="explainer">
-  <summary>👀 see the Java code (step 4: space saver)</summary>
+  <summary>👀 see the pseudocode (step 4: space saver)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; carry less memory</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
 <pre><span class="cmt">// O(total)</span></pre>

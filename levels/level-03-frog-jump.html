@@ -55,18 +55,18 @@
       <div class="metric"><div class="lbl">Repeats</div><div class="val bad" id="tree-dups">0</div></div>
     </div>
 <details class="explainer">
-  <summary>👀 see the Java code (step 1: brute force)</summary>
+  <summary>👀 see the pseudocode (step 1: brute force)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; brute force idea</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
-<pre><span class="kw">int</span> cost(<span class="kw">int</span> i, <span class="kw">int</span>[] h) {
-    <span class="kw">if</span> (i == <span class="num">0</span>) <span class="kw">return</span> <span class="num">0</span>;
-    <span class="kw">int</span> oneStep = cost(i-<span class="num">1</span>, h) + <span class="kw">Math</span>.abs(h[i]-h[i-<span class="num">1</span>]);
-    <span class="kw">int</span> twoStep = (i &gt; <span class="num">1</span>) ? cost(i-<span class="num">2</span>, h) + <span class="kw">Math</span>.abs(h[i]-h[i-<span class="num">2</span>]) : <span class="kw">Integer</span>.MAX_VALUE;
-    <span class="kw">return</span> <span class="kw">Math</span>.min(oneStep, twoStep);
-}</pre>
+<pre>cost(i, h):
+    <span class="kw">if</span> (i == <span class="num">0</span>) <span class="kw">return</span> <span class="num">0</span>
+    oneStep = cost(i-<span class="num">1</span>, h) + abs(h[i]-h[i-<span class="num">1</span>])
+    twoStep = (i &gt; <span class="num">1</span>) <span class="kw">if</span> cost(i-<span class="num">2</span>, h) + abs(h[i]-h[i-<span class="num">2</span>]) <span class="kw">else</span> very_big_number
+    <span class="kw">return</span> min(oneStep, twoStep)
+</pre>
 </div></div>
 </details>
   </section>
@@ -95,20 +95,20 @@
       </div>
     </div>
 <details class="explainer">
-  <summary>👀 see the Java code (step 2: + memory)</summary>
+  <summary>👀 see the pseudocode (step 2: + memory)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; ask memory first</span>
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
-<pre><span class="kw">int</span>[] memo;
-<span class="kw">int</span> cost(<span class="kw">int</span> i, <span class="kw">int</span>[] h) {
-    <span class="kw">if</span> (i == <span class="num">0</span>) <span class="kw">return</span> <span class="num">0</span>;
-    <span class="kw">if</span> (memo[i] != -<span class="num">1</span>) <span class="kw">return</span> memo[i];
-    <span class="kw">int</span> a = cost(i-<span class="num">1</span>, h) + <span class="kw">Math</span>.abs(h[i]-h[i-<span class="num">1</span>]);
-    <span class="kw">int</span> b = (i &gt; <span class="num">1</span>) ? cost(i-<span class="num">2</span>, h) + <span class="kw">Math</span>.abs(h[i]-h[i-<span class="num">2</span>]) : <span class="kw">Integer</span>.MAX_VALUE;
-    <span class="kw">return</span> memo[i] = <span class="kw">Math</span>.min(a, b);
-}</pre>
+<pre>memo
+cost(i, h):
+    <span class="kw">if</span> (i == <span class="num">0</span>) <span class="kw">return</span> <span class="num">0</span>
+    <span class="kw">if</span> (memo[i] != -<span class="num">1</span>) <span class="kw">return</span> memo[i]
+    a = cost(i-<span class="num">1</span>, h) + abs(h[i]-h[i-<span class="num">1</span>])
+    b = (i &gt; <span class="num">1</span>) <span class="kw">if</span> cost(i-<span class="num">2</span>, h) + abs(h[i]-h[i-<span class="num">2</span>]) <span class="kw">else</span> very_big_number
+    <span class="kw">return</span> memo[i] = min(a, b)
+</pre>
 </div></div>
 </details>
   </section>
@@ -126,18 +126,18 @@
     </div>
     <p class="muted center" style="margin-top:8px;font-size:13px">step <span id="tab-step-lbl">0 / 0</span></p>
 <details class="explainer">
-  <summary>👀 see the Java code (step 3: tabulation)</summary>
+  <summary>👀 see the pseudocode (step 3: tabulation)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; fill the scoreboard</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
-<pre><span class="kw">int</span>[] dp = <span class="kw">new</span> <span class="kw">int</span>[n];
-dp[<span class="num">0</span>] = <span class="num">0</span>; dp[<span class="num">1</span>] = <span class="kw">Math</span>.abs(h[<span class="num">1</span>]-h[<span class="num">0</span>]);
-<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">2</span>; i &lt; n; i++)
-    dp[i] = <span class="kw">Math</span>.min(dp[i-<span class="num">1</span>] + <span class="kw">Math</span>.abs(h[i]-h[i-<span class="num">1</span>]),
-                     dp[i-<span class="num">2</span>] + <span class="kw">Math</span>.abs(h[i]-h[i-<span class="num">2</span>]));
-<span class="kw">return</span> dp[n-<span class="num">1</span>];</pre>
+<pre>dp = <span class="kw">new</span> boxes
+dp[<span class="num">0</span>] = <span class="num">0</span>; dp[<span class="num">1</span>] = abs(h[<span class="num">1</span>]-h[<span class="num">0</span>])
+<span class="kw">for</span> i from <span class="num">2</span> to before n:
+dp[i] = min(dp[i-<span class="num">1</span>] + abs(h[i]-h[i-<span class="num">1</span>]),
+dp[i-<span class="num">2</span>] + abs(h[i]-h[i-<span class="num">2</span>]))
+<span class="kw">return</span> dp[n-<span class="num">1</span>]</pre>
 </div></div>
 </details>
   </section>
@@ -154,19 +154,20 @@ dp[<span class="num">0</span>] = <span class="num">0</span>; dp[<span class="num
       <button class="btn ghost" data-space="reset">↺</button>
     </div>
 <details class="explainer">
-  <summary>👀 see the Java code (step 4: space saver)</summary>
+  <summary>👀 see the pseudocode (step 4: space saver)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; carry less memory</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
-<pre><span class="kw">int</span> prev2 = <span class="num">0</span>, prev1 = <span class="kw">Math</span>.abs(h[<span class="num">1</span>]-h[<span class="num">0</span>]);
-<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">2</span>; i &lt; n; i++) {
-    <span class="kw">int</span> curr = <span class="kw">Math</span>.min(prev1 + <span class="kw">Math</span>.abs(h[i]-h[i-<span class="num">1</span>]),
-                        prev2 + <span class="kw">Math</span>.abs(h[i]-h[i-<span class="num">2</span>]));
-    prev2 = prev1; prev1 = curr;
-}
-<span class="kw">return</span> prev1;</pre>
+<pre>prev2 = <span class="num">0</span>, prev1 = abs(h[<span class="num">1</span>]-h[<span class="num">0</span>])
+<span class="kw">for</span> i from <span class="num">2</span> to before n:
+
+curr = min(prev1 + abs(h[i]-h[i-<span class="num">1</span>]),
+prev2 + abs(h[i]-h[i-<span class="num">2</span>]))
+prev2 = prev1; prev1 = curr
+
+<span class="kw">return</span> prev1</pre>
 </div></div>
 </details>
   </section>

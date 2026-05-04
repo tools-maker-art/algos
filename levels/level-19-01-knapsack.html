@@ -55,18 +55,18 @@
       <div class="metric"><div class="lbl">Repeats</div><div class="val bad" id="tree-dups">0</div></div>
     </div>
 <details class="explainer">
-  <summary>👀 see the Java code (step 1: brute force)</summary>
+  <summary>👀 see the pseudocode (step 1: brute force)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; brute force idea</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
-<pre><span class="kw">int</span> best(<span class="kw">int</span> i, <span class="kw">int</span> w, <span class="kw">int</span>[] wt, <span class="kw">int</span>[] val) {
-    <span class="kw">if</span> (i &lt; <span class="num">0</span> || w == <span class="num">0</span>) <span class="kw">return</span> <span class="num">0</span>;
-    <span class="kw">int</span> skip = best(i-<span class="num">1</span>, w, wt, val);
-    <span class="kw">int</span> pick = (w &gt;= wt[i]) ? val[i] + best(i-<span class="num">1</span>, w - wt[i], wt, val) : <span class="num">0</span>;
-    <span class="kw">return</span> <span class="kw">Math</span>.max(skip, pick);
-}</pre>
+<pre>best(i, w, wt, val):
+    <span class="kw">if</span> (i &lt; <span class="num">0</span> or w == <span class="num">0</span>) <span class="kw">return</span> <span class="num">0</span>
+    skip = best(i-<span class="num">1</span>, w, wt, val)
+    pick = (w &gt;= wt[i]) <span class="kw">if</span> val[i] + best(i-<span class="num">1</span>, w - wt[i], wt, val) <span class="kw">else</span> <span class="num">0</span>
+    <span class="kw">return</span> max(skip, pick)
+</pre>
 </div></div>
 </details>
   </section>
@@ -95,20 +95,20 @@
       </div>
     </div>
 <details class="explainer">
-  <summary>👀 see the Java code (step 2: + memory)</summary>
+  <summary>👀 see the pseudocode (step 2: + memory)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; ask memory first</span>
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
-<pre><span class="kw">Integer</span>[][] memo;
-<span class="kw">int</span> best(<span class="kw">int</span> i, <span class="kw">int</span> w, <span class="kw">int</span>[] wt, <span class="kw">int</span>[] val) {
-    <span class="kw">if</span> (i &lt; <span class="num">0</span> || w == <span class="num">0</span>) <span class="kw">return</span> <span class="num">0</span>;
-    <span class="kw">if</span> (memo[i][w] != <span class="kw">null</span>) <span class="kw">return</span> memo[i][w];
-    <span class="kw">int</span> skip = best(i-<span class="num">1</span>, w, wt, val);
-    <span class="kw">int</span> pick = (w &gt;= wt[i]) ? val[i] + best(i-<span class="num">1</span>, w - wt[i], wt, val) : <span class="num">0</span>;
-    <span class="kw">return</span> memo[i][w] = <span class="kw">Math</span>.max(skip, pick);
-}</pre>
+<pre>memo
+best(i, w, wt, val):
+    <span class="kw">if</span> (i &lt; <span class="num">0</span> or w == <span class="num">0</span>) <span class="kw">return</span> <span class="num">0</span>
+    <span class="kw">if</span> (memo[i][w] != empty) <span class="kw">return</span> memo[i][w]
+    skip = best(i-<span class="num">1</span>, w, wt, val)
+    pick = (w &gt;= wt[i]) <span class="kw">if</span> val[i] + best(i-<span class="num">1</span>, w - wt[i], wt, val) <span class="kw">else</span> <span class="num">0</span>
+    <span class="kw">return</span> memo[i][w] = max(skip, pick)
+</pre>
 </div></div>
 </details>
   </section>
@@ -126,20 +126,21 @@
     </div>
     <p class="muted center" style="margin-top:8px;font-size:13px">step <span id="tab-step-lbl">0 / 0</span></p>
 <details class="explainer">
-  <summary>👀 see the Java code (step 3: tabulation)</summary>
+  <summary>👀 see the pseudocode (step 3: tabulation)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; fill the scoreboard</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
-<pre><span class="kw">int</span>[][] dp = <span class="kw">new</span> <span class="kw">int</span>[n+<span class="num">1</span>][W+<span class="num">1</span>];
-<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= n; i++)
-    <span class="kw">for</span> (<span class="kw">int</span> w = <span class="num">0</span>; w &lt;= W; w++) {
-        dp[i][w] = dp[i-<span class="num">1</span>][w];
-        <span class="kw">if</span> (w &gt;= wt[i-<span class="num">1</span>])
-            dp[i][w] = <span class="kw">Math</span>.max(dp[i][w], val[i-<span class="num">1</span>] + dp[i-<span class="num">1</span>][w - wt[i-<span class="num">1</span>]]);
-    }
-<span class="kw">return</span> dp[n][W];</pre>
+<pre>dp = <span class="kw">new</span> boxes
+<span class="kw">for</span> i from <span class="num">1</span> to n:
+<span class="kw">for</span> w from <span class="num">0</span> to W:
+
+dp[i][w] = dp[i-<span class="num">1</span>][w]
+<span class="kw">if</span> w &gt;= wt[i-<span class="num">1</span>]:
+dp[i][w] = max(dp[i][w], val[i-<span class="num">1</span>] + dp[i-<span class="num">1</span>][w - wt[i-<span class="num">1</span>]])
+
+<span class="kw">return</span> dp[n][W]</pre>
 </div></div>
 </details>
   </section>
@@ -156,17 +157,17 @@
       <button class="btn ghost" data-space="reset">↺</button>
     </div>
 <details class="explainer">
-  <summary>👀 see the Java code (step 4: space saver)</summary>
+  <summary>👀 see the pseudocode (step 4: space saver)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; carry less memory</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
-<pre><span class="kw">int</span>[] dp = <span class="kw">new</span> <span class="kw">int</span>[W+<span class="num">1</span>];
-<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; n; i++)
-    <span class="kw">for</span> (<span class="kw">int</span> w = W; w &gt;= wt[i]; w--)
-        dp[w] = <span class="kw">Math</span>.max(dp[w], val[i] + dp[w - wt[i]]);
-<span class="kw">return</span> dp[W];</pre>
+<pre>dp = <span class="kw">new</span> boxes
+<span class="kw">for</span> i from <span class="num">0</span> to before n:
+<span class="kw">for</span> (w = W; w &gt;= wt[i]; w--)
+dp[w] = max(dp[w], val[i] + dp[w - wt[i]])
+<span class="kw">return</span> dp[W]</pre>
 </div></div>
 </details>
   </section>

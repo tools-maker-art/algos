@@ -55,21 +55,21 @@
       <div class="metric"><div class="lbl">Repeats</div><div class="val bad" id="tree-dups">0</div></div>
     </div>
 <details class="explainer">
-  <summary>👀 see the Java code (step 1: brute force)</summary>
+  <summary>👀 see the pseudocode (step 1: brute force)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; brute force recursion</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; brute force idea</span>
     <span class="upgrade bad">slow · repeats work</span>
   </div>
-<pre><span class="kw">int</span> pick(<span class="kw">int</span> r1, <span class="kw">int</span> c1, <span class="kw">int</span> r2, <span class="kw">int</span> c2, <span class="kw">int</span>[][] g) {
-    <span class="kw">if</span> (r1 &gt;= n || c1 &gt;= n || r2 &gt;= n || c2 &gt;= n) <span class="kw">return</span> <span class="kw">Integer</span>.MIN_VALUE;
-    <span class="kw">if</span> (r1 == n-<span class="num">1</span> &amp;&amp; c1 == n-<span class="num">1</span>) <span class="kw">return</span> g[r1][c1];
-    <span class="kw">int</span> v = g[r1][c1] + (r1 == r2 &amp;&amp; c1 == c2 ? <span class="num">0</span> : g[r2][c2]);
-    <span class="kw">int</span> best = <span class="kw">Math</span>.max(
-        <span class="kw">Math</span>.max(pick(r1+<span class="num">1</span>,c1,r2+<span class="num">1</span>,c2,g), pick(r1+<span class="num">1</span>,c1,r2,c2+<span class="num">1</span>,g)),
-        <span class="kw">Math</span>.max(pick(r1,c1+<span class="num">1</span>,r2+<span class="num">1</span>,c2,g), pick(r1,c1+<span class="num">1</span>,r2,c2+<span class="num">1</span>,g)));
-    <span class="kw">return</span> v + best;
-}</pre>
+<pre>pick(r1, c1, r2, c2, g):
+    <span class="kw">if</span> (r1 &gt;= n or c1 &gt;= n or r2 &gt;= n or c2 &gt;= n) <span class="kw">return</span> <span class="kw">Integer</span>.MIN_VALUE
+    <span class="kw">if</span> (r1 == n-<span class="num">1</span> and c1 == n-<span class="num">1</span>) <span class="kw">return</span> g[r1][c1]
+    v = g[r1][c1] + (r1 == r2 and c1 == c2 <span class="kw">if</span> <span class="num">0</span> <span class="kw">else</span> g[r2][c2])
+    best = max(
+    max(pick(r1+<span class="num">1</span>,c1,r2+<span class="num">1</span>,c2,g), pick(r1+<span class="num">1</span>,c1,r2,c2+<span class="num">1</span>,g)),
+    max(pick(r1,c1+<span class="num">1</span>,r2+<span class="num">1</span>,c2,g), pick(r1,c1+<span class="num">1</span>,r2,c2+<span class="num">1</span>,g)))
+    <span class="kw">return</span> v + best
+</pre>
 </div></div>
 </details>
   </section>
@@ -98,10 +98,10 @@
       </div>
     </div>
 <details class="explainer">
-  <summary>👀 see the Java code (step 2: + memory)</summary>
+  <summary>👀 see the pseudocode (step 2: + memory)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; recursion + memoization</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; ask memory first</span>
     <span class="upgrade ">⬆ each tiny problem solved once</span>
   </div>
 <pre><span class="cmt">// memoise (step, r1, r2). c2 derived: c2 = step + 0 - r2.</span></pre>
@@ -122,10 +122,10 @@
     </div>
     <p class="muted center" style="margin-top:8px;font-size:13px">step <span id="tab-step-lbl">0 / 0</span></p>
 <details class="explainer">
-  <summary>👀 see the Java code (step 3: tabulation)</summary>
+  <summary>👀 see the pseudocode (step 3: tabulation)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; bottom-up tabulation</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; fill the scoreboard</span>
     <span class="upgrade ">⬆ no recursion · just a loop</span>
   </div>
 <pre><span class="cmt">// 3D bottom-up by step total.</span></pre>
@@ -145,10 +145,10 @@
       <button class="btn ghost" data-space="reset">↺</button>
     </div>
 <details class="explainer">
-  <summary>👀 see the Java code (step 4: space saver)</summary>
+  <summary>👀 see the pseudocode (step 4: space saver)</summary>
   <div class="body"><div class="code-block">
   <div class="code-head">
-    <span><span class="lang">JAVA</span> &nbsp; space-optimised DP</span>
+    <span><span class="lang">PSEUDO</span> &nbsp; carry less memory</span>
     <span class="upgrade ">⬆ tiny memory</span>
   </div>
 <pre><span class="cmt">// 2 layers of size n×n.</span></pre>
