@@ -28,16 +28,79 @@
     var v = L.viz || {};
     var kind = v.kind || 'items';
     var label = v.label || 'play with the tiny problem';
-    var mission = {
-      bars: 'Move across the steps. Tap blocks to mark the path you would try.',
-      row: 'Tap cards to choose or skip. This is the little decision DP remembers.',
-      coins: 'Tap treasure cards to choose or skip. Watch the score grow.',
-      grid: 'Tap cells to draw a path. DP counts paths without walking them all.',
-      string: 'Tap letters to build a prefix. DP remembers which prefixes work.',
-      strings: 'Tap matching letters. String DP is a matching game.',
-      stick: 'Tap cut marks to split the stick. Interval DP tries cut orders.',
-      balloons: 'Tap balloons to pop them. Interval DP chooses the best last pop.'
-    }[kind] || 'Tap pieces, then run the demo. This turns the recurrence into a small game.';
+    var story = {
+      bars: 'The climber wants to reach the top. Try small jumps, then see every route.',
+      row: 'The explorer walks past choices one by one. Pick or skip each spot.',
+      coins: 'The collector walks along treasure piles. Pick some, skip others.',
+      grid: 'The explorer starts at START and wants GOAL. Walk right or down.',
+      string: 'The word builder moves across letters and tries prefixes.',
+      strings: 'Two word builders look for matching letters.',
+      stick: 'The cutter chooses cut marks and tries different orders.',
+      balloons: 'The popper chooses balloons and tries different pop orders.'
+    }[kind] || 'Move through the tiny puzzle and watch the choices become visible.';
+
+    function buildWays() {
+      var ways = [];
+      if (kind === 'bars') {
+        var n = (v.items || []).length;
+        function hop(left, path) {
+          if (left === 0) { ways.push(path.slice()); return; }
+          if (left < 0 || ways.length >= 24) return;
+          path.push('hop 1'); hop(left - 1, path); path.pop();
+          path.push('hop 2'); hop(left - 2, path); path.pop();
+        }
+        hop(n, []);
+      } else if (kind === 'grid') {
+        var rows = v.rows || 3, cols = v.cols || 3, blocks = v.blocks || [];
+        function blocked(r, c) { return blocks.some(function (b) { return b[0] === r && b[1] === c; }); }
+        function walk(r, c, path) {
+          if (r === rows - 1 && c === cols - 1) { ways.push(path.slice()); return; }
+          if (ways.length >= 24) return;
+          if (c + 1 < cols && !blocked(r, c + 1)) { path.push('right'); walk(r, c + 1, path); path.pop(); }
+          if (r + 1 < rows && !blocked(r + 1, c)) { path.push('down'); walk(r + 1, c, path); path.pop(); }
+        }
+        walk(0, 0, []);
+      } else if (kind === 'string') {
+        String(v.s || '').split('').forEach(function (ch, i) {
+          ways.push(['prefix ' + (i + 1), String(v.s || '').slice(0, i + 1)]);
+        });
+      } else if (kind === 'strings') {
+        var a = String(v.a || ''), b = String(v.b || '');
+        for (var i = 0; i < a.length; i++) {
+          for (var j = 0; j < b.length; j++) {
+            if (a[i] === b[j] && ways.length < 24) ways.push(['match ' + a[i], 'A' + i, 'B' + j]);
+          }
+        }
+      } else if (kind === 'stick') {
+        var length = v.length || 5;
+        for (var cut = 1; cut < length && ways.length < 18; cut++) ways.push(['cut at ' + cut, 'left ' + cut, 'right ' + (length - cut)]);
+      } else if (kind === 'balloons') {
+        (v.items || []).slice(0, 6).forEach(function (x, i) {
+          ways.push(['pop balloon ' + (i + 1), 'score x' + x]);
+        });
+      } else {
+        var items = v.items || [1, 2, 3, 4];
+        function choose(i, path) {
+          if (i >= items.length) { ways.push(path.slice()); return; }
+          if (ways.length >= 24) return;
+          path.push('take ' + items[i]); choose(i + 1, path); path.pop();
+          path.push('skip ' + items[i]); choose(i + 1, path); path.pop();
+        }
+        choose(0, []);
+      }
+      return ways.length ? ways : [['try choice A'], ['try choice B']];
+    }
+
+    function chip(text) {
+      var cls = /2|down|skip|right|cut|pop/.test(String(text)) ? 'way-chip alt' : 'way-chip';
+      return '<span class="' + cls + '">' + esc(text) + '</span>';
+    }
+
+    function renderWays(ways) {
+      return ways.map(function (way, i) {
+        return '<div class="way-row"><span class="way-idx">' + (i + 1) + '.</span>' + way.map(chip).join('') + '</div>';
+      }).join('');
+    }
 
     function renderPieces() {
       if (kind === 'grid') {
@@ -53,17 +116,17 @@
             cells += '<button type="button" class="' + cls + '" data-game-piece="' + (r * cols + c) + '"' + (blocked ? ' disabled' : '') + '>' + esc(txt) + '</button>';
           }
         }
-        return '<div class="game-grid" style="grid-template-columns:repeat(' + cols + ',1fr)">' + cells + '</div>';
+        return '<div class="game-grid journey-grid" style="grid-template-columns:repeat(' + cols + ',1fr)">' + cells + '</div>';
       }
 
       if (kind === 'string') {
-        return '<div class="letter-track">' + String(v.s || '').split('').map(function (ch, i) {
+        return '<div class="letter-track journey-track">' + String(v.s || '').split('').map(function (ch, i) {
           return '<button type="button" class="letter-tile" data-game-piece="' + i + '">' + esc(ch) + '</button>';
         }).join('') + '</div>';
       }
 
       if (kind === 'strings') {
-        return '<div class="string-match"><div>' + String(v.a || '').split('').map(function (ch, i) {
+        return '<div class="string-match journey-track"><div>' + String(v.a || '').split('').map(function (ch, i) {
           return '<button type="button" class="letter-tile" data-game-piece="' + i + '">A:' + esc(ch) + '</button>';
         }).join('') + '</div><div>' + String(v.b || '').split('').map(function (ch, i) {
           return '<button type="button" class="letter-tile alt" data-game-piece="' + (100 + i) + '">B:' + esc(ch) + '</button>';
@@ -73,7 +136,7 @@
       if (kind === 'stick') {
         var parts = [];
         for (var i = 0; i < (v.length || 5); i++) parts.push(i + 1);
-        return '<div class="stick-track">' + parts.map(function (x, i) {
+        return '<div class="stick-track journey-track">' + parts.map(function (x, i) {
           return '<button type="button" class="stick-piece" data-game-piece="' + i + '">' + esc(x) + '</button>';
         }).join('') + '</div>';
       }
@@ -81,44 +144,65 @@
       var items = v.items || [1, 2, 3, 4];
       var max = Math.max.apply(null, items.map(function (x) { return Number(x) || 1; }));
       var cls = kind === 'bars' ? 'step-card' : (kind === 'balloons' ? 'balloon-card' : 'loot-card');
-      return '<div class="game-track">' + items.map(function (x, i) {
+      return '<div class="game-track journey-track">' + items.map(function (x, i) {
         var style = kind === 'bars' ? ' style="--piece-h:' + (36 + Math.round(82 * (Number(x) || 1) / max)) + 'px"' : '';
         var prefix = kind === 'balloons' ? 'pop ' : '';
         return '<button type="button" class="' + cls + '" data-game-piece="' + i + '"' + style + '>' + prefix + esc(x) + '</button>';
       }).join('') + '</div>';
     }
 
+    var ways = buildWays();
     host.classList.add('game-viz');
     host.innerHTML =
-      '<div class="game-card">' +
-        '<div class="game-copy">' +
-          '<span class="game-badge">mini game</span>' +
+      '<div class="journey-card">' +
+        '<div class="journey-head">' +
+          '<span class="game-badge">story game</span>' +
           '<h3>' + esc(label) + '</h3>' +
-          '<p>' + esc(mission) + '</p>' +
+          '<p>' + esc(story) + '</p>' +
           '<div class="game-controls">' +
-            '<button type="button" class="btn small" data-game-run>Run demo</button>' +
-            '<button type="button" class="btn ghost small" data-game-reset>Reset</button>' +
-            '<span class="game-score" aria-live="polite">Score 0</span>' +
+            '<button type="button" class="btn small" data-game-run>Show one try</button>' +
+            '<button type="button" class="btn ghost small" data-game-reset>Back to start</button>' +
+            '<span class="game-score" aria-live="polite">0 choices tried</span>' +
           '</div>' +
         '</div>' +
-        '<div class="game-playfield">' +
-          '<div class="game-hero" aria-hidden="true"></div>' +
+        '<div class="journey-stage">' +
+          '<div class="game-hero journey-hero" aria-hidden="true"></div>' +
           renderPieces() +
         '</div>' +
+        '<details class="ways-panel">' +
+          '<summary>show me all ' + ways.length + ' ways to try it</summary>' +
+          '<p>' + esc(missionForWays(kind)) + '</p>' +
+          '<div class="ways-list">' + renderWays(ways) + '</div>' +
+        '</details>' +
       '</div>';
 
     var pieces = $$('[data-game-piece]', host);
     var scoreEl = $('.game-score', host);
+    var hero = $('.journey-hero', host);
     function setScore() {
-      if (scoreEl) scoreEl.textContent = 'Score ' + $$('.active', host).length;
+      if (scoreEl) scoreEl.textContent = $$('.active', host).length + ' choices tried';
+    }
+    function moveHeroTo(piece) {
+      if (!hero || !piece) return;
+      var stage = $('.journey-stage', host).getBoundingClientRect();
+      var box = piece.getBoundingClientRect();
+      hero.style.left = (box.left - stage.left + box.width / 2 - 17) + 'px';
+      hero.style.top = (box.top - stage.top - 36) + 'px';
+      hero.style.bottom = 'auto';
     }
     function reset() {
       pieces.forEach(function (p) { p.classList.remove('active', 'demo'); });
+      if (hero) {
+        hero.style.left = '18px';
+        hero.style.top = 'auto';
+        hero.style.bottom = '42px';
+      }
       setScore();
     }
     pieces.forEach(function (piece) {
       piece.addEventListener('click', function () {
         piece.classList.toggle('active');
+        moveHeroTo(piece);
         setScore();
       });
     });
@@ -131,11 +215,25 @@
         pieces.filter(function (p) { return !p.disabled; }).slice(0, Math.min(6, pieces.length)).forEach(function (piece, i) {
           window.setTimeout(function () {
             piece.classList.add('demo', 'active');
+            moveHeroTo(piece);
             setScore();
           }, i * 260);
         });
       });
     }
+  }
+
+  function missionForWays(kind) {
+    return {
+      bars: 'Each row is one route made from 1-step and 2-step hops.',
+      grid: 'Each row is one route from START to GOAL.',
+      row: 'Each row is one take-or-skip plan.',
+      coins: 'Each row is one treasure plan.',
+      string: 'Each row is one prefix the word builder can test.',
+      strings: 'Each row is one possible letter match.',
+      stick: 'Each row is one cut choice to try first.',
+      balloons: 'Each row is one pop choice to try.'
+    }[kind] || 'Each row is one possible way to try the tiny puzzle.';
   }
 
   function mountTree(host) {
