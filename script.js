@@ -44,6 +44,7 @@
     storyState.pos = -1;
     setTimeout(function () { placeBunny(); }, 30);
     var t = $('#story-ways'); if (t) t.textContent = ways(n);
+    var sideWays = $('#side-ways'); if (sideWays) sideWays.textContent = ways(n);
     renderAllPaths();
   }
   function placeBunny() {
