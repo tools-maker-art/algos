@@ -18,7 +18,7 @@
   </nav>
 </header>
 
-<main class="container-narrow">
+<main class="lesson-layout">
 
   <section class="level-top">
     <div class="crumbs"><a href="../dp-roadmap.html">Map</a> · World A</div>
@@ -32,28 +32,48 @@
     </div>
   </section>
 
+  <section class="lesson-shell">
+    <div class="lesson-steps" aria-label="Lesson steps">
+      <div class="lesson-step active">
+        <span class="step-bubble">01</span>
+        <span class="step-icon">&#128048;</span>
+        <span><b>The story</b><small>Understand the problem</small></span>
+      </div>
+      <div class="lesson-step">
+        <span class="step-bubble">02</span>
+        <span class="step-icon">&#127795;</span>
+        <span><b>Brute force: try every choice</b><small>Explore all possibilities</small></span>
+      </div>
+      <div class="lesson-step">
+        <span class="step-bubble">03</span>
+        <span class="step-icon">&#9889;</span>
+        <span><b>Smarter way: build up</b><small>Dynamic programming approach</small></span>
+      </div>
+    </div>
+
+    <div class="lesson-main-grid">
   <!-- ============ Scene 1: Story ============ -->
-  <section class="scene">
+  <section class="scene hero-lesson-card">
     <div class="scene-head">
       <div class="scene-num">1</div>
       <h2 class="scene-title">🐰 The story</h2>
     </div>
     <p class="one-liner">A baby rabbit stands on the <b>ground</b>. It can hop <b>1 stair</b> or <b>2 stairs</b> at a time. <br><b>How many different ways</b> can it reach the top?</p>
 
-    <div class="stairs-stage" id="stairs-stage"></div>
+    <div class="stairs-stage story-showcase" id="stairs-stage"></div>
 
-    <div class="btn-row" style="margin-top:14px">
+    <div class="btn-row story-controls">
       <button class="btn ghost" data-hop="1">⬆ hop 1</button>
       <button class="btn ghost" data-hop="2">⏫ hop 2</button>
       <button class="btn ghost" data-hop="r">↺ back to start</button>
     </div>
 
-    <div class="metric-row">
+    <div class="metric-row story-metrics">
       <div class="metric"><div class="lbl">Total ways</div><div class="val good" id="story-ways">8</div></div>
       <div class="metric"><div class="lbl">Hop sizes</div><div class="val">1 · 2</div></div>
     </div>
 
-    <details class="explainer">
+    <details class="explainer compact">
       <summary>show me all <span id="all-paths-count">8</span> ways</summary>
       <div class="body">
         <p>Every way to reach the top is just a different mix of <b>hop&nbsp;1</b> and <b>hop&nbsp;2</b> moves. Here they all are:</p>
@@ -61,7 +81,7 @@
       </div>
     </details>
 
-    <details class="explainer" open>
+    <details class="explainer compact">
       <summary>why does "0 stairs left" count as 1 way?</summary>
       <div class="body">
         <p>Picture the rabbit already standing on the top. That route is finished. How many successful routes did we just find? <b>One.</b></p>
@@ -73,6 +93,41 @@
         <p>So the base case is not a trick: <b>0 stairs left means "we made it."</b></p>
       </div>
     </details>
+  </section>
+
+      <aside class="lesson-side">
+        <div class="side-card">
+          <h3><span>&#128161;</span> What to do</h3>
+          <p>Help the rabbit reach the top by hopping:</p>
+          <div class="rule-row"><b>1</b><span>hop 1 stair at a time</span></div>
+          <div class="rule-row"><b>2</b><span>hop 2 stairs at a time</span></div>
+        </div>
+
+        <div class="side-card">
+          <h3><span>&#127919;</span> Your goal</h3>
+          <p>Find all the different ways to reach the top.</p>
+        </div>
+
+        <div class="side-card">
+          <h3><span>&#9733;</span> Example</h3>
+          <div class="mini-hop-demo" aria-label="Example hop 1 then hop 2">
+            <span class="mini-bunny">&#128048;</span>
+            <span class="mini-ground"></span>
+            <span class="mini-step one"></span>
+            <span class="mini-step two"></span>
+            <span class="mini-step three"><i></i></span>
+            <span class="arc a">+1</span>
+            <span class="arc b">+2</span>
+          </div>
+          <p class="center">One way: 1 hop + 2 hops = top</p>
+        </div>
+
+        <div class="side-card callout">
+          <h3><span>&#10024;</span> There are <b id="side-ways">8</b> ways in total!</h3>
+          <p>Can you find them all?</p>
+        </div>
+      </aside>
+    </div>
   </section>
 
   <!-- ============ Scene 2: Brute force ============ -->
