@@ -33,25 +33,40 @@
   </section>
 
   <section class="lesson-shell">
-    <div class="lesson-steps" aria-label="Lesson steps">
-      <div class="lesson-step active">
+    <div class="lesson-steps" role="tablist" aria-label="Lesson steps">
+      <button class="lesson-step active" id="lesson-tab-1" type="button" role="tab" aria-selected="true" aria-controls="lesson-panel-1" data-lesson-tab="1">
         <span class="step-bubble">01</span>
         <span class="step-icon">&#128048;</span>
         <span><b>The story</b><small>Understand the problem</small></span>
-      </div>
-      <div class="lesson-step">
+      </button>
+      <button class="lesson-step" id="lesson-tab-2" type="button" role="tab" aria-selected="false" aria-controls="lesson-panel-2" tabindex="-1" data-lesson-tab="2">
         <span class="step-bubble">02</span>
         <span class="step-icon">&#127795;</span>
-        <span><b>Brute force: try every choice</b><small>Explore all possibilities</small></span>
-      </div>
-      <div class="lesson-step">
+        <span><b>Brute force</b><small>Try every choice</small></span>
+      </button>
+      <button class="lesson-step" id="lesson-tab-3" type="button" role="tab" aria-selected="false" aria-controls="lesson-panel-3" tabindex="-1" data-lesson-tab="3">
         <span class="step-bubble">03</span>
+        <span class="step-icon">&#127890;</span>
+        <span><b>Memoization</b><small>Save answers</small></span>
+      </button>
+      <button class="lesson-step" id="lesson-tab-4" type="button" role="tab" aria-selected="false" aria-controls="lesson-panel-4" tabindex="-1" data-lesson-tab="4">
+        <span class="step-bubble">04</span>
+        <span class="step-icon">&#129521;</span>
+        <span><b>Tabulation</b><small>Build a table</small></span>
+      </button>
+      <button class="lesson-step" id="lesson-tab-5" type="button" role="tab" aria-selected="false" aria-controls="lesson-panel-5" tabindex="-1" data-lesson-tab="5">
+        <span class="step-bubble">05</span>
+        <span class="step-icon">&#129718;</span>
+        <span><b>Space saver</b><small>Keep two numbers</small></span>
+      </button>
+      <button class="lesson-step" id="lesson-tab-6" type="button" role="tab" aria-selected="false" aria-controls="lesson-panel-6" tabindex="-1" data-lesson-tab="6">
+        <span class="step-bubble">06</span>
         <span class="step-icon">&#9889;</span>
-        <span><b>Smarter way: build up</b><small>Dynamic programming approach</small></span>
-      </div>
+        <span><b>Before vs After</b><small>See why DP helps</small></span>
+      </button>
     </div>
 
-    <div class="lesson-main-grid">
+    <div class="lesson-main-grid lesson-panel" id="lesson-panel-1" role="tabpanel" aria-labelledby="lesson-tab-1" data-lesson-panel="1">
   <!-- ============ Scene 1: Story ============ -->
   <section class="scene hero-lesson-card">
     <div class="scene-head">
@@ -128,10 +143,8 @@
         </div>
       </aside>
     </div>
-  </section>
-
   <!-- ============ Scene 2: Brute force ============ -->
-  <section class="scene">
+  <section class="scene lesson-panel" id="lesson-panel-2" role="tabpanel" aria-labelledby="lesson-tab-2" data-lesson-panel="2" hidden>
     <div class="scene-head">
       <div class="scene-num">2</div>
       <h2 class="scene-title">🌳 Brute force: try every choice</h2>
@@ -201,7 +214,7 @@ ways(stairsLeft):
   </section>
 
   <!-- ============ Scene 3: Memoization ============ -->
-  <section class="scene">
+  <section class="scene lesson-panel" id="lesson-panel-3" role="tabpanel" aria-labelledby="lesson-tab-3" data-lesson-panel="3" hidden>
     <div class="scene-head">
       <div class="scene-num">3</div>
       <h2 class="scene-title">🎒 Memoization: don&rsquo;t solve the same thing twice</h2>
@@ -275,7 +288,7 @@ ways(stairsLeft):
   </section>
 
   <!-- ============ Scene 4: Tabulation ============ -->
-  <section class="scene">
+  <section class="scene lesson-panel" id="lesson-panel-4" role="tabpanel" aria-labelledby="lesson-tab-4" data-lesson-panel="4" hidden>
     <div class="scene-head">
       <div class="scene-num">4</div>
       <h2 class="scene-title">🧱 Tabulation: build a small table from scratch</h2>
@@ -338,7 +351,7 @@ return scoreboard[top]</pre>
   </section>
 
   <!-- ============ Scene 5: Space optimization ============ -->
-  <section class="scene">
+  <section class="scene lesson-panel" id="lesson-panel-5" role="tabpanel" aria-labelledby="lesson-tab-5" data-lesson-panel="5" hidden>
     <div class="scene-head">
       <div class="scene-num">5</div>
       <h2 class="scene-title">🪶 Space saver: keep just two numbers in your head</h2>
@@ -412,7 +425,7 @@ return curr</pre>
   </section>
 
   <!-- ============ Scene 6: Compare ============ -->
-  <section class="scene">
+  <section class="scene lesson-panel" id="lesson-panel-6" role="tabpanel" aria-labelledby="lesson-tab-6" data-lesson-panel="6" hidden>
     <div class="scene-head">
       <div class="scene-num">6</div>
       <h2 class="scene-title">⚡ Before vs After</h2>
@@ -437,6 +450,8 @@ return curr</pre>
     <p class="center" style="margin-top:18px">
       <span class="toast">🎉 You learned DP!</span>
     </p>
+  </section>
+
   </section>
 
   <nav class="bottom-nav">

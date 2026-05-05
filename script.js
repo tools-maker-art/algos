@@ -15,6 +15,49 @@
     return n;
   }
 
+  /* ===== LESSON TABS ===== */
+  function activateLessonTab(id, focusTab) {
+    var tabs = $$('[data-lesson-tab]');
+    var panels = $$('[data-lesson-panel]');
+    if (!tabs.length || !panels.length) return;
+    tabs.forEach(function (tab) {
+      var active = tab.getAttribute('data-lesson-tab') === id;
+      tab.classList.toggle('active', active);
+      tab.setAttribute('aria-selected', active ? 'true' : 'false');
+      tab.setAttribute('tabindex', active ? '0' : '-1');
+      if (active && focusTab) tab.focus();
+    });
+    panels.forEach(function (panel) {
+      var active = panel.getAttribute('data-lesson-panel') === id;
+      panel.hidden = !active;
+    });
+  }
+  document.addEventListener('click', function (e) {
+    var tab = e.target.closest('[data-lesson-tab]');
+    if (!tab) return;
+    activateLessonTab(tab.getAttribute('data-lesson-tab'), false);
+  });
+  document.addEventListener('keydown', function (e) {
+    var tab = e.target.closest('[data-lesson-tab]');
+    if (!tab) return;
+    var tabs = $$('[data-lesson-tab]');
+    var idx = tabs.indexOf(tab);
+    var nextIdx = idx;
+    if (e.key === 'ArrowRight') nextIdx = (idx + 1) % tabs.length;
+    else if (e.key === 'ArrowLeft') nextIdx = (idx - 1 + tabs.length) % tabs.length;
+    else if (e.key === 'Home') nextIdx = 0;
+    else if (e.key === 'End') nextIdx = tabs.length - 1;
+    else if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      activateLessonTab(tab.getAttribute('data-lesson-tab'), false);
+      return;
+    } else {
+      return;
+    }
+    e.preventDefault();
+    activateLessonTab(tabs[nextIdx].getAttribute('data-lesson-tab'), true);
+  });
+
   /* ===== STORY: bunny starts on the GROUND (position -1) ===== */
   var storyState = { n: 5, pos: -1 }; // pos = -1 means ground; 0..n-1 means step
   function ways(n) {
@@ -327,4 +370,5 @@
   renderTab();
   renderSpace();
   updateCompare();
+  activateLessonTab('1', false);
 })();
