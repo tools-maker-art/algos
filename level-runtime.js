@@ -322,14 +322,25 @@
         host.appendChild(slot);
       }
       var saved = $('#memo-saved'); if (saved) saved.textContent = Math.max(0, i + 1);
-      var skipped = $('#memo-skipped'); if (skipped) skipped.textContent = Math.max(0, i + 1) > 0 ? Math.floor((i + 1) * 0.7) : 0;
+      var skipped = $('#memo-skipped');
+      if (skipped) {
+        var cmp = L.compare;
+        var totalSaved = (cmp && cmp.brute && cmp.dp) ? Math.max(0, cmp.brute - cmp.dp) : 0;
+        skipped.textContent = (i >= 0 && totalSaved)
+          ? Math.round((i + 1) / m.entries.length * totalSaved)
+          : Math.max(0, i);
+      }
       var lbl = $('#memo-step-lbl'); if (lbl) lbl.textContent = (i + 1) + ' / ' + m.entries.length;
     }
     render();
     var scope = host.closest('.scene');
-    scope.querySelector('[data-memo="next"]').addEventListener('click', function () { i = Math.min(m.entries.length - 1, i + 1); render(); });
-    scope.querySelector('[data-memo="all"]').addEventListener('click', function () { i = m.entries.length - 1; render(); });
-    scope.querySelector('[data-memo="reset"]').addEventListener('click', function () { i = -1; render(); });
+    if (!scope) return;
+    var nBtn = scope.querySelector('[data-memo="next"]');
+    var aBtn = scope.querySelector('[data-memo="all"]');
+    var rBtn = scope.querySelector('[data-memo="reset"]');
+    if (nBtn) nBtn.addEventListener('click', function () { i = Math.min(m.entries.length - 1, i + 1); render(); });
+    if (aBtn) aBtn.addEventListener('click', function () { i = m.entries.length - 1; render(); });
+    if (rBtn) rBtn.addEventListener('click', function () { i = -1; render(); });
   }
 
   function mountTab(host) {
@@ -355,9 +366,13 @@
     }
     render();
     var scope = host.closest('.scene');
-    scope.querySelector('[data-tab="next"]').addEventListener('click', function () { i = Math.min(t.values.length - 1, i + 1); render(); });
-    scope.querySelector('[data-tab="all"]').addEventListener('click', function () { i = t.values.length - 1; render(); });
-    scope.querySelector('[data-tab="reset"]').addEventListener('click', function () { i = -1; render(); });
+    if (!scope) return;
+    var nBtn = scope.querySelector('[data-tab="next"]');
+    var aBtn = scope.querySelector('[data-tab="all"]');
+    var rBtn = scope.querySelector('[data-tab="reset"]');
+    if (nBtn) nBtn.addEventListener('click', function () { i = Math.min(t.values.length - 1, i + 1); render(); });
+    if (aBtn) aBtn.addEventListener('click', function () { i = t.values.length - 1; render(); });
+    if (rBtn) rBtn.addEventListener('click', function () { i = -1; render(); });
   }
 
   function mountSpace(host) {
@@ -383,9 +398,13 @@
     }
     render();
     var scope = host.closest('.scene');
-    scope.querySelector('[data-space="next"]').addEventListener('click', function () { i = Math.min(frames.length - 1, i + 1); render(); });
-    scope.querySelector('[data-space="all"]').addEventListener('click', function () { i = frames.length - 1; render(); });
-    scope.querySelector('[data-space="reset"]').addEventListener('click', function () { i = 0; render(); });
+    if (!scope) return;
+    var nBtn = scope.querySelector('[data-space="next"]');
+    var aBtn = scope.querySelector('[data-space="all"]');
+    var rBtn = scope.querySelector('[data-space="reset"]');
+    if (nBtn) nBtn.addEventListener('click', function () { i = Math.min(frames.length - 1, i + 1); render(); });
+    if (aBtn) aBtn.addEventListener('click', function () { i = frames.length - 1; render(); });
+    if (rBtn) rBtn.addEventListener('click', function () { i = 0; render(); });
   }
 
   function mountCompare() {
@@ -403,6 +422,36 @@
     var tab = $('[data-tab]'); if (tab) mountTab(tab);
     var sp = $('[data-space]'); if (sp) mountSpace(sp);
     mountCompare();
+
+    // Inject keyboard hint into each interactive scene's btn-row
+    $$('[data-tree="expand"],[data-memo="next"],[data-tab="next"],[data-space="next"]').forEach(function (btn) {
+      var row = btn.closest('.btn-row');
+      if (row && !row.querySelector('.kbd-hint')) {
+        var hint = document.createElement('span');
+        hint.className = 'kbd-hint';
+        hint.setAttribute('aria-hidden', 'true');
+        hint.innerHTML = '<kbd>&#8592;</kbd><kbd>&#8594;</kbd>';
+        row.appendChild(hint);
+      }
+    });
+
+    // Keyboard shortcuts: → next/expand, ← reset, End = fill all (active when focus is inside a scene)
+    document.addEventListener('keydown', function (e) {
+      var el = document.activeElement;
+      if (!el || el === document.body || !el.closest) return;
+      var scene = el.closest('.scene');
+      if (!scene) return;
+      if (e.key === 'ArrowRight') {
+        var btn = scene.querySelector('[data-tree="expand"],[data-memo="next"],[data-tab="next"],[data-space="next"]');
+        if (btn) { e.preventDefault(); btn.click(); }
+      } else if (e.key === 'ArrowLeft') {
+        var rst = scene.querySelector('[data-tree="reset"],[data-memo="reset"],[data-tab="reset"],[data-space="reset"]');
+        if (rst) { e.preventDefault(); rst.click(); }
+      } else if (e.key === 'End') {
+        var all = scene.querySelector('[data-tree="all"],[data-memo="all"],[data-tab="all"],[data-space="all"]');
+        if (all) { e.preventDefault(); all.click(); }
+      }
+    });
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount);

@@ -52,11 +52,14 @@ def pseudoize(code):
     sig = re.compile(r'^(?:public\s+|private\s+|static\s+)*(?:int|boolean|void|char|String|Integer|Boolean|List<[^>]+>|Set<[^>]+>|Map<[^>]+>|Boolean\[\]|int\[\]|int\[\]\[\]|String\[\])\s+([A-Za-z_]\w*)\((.*)\)\s*\{?$')
     for raw in code.splitlines():
         s = raw.strip()
+        stripped_brace = False
         while s.startswith("}"):
             indent = max(0, indent - 1)
             s = s[1:].strip()
+            stripped_brace = True
         if not s:
-            lines.append("")
+            if not stripped_brace:  # preserve intentional blank lines; skip lone-} blank lines
+                lines.append("")
             continue
 
         opens = s.count("{")
