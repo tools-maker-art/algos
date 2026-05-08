@@ -66,8 +66,7 @@
     best = very_big_number
     <span class="kw">for</span> k from i to before j:
     best = min(best, dp(i, k, d) + dp(k+<span class="num">1</span>, j, d) + d[i-<span class="num">1</span>]*d[k]*d[j])
-    <span class="kw">return</span> best
-</pre>
+    <span class="kw">return</span> best</pre>
 </div></div>
 </details>
   </section>
@@ -133,7 +132,6 @@
     dp[i][j] = very_big_number
     <span class="kw">for</span> k from i to before j:
     dp[i][j] = min(dp[i][j], dp[i][k] + dp[k+<span class="num">1</span>][j] + d[i-<span class="num">1</span>]*d[k]*d[j])
-
 <span class="kw">return</span> dp[<span class="num">1</span>][n-<span class="num">1</span>]</pre>
 </div></div>
 </details>

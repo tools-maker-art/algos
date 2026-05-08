@@ -132,7 +132,6 @@ dp = <span class="kw">new</span> boxes
     dp[i][j] = very_big_number
     <span class="kw">for</span> k from i+<span class="num">1</span> to before j:
     dp[i][j] = min(dp[i][j], dp[i][k] + dp[k][j] + c[j]-c[i])
-
 <span class="kw">return</span> dp[<span class="num">0</span>][m-<span class="num">1</span>]</pre>
 </div></div>
 </details>

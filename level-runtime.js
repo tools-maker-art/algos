@@ -415,13 +415,216 @@
     var bar = $('#cmp-dp-bar'); if (bar) bar.style.width = Math.max(4, Math.min(100, c.dpRatio || 25)) + '%';
   }
 
+  function makeLevelFile(num) {
+    var files = {
+      1: 'level-01-fibonacci.html', 2: 'level-02-climbing-stairs.html',
+      3: 'level-03-frog-jump.html', 4: 'level-04-frog-jump-k.html',
+      5: 'level-05-non-adjacent-sum.html', 6: 'level-06-house-robber.html',
+      7: 'level-07-house-robber-2.html', 8: 'level-08-unique-paths.html',
+      9: 'level-09-unique-paths-2.html', 10: 'level-10-min-path-sum.html',
+      11: 'level-11-triangle.html', 12: 'level-12-falling-path-sum.html',
+      13: 'level-13-cherry-pickup.html', 14: 'level-14-subset-sum.html',
+      15: 'level-15-partition-equal-subset.html', 16: 'level-16-count-subsets-sum-k.html',
+      17: 'level-17-min-subset-diff.html', 18: 'level-18-target-sum.html',
+      19: 'level-19-01-knapsack.html', 20: 'level-20-unbounded-knapsack.html',
+      21: 'level-21-coin-change-min.html', 22: 'level-22-coin-change-2.html',
+      23: 'level-23-rod-cutting.html', 24: 'level-24-lcs.html',
+      25: 'level-25-print-lcs.html', 26: 'level-26-longest-common-substring.html',
+      27: 'level-27-scs.html', 28: 'level-28-min-insertions-palindrome.html',
+      29: 'level-29-min-deletions-equal.html', 30: 'level-30-edit-distance.html',
+      31: 'level-31-wildcard-matching.html', 32: 'level-32-distinct-subsequences.html',
+      33: 'level-33-lis-n2.html', 34: 'level-34-lis-bsearch.html',
+      35: 'level-35-number-of-lis.html', 36: 'level-36-bitonic.html',
+      37: 'level-37-largest-divisible-subset.html', 38: 'level-38-longest-string-chain.html',
+      39: 'level-39-stock-1.html', 40: 'level-40-stock-2.html',
+      41: 'level-41-stock-3.html', 42: 'level-42-stock-4.html',
+      43: 'level-43-stock-cooldown.html', 44: 'level-44-stock-fee.html',
+      45: 'level-45-mcm.html', 46: 'level-46-cut-stick.html',
+      47: 'level-47-burst-balloons.html', 48: 'level-48-palindrome-partition-2.html',
+      49: 'level-49-partition-max-sum.html', 50: 'level-50-largest-rect-histogram.html',
+      51: 'level-51-maximum-rectangle.html', 52: 'level-52-word-break.html',
+      53: 'level-53-word-break-2.html'
+    };
+    return files[num] || '';
+  }
+
+  function addContractNav() {
+    var nav = $('.topbar nav');
+    if (!nav) return;
+    var title = $('.level-top h1');
+    var match = title && title.textContent.match(/Level\s+(\d+)/i);
+    var n = match ? Number(match[1]) : 0;
+    var prev = n > 1 ? makeLevelFile(n - 1) : '../dp-roadmap.html';
+    var next = n < 53 ? makeLevelFile(n + 1) : '../dp-roadmap.html';
+    nav.innerHTML =
+      '<a href="../dp-roadmap.html">Map</a>' +
+      '<a href="' + esc(prev) + '">&#8592; Prev</a>' +
+      '<span class="level-pill">Level ' + esc(n || '?') + '</span>' +
+      '<a href="' + esc(next) + '">Next &#8594;</a>';
+  }
+
+  function addContractTabs() {
+    var main = $('.container-narrow');
+    if (!main || $('.contract-tabs')) return;
+    var scenes = $$('.scene', main).slice(0, 6);
+    if (scenes.length < 6) return;
+    var labels = [
+      ['01', '&#128214;', 'The Story'],
+      ['02', '&#127795;', 'Brute Force'],
+      ['03', '&#127890;', 'Memoization'],
+      ['04', '&#129521;', 'Tabulation'],
+      ['05', '&#129718;', 'Space Saver'],
+      ['06', '&#9889;', 'Before vs After']
+    ];
+    var tabbar = document.createElement('div');
+    tabbar.className = 'contract-tabs lesson-steps';
+    tabbar.setAttribute('role', 'tablist');
+    tabbar.setAttribute('aria-label', 'Level stages');
+    tabbar.innerHTML = labels.map(function (x, i) {
+      return '<button class="lesson-step' + (i === 0 ? ' active' : '') + '" type="button" role="tab" aria-selected="' + (i === 0 ? 'true' : 'false') + '" data-contract-tab="' + i + '">' +
+        '<span class="step-bubble">' + x[0] + '</span><span class="step-icon">' + x[1] + '</span><span><b>' + x[2] + '</b><small>Step-by-step</small></span></button>';
+    }).join('');
+    main.insertBefore(tabbar, scenes[0]);
+    scenes.forEach(function (scene, i) {
+      scene.classList.add('contract-panel');
+      scene.setAttribute('role', 'tabpanel');
+      if (i > 0) scene.hidden = true;
+    });
+    $$('[data-contract-tab]', tabbar).forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var idx = Number(btn.getAttribute('data-contract-tab'));
+        $$('[data-contract-tab]', tabbar).forEach(function (b, j) {
+          b.classList.toggle('active', j === idx);
+          b.setAttribute('aria-selected', j === idx ? 'true' : 'false');
+        });
+        scenes.forEach(function (scene, j) { scene.hidden = j !== idx; });
+      });
+    });
+  }
+
+  function addWhyLines() {
+    var lines = [
+      'Why this matters: the concrete moves make the recurrence feel like the story, not a formula.',
+      'Why this matters: brute force is honest, but it exposes repeated questions.',
+      'Why this matters: memoization keeps the same story and skips wasted work.',
+      'Why this matters: tabulation turns recursion into a predictable left-to-right build.',
+      'Why this matters: the space saver keeps only the values the next step can actually use.',
+      'Why this matters: the counter shows why the DP version scales.'
+    ];
+    $$('.scene').slice(0, 6).forEach(function (scene, i) {
+      if ($('.why-line', scene)) return;
+      var p = document.createElement('p');
+      p.className = 'why-line';
+      p.textContent = lines[i];
+      scene.appendChild(p);
+    });
+  }
+
+  function labelStepCounters() {
+    var treeScene = $('[data-tree]') && $('[data-tree]').closest('.scene');
+    if (treeScene && !$('#tree-step-lbl')) {
+      var p = document.createElement('p');
+      p.className = 'muted center contract-step-count';
+      p.innerHTML = 'Step <span id="tree-step-lbl">1 / ' + esc(((L.tree && L.tree.maxDepth) || 4) + 1) + '</span>';
+      var row = $('.btn-row', treeScene);
+      if (row) row.insertAdjacentElement('afterend', p);
+    }
+    function syncTreeLabel() {
+      var lbl = $('#tree-step-lbl');
+      if (!lbl || !L.tree) return;
+      var visible = $$('svg.tree .node-bg').length;
+      var total = (L.tree.nodes || []).length || visible;
+      lbl.textContent = visible + ' / ' + total;
+    }
+    $$('[data-tree="expand"],[data-tree="all"],[data-tree="reset"]').forEach(function (b) {
+      b.addEventListener('click', function () { window.setTimeout(syncTreeLabel, 0); });
+    });
+    syncTreeLabel();
+  }
+
+  function addAutoControls() {
+    var configs = [
+      { scene: $('[data-tree]') && $('[data-tree]').closest('.scene'), step: '[data-tree="expand"]', reset: '[data-tree="reset"]' },
+      { scene: $('.slots[data-memo]') && $('.slots[data-memo]').closest('.scene'), step: '[data-memo="next"]', reset: '[data-memo="reset"]' },
+      { scene: $('[data-tab]') && $('[data-tab]').closest('.scene'), step: '[data-tab="next"]', reset: '[data-tab="reset"]' },
+      { scene: $('[data-space]') && $('[data-space]').closest('.scene'), step: '[data-space="next"]', reset: '[data-space="reset"]' }
+    ];
+    configs.forEach(function (cfg) {
+      if (!cfg.scene || cfg.scene.querySelector('[data-contract-auto]')) return;
+      var row = $('.btn-row', cfg.scene);
+      var step = cfg.scene.querySelector(cfg.step);
+      var reset = cfg.scene.querySelector(cfg.reset);
+      if (!row || !step || !reset) return;
+      step.textContent = '\u25b6 Step';
+      reset.textContent = '\u21ba Reset';
+      var fill = row.querySelector('[data-tree="all"],[data-memo="all"],[data-tab="all"],[data-space="all"]');
+      if (fill) fill.style.display = 'none';
+      var auto = document.createElement('button');
+      auto.type = 'button';
+      auto.className = 'btn ghost';
+      auto.setAttribute('data-contract-auto', '');
+      auto.textContent = '\u23e9 Auto';
+      row.insertBefore(auto, reset);
+      var timer = null;
+      function stop(done) {
+        if (timer) window.clearInterval(timer);
+        timer = null;
+        auto.textContent = done ? '\u2705 Done' : '\u23e9 Auto';
+      }
+      reset.addEventListener('click', function () { stop(false); });
+      auto.addEventListener('click', function () {
+        if (timer) { stop(false); return; }
+        auto.textContent = '\u23f8 Pause';
+        timer = window.setInterval(function () {
+          var before = cfg.scene.textContent;
+          step.click();
+          window.setTimeout(function () {
+            var after = cfg.scene.textContent;
+            if (before === after) stop(true);
+          }, 0);
+        }, 600);
+      });
+    });
+  }
+
+  function addCompareSlider() {
+    var scene = $('#cmp-brute-num') && $('#cmp-brute-num').closest('.scene');
+    if (!scene || scene.querySelector('[data-compare-slider]')) return;
+    var c = L.compare || {};
+    var wrap = document.createElement('div');
+    wrap.className = 'compare-slider';
+    wrap.innerHTML =
+      '<label>n grows: <span data-compare-n>1</span></label>' +
+      '<input data-compare-slider type="range" min="1" max="12" value="1">' +
+      '<div class="complexity-row"><span class="bad">O(2^n)</span><span class="good">O(n)</span></div>';
+    scene.insertBefore(wrap, $('.compare', scene));
+    var slider = $('[data-compare-slider]', wrap);
+    var nLbl = $('[data-compare-n]', wrap);
+    var brute = $('#cmp-brute-num');
+    var dp = $('#cmp-dp-num');
+    slider.addEventListener('input', function () {
+      var n = Number(slider.value);
+      nLbl.textContent = n;
+      if (brute) brute.innerHTML = esc(Math.min(999999, Math.pow(2, n) - 1)) + ' <small>calls</small>';
+      if (dp) dp.innerHTML = esc(n + 1) + ' <small>DP steps</small>';
+    });
+    if (c.brute && brute) brute.innerHTML = esc(c.brute) + ' <small>calls</small>';
+    if (c.dp && dp) dp.innerHTML = esc(c.dp) + ' <small>DP steps</small>';
+  }
+
   function mount() {
+    addContractNav();
+    addContractTabs();
     var v = $('[data-viz]'); if (v) mountViz(v);
     var t = $('[data-tree]'); if (t) mountTree(t);
     var m = $('.slots[data-memo]'); if (m) mountMemo(m);
     var tab = $('[data-tab]'); if (tab) mountTab(tab);
     var sp = $('[data-space]'); if (sp) mountSpace(sp);
     mountCompare();
+    labelStepCounters();
+    addAutoControls();
+    addCompareSlider();
+    addWhyLines();
 
     // Inject keyboard hint into each interactive scene's btn-row
     $$('[data-tree="expand"],[data-memo="next"],[data-tab="next"],[data-space="next"]').forEach(function (btn) {

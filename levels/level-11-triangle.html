@@ -63,8 +63,7 @@
   </div>
 <pre>dp(i, j, <span class="kw">List</span>&lt;<span class="kw">List</span>&lt;<span class="kw">Integer</span>&gt;&gt; t):
     <span class="kw">if</span> (i == t.size()) <span class="kw">return</span> <span class="num">0</span>
-    <span class="kw">return</span> t.get(i).get(j) + min(dp(i+<span class="num">1</span>,j,t), dp(i+<span class="num">1</span>,j+<span class="num">1</span>,t))
-</pre>
+    <span class="kw">return</span> t.get(i).get(j) + min(dp(i+<span class="num">1</span>,j,t), dp(i+<span class="num">1</span>,j+<span class="num">1</span>,t))</pre>
 </div></div>
 </details>
   </section>
@@ -103,8 +102,7 @@
 dp(i, j, <span class="kw">List</span>&lt;<span class="kw">List</span>&lt;<span class="kw">Integer</span>&gt;&gt; t):
     <span class="kw">if</span> (i == t.size()) <span class="kw">return</span> <span class="num">0</span>
     <span class="kw">if</span> (memo[i][j] != empty) <span class="kw">return</span> memo[i][j]
-    <span class="kw">return</span> memo[i][j] = t.get(i).get(j) + min(dp(i+<span class="num">1</span>,j,t), dp(i+<span class="num">1</span>,j+<span class="num">1</span>,t))
-</pre>
+    <span class="kw">return</span> memo[i][j] = t.get(i).get(j) + min(dp(i+<span class="num">1</span>,j,t), dp(i+<span class="num">1</span>,j+<span class="num">1</span>,t))</pre>
 </div></div>
 </details>
   </section>

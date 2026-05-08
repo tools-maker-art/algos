@@ -65,8 +65,7 @@
     <span class="kw">if</span> (i &lt; <span class="num">0</span> or w == <span class="num">0</span>) <span class="kw">return</span> <span class="num">0</span>
     skip = best(i-<span class="num">1</span>, w, wt, val)
     pick = (w &gt;= wt[i]) <span class="kw">if</span> val[i] + best(i-<span class="num">1</span>, w - wt[i], wt, val) <span class="kw">else</span> <span class="num">0</span>
-    <span class="kw">return</span> max(skip, pick)
-</pre>
+    <span class="kw">return</span> max(skip, pick)</pre>
 </div></div>
 </details>
   </section>
@@ -107,8 +106,7 @@ best(i, w, wt, val):
     <span class="kw">if</span> (memo[i][w] != empty) <span class="kw">return</span> memo[i][w]
     skip = best(i-<span class="num">1</span>, w, wt, val)
     pick = (w &gt;= wt[i]) <span class="kw">if</span> val[i] + best(i-<span class="num">1</span>, w - wt[i], wt, val) <span class="kw">else</span> <span class="num">0</span>
-    <span class="kw">return</span> memo[i][w] = max(skip, pick)
-</pre>
+    <span class="kw">return</span> memo[i][w] = max(skip, pick)</pre>
 </div></div>
 </details>
   </section>
@@ -139,7 +137,6 @@ best(i, w, wt, val):
 dp[i][w] = dp[i-<span class="num">1</span>][w]
 <span class="kw">if</span> w &gt;= wt[i-<span class="num">1</span>]:
 dp[i][w] = max(dp[i][w], val[i-<span class="num">1</span>] + dp[i-<span class="num">1</span>][w - wt[i-<span class="num">1</span>]])
-
 <span class="kw">return</span> dp[n][W]</pre>
 </div></div>
 </details>

@@ -64,8 +64,7 @@
 <pre>paths(i, j, g):
     <span class="kw">if</span> (i &lt; <span class="num">0</span> or j &lt; <span class="num">0</span> or g[i][j] == <span class="num">1</span>) <span class="kw">return</span> <span class="num">0</span>
     <span class="kw">if</span> (i == <span class="num">0</span> and j == <span class="num">0</span>) <span class="kw">return</span> <span class="num">1</span>
-    <span class="kw">return</span> paths(i-<span class="num">1</span>,j,g) + paths(i,j-<span class="num">1</span>,g)
-</pre>
+    <span class="kw">return</span> paths(i-<span class="num">1</span>,j,g) + paths(i,j-<span class="num">1</span>,g)</pre>
 </div></div>
 </details>
   </section>
@@ -105,8 +104,7 @@ paths(i, j, g):
     <span class="kw">if</span> (i &lt; <span class="num">0</span> or j &lt; <span class="num">0</span> or g[i][j] == <span class="num">1</span>) <span class="kw">return</span> <span class="num">0</span>
     <span class="kw">if</span> (i == <span class="num">0</span> and j == <span class="num">0</span>) <span class="kw">return</span> <span class="num">1</span>
     <span class="kw">if</span> (memo[i][j] != -<span class="num">1</span>) <span class="kw">return</span> memo[i][j]
-    <span class="kw">return</span> memo[i][j] = paths(i-<span class="num">1</span>,j,g) + paths(i,j-<span class="num">1</span>,g)
-</pre>
+    <span class="kw">return</span> memo[i][j] = paths(i-<span class="num">1</span>,j,g) + paths(i,j-<span class="num">1</span>,g)</pre>
 </div></div>
 </details>
   </section>
@@ -137,7 +135,6 @@ paths(i, j, g):
 <span class="kw">if</span> (g[i][j] == <span class="num">1</span>) dp[i][j] = <span class="num">0</span>
 <span class="kw">else</span> <span class="kw">if</span> (i == <span class="num">0</span> and j == <span class="num">0</span>) dp[i][j] = <span class="num">1</span>
 <span class="kw">else</span> dp[i][j] = (i&gt;<span class="num">0</span> <span class="kw">if</span> dp[i-<span class="num">1</span>][j] <span class="kw">else</span> <span class="num">0</span>) + (j&gt;<span class="num">0</span> <span class="kw">if</span> dp[i][j-<span class="num">1</span>] <span class="kw">else</span> <span class="num">0</span>)
-
 <span class="kw">return</span> dp[m-<span class="num">1</span>][n-<span class="num">1</span>]</pre>
 </div></div>
 </details>
@@ -168,7 +165,6 @@ dp[<span class="num">0</span>] = (g[<span class="num">0</span>][<span class="num
 
 <span class="kw">if</span> (g[i][j] == <span class="num">1</span>) dp[j] = <span class="num">0</span>
 <span class="kw">else</span> <span class="kw">if</span> (j &gt; <span class="num">0</span>) dp[j] += dp[j-<span class="num">1</span>]
-
 <span class="kw">return</span> dp[n-<span class="num">1</span>]</pre>
 </div></div>
 </details>

@@ -64,8 +64,7 @@
 <pre>dp(i, j, g):
     <span class="kw">if</span> (i == <span class="num">0</span> and j == <span class="num">0</span>) <span class="kw">return</span> g[<span class="num">0</span>][<span class="num">0</span>]
     <span class="kw">if</span> (i &lt; <span class="num">0</span> or j &lt; <span class="num">0</span>) <span class="kw">return</span> very_big_number
-    <span class="kw">return</span> g[i][j] + min(dp(i-<span class="num">1</span>,j,g), dp(i,j-<span class="num">1</span>,g))
-</pre>
+    <span class="kw">return</span> g[i][j] + min(dp(i-<span class="num">1</span>,j,g), dp(i,j-<span class="num">1</span>,g))</pre>
 </div></div>
 </details>
   </section>
@@ -105,8 +104,7 @@ dp(i, j, g):
     <span class="kw">if</span> (i == <span class="num">0</span> and j == <span class="num">0</span>) <span class="kw">return</span> g[<span class="num">0</span>][<span class="num">0</span>]
     <span class="kw">if</span> (i &lt; <span class="num">0</span> or j &lt; <span class="num">0</span>) <span class="kw">return</span> very_big_number
     <span class="kw">if</span> (memo[i][j] != -<span class="num">1</span>) <span class="kw">return</span> memo[i][j]
-    <span class="kw">return</span> memo[i][j] = g[i][j] + min(dp(i-<span class="num">1</span>,j,g), dp(i,j-<span class="num">1</span>,g))
-</pre>
+    <span class="kw">return</span> memo[i][j] = g[i][j] + min(dp(i-<span class="num">1</span>,j,g), dp(i,j-<span class="num">1</span>,g))</pre>
 </div></div>
 </details>
   </section>

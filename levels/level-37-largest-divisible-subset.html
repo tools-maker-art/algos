@@ -129,9 +129,7 @@ best = <span class="num">0</span>
 <span class="kw">for</span> j from <span class="num">0</span> to before i:
 <span class="kw">if</span> (nums[i] % nums[j] == <span class="num">0</span> and dp[j] + <span class="num">1</span> &gt; dp[i])
     dp[i] = dp[j] + <span class="num">1</span>; par[i] = j
-
 <span class="kw">if</span> (dp[i] &gt; dp[best]) best = i
-
 <span class="kw">return</span> dp[best]</pre>
 </div></div>
 </details>

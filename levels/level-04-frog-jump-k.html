@@ -66,8 +66,7 @@
     best = very_big_number
     <span class="kw">for</span> j from <span class="num">1</span> to K and i - j &gt;= <span class="num">0</span>:
     best = min(best, cost(i-j, h, K) + abs(h[i]-h[i-j]))
-    <span class="kw">return</span> best
-</pre>
+    <span class="kw">return</span> best</pre>
 </div></div>
 </details>
   </section>
@@ -109,8 +108,7 @@ cost(i, h, K):
     best = very_big_number
     <span class="kw">for</span> j from <span class="num">1</span> to K and i - j &gt;= <span class="num">0</span>:
     best = min(best, cost(i-j,h,K) + abs(h[i]-h[i-j]))
-    <span class="kw">return</span> memo[i] = best
-</pre>
+    <span class="kw">return</span> memo[i] = best</pre>
 </div></div>
 </details>
   </section>
@@ -141,7 +139,6 @@ best = very_big_number
 <span class="kw">for</span> j from <span class="num">1</span> to K and i - j &gt;= <span class="num">0</span>:
 best = min(best, dp[i-j] + abs(h[i]-h[i-j]))
 dp[i] = best
-
 <span class="kw">return</span> dp[n-<span class="num">1</span>]</pre>
 </div></div>
 </details>
@@ -199,7 +196,7 @@ dp[i] = best
 
 <footer class="site">DP Adventure · <a href="../index.html">Home</a></footer>
 
-<script type="application/json" id="level-data">{"viz": {"kind": "bars", "items": [10, 20, 30, 10], "label": "heights \u00b7 K=3"}, "tree": {"maxDepth": 3, "nodes": [{"id": 0, "lbl": "cost(3)", "d": 0, "p": null, "dup": false, "base": false}, {"id": 1, "lbl": "cost(2)", "d": 1, "p": 0, "dup": false, "base": false}, {"id": 2, "lbl": "cost(1)", "d": 2, "p": 1, "dup": false, "base": false}, {"id": 3, "lbl": "cost(0)", "d": 3, "p": 2, "dup": false, "base": true}, {"id": 4, "lbl": "cost(0)", "d": 2, "p": 1, "dup": true, "base": true}, {"id": 5, "lbl": "cost(1)", "d": 1, "p": 0, "dup": true, "base": false}, {"id": 6, "lbl": "cost(0)", "d": 2, "p": 5, "dup": true, "base": true}, {"id": 7, "lbl": "cost(0)", "d": 1, "p": 0, "dup": true, "base": true}]}, "memo": {"entries": [{"k": "cost(0)", "v": 0}, {"k": "cost(1)", "v": 10}, {"k": "cost(2)", "v": 20}, {"k": "cost(3)", "v": 0}]}, "tab": {"values": [0, 10, 20, 0], "labels": ["dp[0]", "dp[1]", "dp[2]", "dp[3]"], "formulas": ["<b>dp[0]</b> = 0", "<b>dp[1]</b> = 10", "<b>dp[2]</b> = 20", "<b>dp[3]</b> = 0 (jump 3 from start)"]}, "compare": {"brute": 27, "dp": 12, "dpRatio": 45}}</script>
+<script type="application/json" id="level-data">{"viz": {"kind": "bars", "items": [10, 30, 40, 20, 50, 10, 30], "label": "heights = [10,30,40,20,50,10,30] \u00b7 K=3"}, "tree": {"maxDepth": 4, "nodes": [{"id": 0, "lbl": "cost(6)", "d": 0, "p": null, "dup": false, "base": false}, {"id": 1, "lbl": "cost(5)", "d": 1, "p": 0, "dup": false, "base": false}, {"id": 2, "lbl": "cost(4)", "d": 2, "p": 1, "dup": false, "base": false}, {"id": 3, "lbl": "cost(3)", "d": 3, "p": 2, "dup": false, "base": false}, {"id": 4, "lbl": "cost(2)", "d": 3, "p": 2, "dup": false, "base": false}, {"id": 5, "lbl": "cost(1)", "d": 3, "p": 2, "dup": false, "base": false}, {"id": 6, "lbl": "cost(3)", "d": 2, "p": 1, "dup": true, "base": false}, {"id": 7, "lbl": "cost(2)", "d": 3, "p": 6, "dup": true, "base": false}, {"id": 8, "lbl": "cost(1)", "d": 3, "p": 6, "dup": true, "base": false}, {"id": 9, "lbl": "cost(0)", "d": 3, "p": 6, "dup": false, "base": true}, {"id": 10, "lbl": "cost(2)", "d": 2, "p": 1, "dup": true, "base": false}, {"id": 11, "lbl": "cost(1)", "d": 3, "p": 10, "dup": true, "base": false}, {"id": 12, "lbl": "cost(0)", "d": 3, "p": 10, "dup": true, "base": true}, {"id": 13, "lbl": "cost(4)", "d": 1, "p": 0, "dup": true, "base": false}, {"id": 14, "lbl": "cost(3)", "d": 2, "p": 13, "dup": true, "base": false}, {"id": 15, "lbl": "cost(2)", "d": 3, "p": 14, "dup": true, "base": false}, {"id": 16, "lbl": "cost(1)", "d": 3, "p": 14, "dup": true, "base": false}, {"id": 17, "lbl": "cost(0)", "d": 3, "p": 14, "dup": true, "base": true}, {"id": 18, "lbl": "cost(2)", "d": 2, "p": 13, "dup": true, "base": false}, {"id": 19, "lbl": "cost(1)", "d": 3, "p": 18, "dup": true, "base": false}, {"id": 20, "lbl": "cost(0)", "d": 3, "p": 18, "dup": true, "base": true}, {"id": 21, "lbl": "cost(1)", "d": 2, "p": 13, "dup": true, "base": false}, {"id": 22, "lbl": "cost(0)", "d": 3, "p": 21, "dup": true, "base": true}, {"id": 23, "lbl": "cost(3)", "d": 1, "p": 0, "dup": true, "base": false}, {"id": 24, "lbl": "cost(2)", "d": 2, "p": 23, "dup": true, "base": false}, {"id": 25, "lbl": "cost(1)", "d": 3, "p": 24, "dup": true, "base": false}, {"id": 26, "lbl": "cost(0)", "d": 3, "p": 24, "dup": true, "base": true}, {"id": 27, "lbl": "cost(1)", "d": 2, "p": 23, "dup": true, "base": false}, {"id": 28, "lbl": "cost(0)", "d": 3, "p": 27, "dup": true, "base": true}, {"id": 29, "lbl": "cost(0)", "d": 2, "p": 23, "dup": true, "base": true}]}, "memo": {"entries": [{"k": "cost(0)", "v": 0}, {"k": "cost(1)", "v": 20}, {"k": "cost(2)", "v": 30}, {"k": "cost(3)", "v": 10}, {"k": "cost(4)", "v": 40}, {"k": "cost(5)", "v": 20}, {"k": "cost(6)", "v": 20}]}, "tab": {"values": [0, 20, 30, 10, 40, 20, 20], "labels": ["dp[0]", "dp[1]", "dp[2]", "dp[3]", "dp[4]", "dp[5]", "dp[6]"], "formulas": ["<b>dp[0]</b> = 0", "<b>dp[1]</b> = 20", "<b>dp[2]</b> = 30", "<b>dp[3]</b> = 10 via jump 0\u21923", "<b>dp[4]</b> = 40", "<b>dp[5]</b> = 20 via jump 3\u21925", "<b>dp[6]</b> = 20 via jump 3\u21926"]}, "space": {"frames": [[0, 20, 30], [20, 30, 10], [30, 10, 40], [10, 40, 20], [40, 20, 20]], "labels": ["oldest", "middle", "new"]}, "compare": {"brute": 52, "dp": 21, "dpRatio": 40}}</script>
 <script src="../level-runtime.js"></script>
 </body>
 </html>
