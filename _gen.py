@@ -11,6 +11,12 @@ ROOT = pathlib.Path(__file__).parent
 OUT = ROOT / "levels"
 OUT.mkdir(exist_ok=True)
 
+# Inlined into every generated level so each HTML is fully self-contained
+# (no external CSS/JS dependency at runtime — matches the new spec contract).
+INLINE_STYLES = (ROOT / "styles.css").read_text(encoding="utf-8")
+INLINE_RUNTIME = (ROOT / "level-runtime.js").read_text(encoding="utf-8")
+INLINE_SCRIPT = (ROOT / "script.js").read_text(encoding="utf-8") if (ROOT / "script.js").exists() else ""
+
 def esc(s): return html.escape(str(s))
 
 PSEUDO_KW = {"int","return","if","else","for","while","new","void","boolean","char","String","static","public","private","class","import","true","false","null","Math","Arrays","HashSet","HashMap","Set","Map","List","ArrayList","Deque","ArrayDeque","Integer","Collections","switch","case","break","continue"}
@@ -179,6 +185,78 @@ def fib_space_frames(n):
         out.append([b, c])
         a, b = b, c
     return out
+
+def lcs_table_data(a, b):
+    """Return (values, labels, formulas) for LCS row-major dp[(n+1) x (m+1)]."""
+    n, m = len(a), len(b)
+    dp = [[0]*(m+1) for _ in range(n+1)]
+    for i in range(1, n+1):
+        for j in range(1, m+1):
+            if a[i-1] == b[j-1]:
+                dp[i][j] = dp[i-1][j-1] + 1
+            else:
+                dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+    values = []
+    labels = []
+    formulas = []
+    for i in range(n+1):
+        for j in range(m+1):
+            values.append(dp[i][j])
+            labels.append(f'({i},{j})')
+            if i == 0 or j == 0:
+                formulas.append(f'<b>({i},{j})</b> = base = <b>0</b>')
+            elif a[i-1] == b[j-1]:
+                formulas.append(f'<b>({i},{j})</b> match {a[i-1]} → 1+dp({i-1},{j-1}) = <b>{dp[i][j]}</b>')
+            else:
+                formulas.append(f'<b>({i},{j})</b> = max(dp({i-1},{j}), dp({i},{j-1})) = <b>{dp[i][j]}</b>')
+    return values, labels, formulas
+
+def edit_distance_table(a, b):
+    n, m = len(a), len(b)
+    dp = [[0]*(m+1) for _ in range(n+1)]
+    for i in range(n+1): dp[i][0] = i
+    for j in range(m+1): dp[0][j] = j
+    for i in range(1, n+1):
+        for j in range(1, m+1):
+            if a[i-1] == b[j-1]:
+                dp[i][j] = dp[i-1][j-1]
+            else:
+                dp[i][j] = 1 + min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1])
+    values, labels, formulas = [], [], []
+    for i in range(n+1):
+        for j in range(m+1):
+            values.append(dp[i][j])
+            labels.append(f'({i},{j})')
+            if i == 0:
+                formulas.append(f'<b>(0,{j})</b> = {j} insertions')
+            elif j == 0:
+                formulas.append(f'<b>({i},0)</b> = {i} deletions')
+            elif a[i-1] == b[j-1]:
+                formulas.append(f'<b>({i},{j})</b> match {a[i-1]} → dp({i-1},{j-1}) = <b>{dp[i][j]}</b>')
+            else:
+                formulas.append(f'<b>({i},{j})</b> = 1+min(↑,←,↖) = <b>{dp[i][j]}</b>')
+    return values, labels, formulas
+
+def lcs_trace(a, b):
+    """Reconstruct one LCS string from a,b."""
+    n, m = len(a), len(b)
+    dp = [[0]*(m+1) for _ in range(n+1)]
+    for i in range(1, n+1):
+        for j in range(1, m+1):
+            if a[i-1] == b[j-1]:
+                dp[i][j] = dp[i-1][j-1] + 1
+            else:
+                dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+    i, j = n, m
+    out = []
+    while i > 0 and j > 0:
+        if a[i-1] == b[j-1]:
+            out.append(a[i-1]); i -= 1; j -= 1
+        elif dp[i-1][j] >= dp[i][j-1]:
+            i -= 1
+        else:
+            j -= 1
+    return ''.join(reversed(out))
 
 # =============================================================
 # WORLD A — BASICS (1D DP)
@@ -598,13 +676,19 @@ short_kn(20,'C','unbounded-knapsack','🔁 Bottomless Coin Cup','Unbounded Knaps
   'Exponential.','n·W.')
 
 short_kn(21,'C','coin-change-min','🪙 Tiny Cashier','Coin Change (min coins)','🪙',
-  'Make amount A using fewest coins.',
+  'A vending machine. Use the fewest coins to make exactly amount A.',
   'min(A) = 1 + min over c≤A of min(A - c)',
-  {'kind':'coins','items':[1,2,5],'label':'coins · target 11'},
-  [{'k':'min(11)','v':3}],
-  [0,1,1,2,2,1,2,2,3,3,2,3],
+  {'kind':'coins','items':[1,5,6,9],'label':'coins = [1,5,6,9] · target 11'},
+  [{'k':'min(11)','v':2}],
+  [0,1,2,3,4,1,1,2,3,1,2,2],
   [f'a={i}' for i in range(12)],
-  ['<b>min(' + str(i) + ')</b>' for i in range(12)],
+  ['<b>min(0)</b> = 0 (base)','<b>min(1)</b> = 1+min(0) = <b>1</b>','<b>min(2)</b> = 1+min(1) = <b>2</b>',
+   '<b>min(3)</b> = 1+min(2) = <b>3</b>','<b>min(4)</b> = 1+min(3) = <b>4</b>',
+   '<b>min(5)</b> = 1+min(0) via coin 5 = <b>1</b>','<b>min(6)</b> = 1+min(0) via coin 6 = <b>1</b>',
+   '<b>min(7)</b> = 1+min(6) = <b>2</b>','<b>min(8)</b> = 1+min(7) = <b>3</b>',
+   '<b>min(9)</b> = 1+min(0) via coin 9 = <b>1</b>',
+   '<b>min(10)</b> = 1+min(9) via coin 1 (or 5+5) = <b>2</b>',
+   '<b>min(11)</b> = 1+min(5) via coin 6 (5+6) = <b>2</b>'],
   None, 30, 12, 40,
   'int min(int a, int[] coins) {\n    if (a == 0) return 0;\n    if (a < 0)  return Integer.MAX_VALUE;\n    int best = Integer.MAX_VALUE;\n    for (int c : coins) {\n        int sub = min(a - c, coins);\n        if (sub != Integer.MAX_VALUE) best = Math.min(best, 1 + sub);\n    }\n    return best;\n}',
   '// memo by amount',
@@ -665,14 +749,15 @@ def short(num, world, world_name, slug, fun, ttl, icon, story, recur, viz, memo_
 # =============================================================
 # WORLD D — STRINGS
 # =============================================================
+_LCS_A, _LCS_B = 'AGGTAB', 'GXTXAYB'
+_LCS_V, _LCS_L, _LCS_F = lcs_table_data(_LCS_A, _LCS_B)
 short(24,'D','Strings','lcs','🧬 Twin Spy Notes','Longest Common Subsequence','🧬',
-  'Find the longest sequence of letters appearing in both, in order.',
+  f'Two spies share notes. Find the longest sequence of letters that appear in both <code class="inline">{_LCS_A}</code> and <code class="inline">{_LCS_B}</code>, in order.',
   'lcs(i,j) = match? 1+lcs(i-1,j-1) : max(lcs(i-1,j), lcs(i,j-1))',
-  {'kind':'strings','a':'abcde','b':'ace'},
-  [{'k':'lcs(5,3)','v':3}],
-  [0,0,0,0,0,1,1,1,0,1,1,1,0,1,2,2,0,1,2,2,0,1,2,3],
-  ['(0,0)','(0,1)','(0,2)','(0,3)','(1,0)','(1,1)','(1,2)','(1,3)','(2,0)','(2,1)','(2,2)','(2,3)','(3,0)','(3,1)','(3,2)','(3,3)','(4,0)','(4,1)','(4,2)','(4,3)','(5,0)','(5,1)','(5,2)','(5,3)'],
-  32, 24, 38,
+  {'kind':'strings','a':_LCS_A,'b':_LCS_B},
+  [{'k':f'lcs({len(_LCS_A)},{len(_LCS_B)})','v':_LCS_V[-1]}, {'k':'one LCS', 'v': lcs_trace(_LCS_A, _LCS_B)}],
+  _LCS_V, _LCS_L,
+  64, len(_LCS_V), 38,
   'int lcs(int i, int j, String a, String b) {\n    if (i == 0 || j == 0) return 0;\n    if (a.charAt(i-1) == b.charAt(j-1))\n        return 1 + lcs(i-1, j-1, a, b);\n    return Math.max(lcs(i-1, j, a, b), lcs(i, j-1, a, b));\n}',
   'Integer[][] memo;\nint lcs(int i, int j, String a, String b) {\n    if (i == 0 || j == 0) return 0;\n    if (memo[i][j] != null) return memo[i][j];\n    if (a.charAt(i-1) == b.charAt(j-1))\n        return memo[i][j] = 1 + lcs(i-1, j-1, a, b);\n    return memo[i][j] = Math.max(lcs(i-1, j, a, b), lcs(i, j-1, a, b));\n}',
   'int[][] dp = new int[n+1][m+1];\nfor (int i = 1; i <= n; i++)\n    for (int j = 1; j <= m; j++) {\n        if (a.charAt(i-1) == b.charAt(j-1))\n            dp[i][j] = 1 + dp[i-1][j-1];\n        else\n            dp[i][j] = Math.max(dp[i-1][j], dp[i][j-1]);\n    }\nreturn dp[n][m];',
@@ -680,13 +765,15 @@ short(24,'D','Strings','lcs','🧬 Twin Spy Notes','Longest Common Subsequence',
   'Try all subsequences.','Cache (i, j).','2D table dp[i][j].','Two rows.',
   'Exponential.','n·m.')
 
+_LCS_TRACE = lcs_trace(_LCS_A, _LCS_B)
 short(25,'D','Strings','print-lcs','🖨️ Print the Phrase','Print LCS','🖨️',
-  'Reconstruct one valid LCS by tracing back.',
-  'walk dp[n][m] back to (0,0)',
-  {'kind':'strings','a':'abcde','b':'ace'},
-  [{'k':'trace','v':'a→c→e'}],
-  ['a','c','e','ace'],['step 1','step 2','step 3','final'],
-  32, 4, 12,
+  f'Reconstruct one valid LCS for <code class="inline">{_LCS_A}</code> and <code class="inline">{_LCS_B}</code> by tracing back through the table.',
+  'walk dp[n][m] back to (0,0); on match, prepend the letter',
+  {'kind':'strings','a':_LCS_A,'b':_LCS_B},
+  [{'k':'trace','v':'→'.join(list(_LCS_TRACE))}, {'k':'final','v':_LCS_TRACE}],
+  list(_LCS_TRACE) + [_LCS_TRACE],
+  [f'step {i+1}' for i in range(len(_LCS_TRACE))] + ['final'],
+  64, len(_LCS_TRACE)+1, 12,
   '// brute = enumerate subsequences',
   '// memo = LCS as in L24',
   'StringBuilder sb = new StringBuilder();\nint i = n, j = m;\nwhile (i > 0 && j > 0) {\n    if (a.charAt(i-1) == b.charAt(j-1)) { sb.append(a.charAt(i-1)); i--; j--; }\n    else if (dp[i-1][j] >= dp[i][j-1]) i--;\n    else j--;\n}\nreturn sb.reverse().toString();',
@@ -751,14 +838,15 @@ short(29,'D','Strings','min-deletions-equal','🧽 Make Twins Match','Min Insert
   'Exponential.','LCS memo.','LCS, then formula.','Two rows.',
   'Exponential.','n·m.')
 
+_ED_A, _ED_B = 'horse', 'ros'
+_ED_V, _ED_L, _ED_F = edit_distance_table(_ED_A, _ED_B)
 short(30,'D','Strings','edit-distance','✏️ Typo Tamer','Edit Distance','✏️',
-  'Min edits (insert/delete/replace) to turn A into B.',
+  f'Minimum insert/delete/replace edits to turn <code class="inline">{_ED_A}</code> into <code class="inline">{_ED_B}</code>.',
   'dp(i,j) = match? dp(i-1,j-1) : 1 + min(insert, delete, replace)',
-  {'kind':'strings','a':'kitten','b':'sitting'},
-  [{'k':'dp(6,7)','v':3}],
-  [0,1,2,3,4,5,6,7,1,1,2,3,4,5,6,7,2,2,2,3,4,5,6,7,3,3,3,3,4,5,6,7,4,4,4,4,4,5,6,7,5,5,4,5,5,5,6,7,6,6,5,5,6,6,6,7,7,7,6,5,6,7,7,6],
-  [f'cell {i}' for i in range(64)][:24],
-  243, 56, 23,
+  {'kind':'strings','a':_ED_A,'b':_ED_B},
+  [{'k':f'dp({len(_ED_A)},{len(_ED_B)})','v':_ED_V[-1]}],
+  _ED_V, _ED_L,
+  3**(len(_ED_A)+len(_ED_B)) // 1000, len(_ED_V), 12,
   'int dp(int i, int j, String a, String b) {\n    if (i == 0) return j;\n    if (j == 0) return i;\n    if (a.charAt(i-1) == b.charAt(j-1)) return dp(i-1, j-1, a, b);\n    return 1 + Math.min(dp(i-1, j, a, b),\n              Math.min(dp(i, j-1, a, b), dp(i-1, j-1, a, b)));\n}',
   'Integer[][] memo;\nint dp(int i, int j, String a, String b) {\n    if (i == 0) return j;\n    if (j == 0) return i;\n    if (memo[i][j] != null) return memo[i][j];\n    if (a.charAt(i-1) == b.charAt(j-1))\n        return memo[i][j] = dp(i-1, j-1, a, b);\n    return memo[i][j] = 1 + Math.min(dp(i-1, j, a, b),\n        Math.min(dp(i, j-1, a, b), dp(i-1, j-1, a, b)));\n}',
   'int[][] dp = new int[n+1][m+1];\nfor (int i = 0; i <= n; i++) dp[i][0] = i;\nfor (int j = 0; j <= m; j++) dp[0][j] = j;\nfor (int i = 1; i <= n; i++)\n    for (int j = 1; j <= m; j++) {\n        if (a.charAt(i-1) == b.charAt(j-1))\n            dp[i][j] = dp[i-1][j-1];\n        else\n            dp[i][j] = 1 + Math.min(dp[i-1][j],\n                Math.min(dp[i][j-1], dp[i-1][j-1]));\n    }\nreturn dp[n][m];',
@@ -801,13 +889,13 @@ short(32,'D','Strings','distinct-subsequences','🔍 Hidden Patterns','Distinct 
 # WORLD E — LIS
 # =============================================================
 short(33,'E','LIS','lis-n2','📈 Tower of Books','LIS — O(n²)','📈',
-  'Stack books in increasing height — tallest tower?',
+  'Stack books in strictly increasing height — what is the tallest tower from heights = [3,10,2,1,20]?',
   'dp[i] = 1 + max(dp[j] for j<i with nums[j]<nums[i])',
-  {'kind':'bars','items':[10,9,2,5,3,7,18],'label':'heights'},
-  [{'k':'dp[6]','v':4}],
-  [1,1,1,2,2,3,4],
-  ['dp[0]','dp[1]','dp[2]','dp[3]','dp[4]','dp[5]','dp[6]'],
-  128, 7, 6,
+  {'kind':'bars','items':[3,10,2,1,20],'label':'heights = [3,10,2,1,20]'},
+  [{'k':'best','v':3}],
+  [1,2,1,1,3],
+  ['dp[0]','dp[1]','dp[2]','dp[3]','dp[4]'],
+  32, 5, 16,
   '// brute: enumerate subsequences',
   '// memo dp[i]',
   'int[] dp = new int[n];\nArrays.fill(dp, 1);\nint best = 1;\nfor (int i = 1; i < n; i++)\n    for (int j = 0; j < i; j++)\n        if (nums[j] < nums[i]) {\n            dp[i] = Math.max(dp[i], dp[j] + 1);\n            best = Math.max(best, dp[i]);\n        }\nreturn best;',
@@ -1135,8 +1223,8 @@ PAGE = """<!doctype html>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Level {num} · {fun} · DP Adventure</title>
 <meta name="description" content="{ttl} — playful, interactive walkthrough.">
-<link rel="stylesheet" href="../styles.css">
 <link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><text y='52' font-size='52'>{icon}</text></svg>">
+<style>__INLINE_STYLES__</style>
 </head>
 <body>
 
@@ -1272,7 +1360,7 @@ PAGE = """<!doctype html>
 <footer class="site">DP Adventure · <a href="../index.html">Home</a></footer>
 
 <script type="application/json" id="level-data">{json_data}</script>
-<script src="../level-runtime.js"></script>
+<script>__INLINE_RUNTIME__</script>
 </body>
 </html>
 """
@@ -1284,7 +1372,7 @@ def render(level, prev, nxt):
     j_space = code_details('step 4: space saver', 'carry less memory', '⬆ tiny memory', '', level.get('space','// see tab version above'))
     prev_link = f'<a class="up" href="{prev}">⟵ Prev level</a>' if prev else f'<a class="up" href="../dp-roadmap.html">↑ Map</a>'
     next_link = f'<a class="next" href="{nxt}">Next level →</a>' if nxt else f'<a class="next" href="../dp-roadmap.html">🏁 Map</a>'
-    return PAGE.format(
+    out = PAGE.format(
         num=level['num'], world=level['world'], world_name=level['world_name'],
         slug=level['slug'], fun=level['fun'], ttl=level['ttl'], icon=level['icon'],
         story=level['story'], recur_html=esc(level['recur']),
@@ -1295,6 +1383,36 @@ def render(level, prev, nxt):
         prev_link=prev_link, next_link=next_link,
         json_data=json.dumps(level['data']),
     )
+    # Inline assets last so curly braces inside CSS/JS don't confuse str.format
+    out = out.replace('__INLINE_STYLES__', INLINE_STYLES)
+    out = out.replace('__INLINE_RUNTIME__', INLINE_RUNTIME)
+    return out
+
+def selfcontain_level_01():
+    """Level 1 is hand-crafted, not template-generated. Inline its CSS/JS deps
+    so it matches the new spec contract (each level self-contained)."""
+    p = OUT / "level-01-fibonacci.html"
+    if not p.exists():
+        return False
+    txt = p.read_text(encoding="utf-8")
+    new = txt.replace(
+        '<link rel="stylesheet" href="../styles.css">',
+        f'<style>{INLINE_STYLES}</style>'
+    )
+    new = re.sub(
+        r'<script src="\.\./script\.js"></script>',
+        lambda m: f'<script>{INLINE_SCRIPT}</script>',
+        new
+    )
+    new = re.sub(
+        r'<script src="\.\./level-runtime\.js"></script>',
+        lambda m: f'<script>{INLINE_RUNTIME}</script>',
+        new
+    )
+    if new != txt:
+        p.write_text(new, encoding="utf-8")
+        return True
+    return False
 
 if __name__ == '__main__':
     by_num = {l['num']: l for l in LEVELS}
@@ -1312,4 +1430,6 @@ if __name__ == '__main__':
         l = by_num[n]
         fname = f"level-{n:02d}-{l['slug']}.html"
         (OUT / fname).write_text(render(l, prev, nxt), encoding='utf-8')
+    selfcontain_level_01()
     print(f'Rendered {len([n for n in nums if n != 1])} interactive levels.')
+    print('Inlined assets into level 01 (hand-crafted).')
