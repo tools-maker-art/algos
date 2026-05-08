@@ -69,8 +69,6 @@ min = h[i]
 
 min = min(min, h[j])
 best = max(best, min * (j - i + <span class="num">1</span>))
-
-
 <span class="kw">return</span> best</pre>
 </div></div>
 </details>
@@ -162,9 +160,7 @@ curr = (i == h.length) <span class="kw">if</span> <span class="num">0</span> <sp
     top = st.pop()
     width = st is empty <span class="kw">if</span> i <span class="kw">else</span> i - st.peek() - <span class="num">1</span>
     best = max(best, h[top] * width)
-
 st.push(i)
-
 <span class="kw">return</span> best</pre>
 </div></div>
 </details>

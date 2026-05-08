@@ -65,8 +65,7 @@
     <span class="kw">if</span> (i == s.length) <span class="kw">return</span> yes
     <span class="kw">for</span> j from i + <span class="num">1</span> to s.length:
     <span class="kw">if</span> (d.contains(s.substring(i, j)) and can(j, s, d)) <span class="kw">return</span> yes
-    <span class="kw">return</span> no
-</pre>
+    <span class="kw">return</span> no</pre>
 </div></div>
 </details>
   </section>
@@ -108,8 +107,7 @@ can(i, s, d):
     <span class="kw">for</span> j from i + <span class="num">1</span> to s.length:
     <span class="kw">if</span> d.contains(s.substring(i, j)) and can(j, s, d):
     <span class="kw">return</span> memo[i] = yes
-    <span class="kw">return</span> memo[i] = no
-</pre>
+    <span class="kw">return</span> memo[i] = no</pre>
 </div></div>
 </details>
   </section>
@@ -141,7 +139,6 @@ set = copy of dict
 <span class="kw">for</span> j from <span class="num">0</span> to before i:
 <span class="kw">if</span> (dp[j] and set.contains(s.substring(j, i)))
     dp[i] = yes; <span class="kw">break</span>
-
 <span class="kw">return</span> dp[n]</pre>
 </div></div>
 </details>

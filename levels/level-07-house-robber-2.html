@@ -65,16 +65,13 @@
     <span class="kw">if</span> (m.length == <span class="num">1</span>) <span class="kw">return</span> m[<span class="num">0</span>]
     <span class="kw">return</span> max(robLine(m, <span class="num">0</span>, m.length-<span class="num">2</span>),
     robLine(m, <span class="num">1</span>, m.length-<span class="num">1</span>))
-
 robLine(m, l, r):
     p2 = <span class="num">0</span>, p1 = <span class="num">0</span>
     <span class="kw">for</span> i from l to r:
 
     c = max(p1, p2 + m[i])
     p2 = p1; p1 = c
-
-<span class="kw">return</span> p1
-</pre>
+<span class="kw">return</span> p1</pre>
 </div></div>
 </details>
   </section>

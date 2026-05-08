@@ -63,8 +63,7 @@
   </div>
 <pre>paths(i, j):
     <span class="kw">if</span> (i == <span class="num">0</span> or j == <span class="num">0</span>) <span class="kw">return</span> <span class="num">1</span>
-    <span class="kw">return</span> paths(i-<span class="num">1</span>, j) + paths(i, j-<span class="num">1</span>)
-</pre>
+    <span class="kw">return</span> paths(i-<span class="num">1</span>, j) + paths(i, j-<span class="num">1</span>)</pre>
 </div></div>
 </details>
   </section>
@@ -103,8 +102,7 @@
 paths(i, j):
     <span class="kw">if</span> (i == <span class="num">0</span> or j == <span class="num">0</span>) <span class="kw">return</span> <span class="num">1</span>
     <span class="kw">if</span> (memo[i][j] != <span class="num">0</span>) <span class="kw">return</span> memo[i][j]
-    <span class="kw">return</span> memo[i][j] = paths(i-<span class="num">1</span>, j) + paths(i, j-<span class="num">1</span>)
-</pre>
+    <span class="kw">return</span> memo[i][j] = paths(i-<span class="num">1</span>, j) + paths(i, j-<span class="num">1</span>)</pre>
 </div></div>
 </details>
   </section>

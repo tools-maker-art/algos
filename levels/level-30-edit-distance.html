@@ -66,8 +66,7 @@
     <span class="kw">if</span> (j == <span class="num">0</span>) <span class="kw">return</span> i
     <span class="kw">if</span> a.charAt(i-<span class="num">1</span>) == b.charAt(j-<span class="num">1</span>)) <span class="kw">return</span> dp(i-<span class="num">1</span>, j-<span class="num">1</span>, a, b:
     <span class="kw">return</span> <span class="num">1</span> + min(dp(i-<span class="num">1</span>, j, a, b),
-    min(dp(i, j-<span class="num">1</span>, a, b), dp(i-<span class="num">1</span>, j-<span class="num">1</span>, a, b)))
-</pre>
+    min(dp(i, j-<span class="num">1</span>, a, b), dp(i-<span class="num">1</span>, j-<span class="num">1</span>, a, b)))</pre>
 </div></div>
 </details>
   </section>
@@ -110,8 +109,7 @@ dp(i, j, a, b):
     <span class="kw">if</span> a.charAt(i-<span class="num">1</span>) == b.charAt(j-<span class="num">1</span>):
     <span class="kw">return</span> memo[i][j] = dp(i-<span class="num">1</span>, j-<span class="num">1</span>, a, b)
     <span class="kw">return</span> memo[i][j] = <span class="num">1</span> + min(dp(i-<span class="num">1</span>, j, a, b),
-    min(dp(i, j-<span class="num">1</span>, a, b), dp(i-<span class="num">1</span>, j-<span class="num">1</span>, a, b)))
-</pre>
+    min(dp(i, j-<span class="num">1</span>, a, b), dp(i-<span class="num">1</span>, j-<span class="num">1</span>, a, b)))</pre>
 </div></div>
 </details>
   </section>
@@ -148,7 +146,6 @@ dp[i][j] = dp[i-<span class="num">1</span>][j-<span class="num">1</span>]
 otherwise:
 dp[i][j] = <span class="num">1</span> + min(dp[i-<span class="num">1</span>][j],
 min(dp[i][j-<span class="num">1</span>], dp[i-<span class="num">1</span>][j-<span class="num">1</span>]))
-
 <span class="kw">return</span> dp[n][m]</pre>
 </div></div>
 </details>
@@ -182,9 +179,7 @@ curr[<span class="num">0</span>] = i
 
 <span class="kw">if</span> (a.charAt(i-<span class="num">1</span>) == b.charAt(j-<span class="num">1</span>)) curr[j] = prev[j-<span class="num">1</span>]
 <span class="kw">else</span> curr[j] = <span class="num">1</span> + min(prev[j], min(curr[j-<span class="num">1</span>], prev[j-<span class="num">1</span>]))
-
 t = prev; prev = curr; curr = t
-
 <span class="kw">return</span> prev[m]</pre>
 </div></div>
 </details>

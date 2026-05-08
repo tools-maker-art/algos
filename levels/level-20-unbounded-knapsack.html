@@ -65,8 +65,7 @@
     <span class="kw">if</span> (i &lt; <span class="num">0</span> or w == <span class="num">0</span>) <span class="kw">return</span> <span class="num">0</span>
     skip = best(i-<span class="num">1</span>, w, wt, val)
     pick = (w &gt;= wt[i]) <span class="kw">if</span> val[i] + best(i, w - wt[i], wt, val) <span class="kw">else</span> <span class="num">0</span>
-    <span class="kw">return</span> max(skip, pick)
-</pre>
+    <span class="kw">return</span> max(skip, pick)</pre>
 </div></div>
 </details>
   </section>

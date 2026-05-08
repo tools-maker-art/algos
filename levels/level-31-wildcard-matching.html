@@ -130,7 +130,6 @@ dp[<span class="num">0</span>][<span class="num">0</span>] = yes
 pc = p.charAt(j-<span class="num">1</span>)
 <span class="kw">if</span> (pc == <span class="str">&#x27;?&#x27;</span> or pc == s.charAt(i-<span class="num">1</span>)) dp[i][j] = dp[i-<span class="num">1</span>][j-<span class="num">1</span>]
 <span class="kw">else</span> <span class="kw">if</span> (pc == <span class="str">&#x27;*&#x27;</span>) dp[i][j] = dp[i-<span class="num">1</span>][j] or dp[i][j-<span class="num">1</span>]
-
 <span class="kw">return</span> dp[n][m]</pre>
 </div></div>
 </details>

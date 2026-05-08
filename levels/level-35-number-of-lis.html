@@ -130,10 +130,7 @@ maxLen = <span class="num">1</span>
 <span class="kw">if</span> (nums[j] &lt; nums[i])
     <span class="kw">if</span> (len[j] + <span class="num">1</span> &gt; len[i])  len[i] = len[j] + <span class="num">1</span>; cnt[i] = cnt[j];
     <span class="kw">else</span> <span class="kw">if</span> (len[j] + <span class="num">1</span> == len[i]) cnt[i] += cnt[j]
-
-
 maxLen = max(maxLen, len[i])
-
 ans = <span class="num">0</span>
 <span class="kw">for</span> i from <span class="num">0</span> to before n:
     <span class="kw">if</span> (len[i] == maxLen) ans += cnt[i]

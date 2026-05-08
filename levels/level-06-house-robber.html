@@ -63,8 +63,7 @@
   </div>
 <pre>rob(i, m):
     <span class="kw">if</span> (i &lt; <span class="num">0</span>) <span class="kw">return</span> <span class="num">0</span>
-    <span class="kw">return</span> max(m[i] + rob(i-<span class="num">2</span>, m), rob(i-<span class="num">1</span>, m))
-</pre>
+    <span class="kw">return</span> max(m[i] + rob(i-<span class="num">2</span>, m), rob(i-<span class="num">1</span>, m))</pre>
 </div></div>
 </details>
   </section>
@@ -103,8 +102,7 @@
 rob(i, m):
     <span class="kw">if</span> (i &lt; <span class="num">0</span>) <span class="kw">return</span> <span class="num">0</span>
     <span class="kw">if</span> (memo[i] != -<span class="num">1</span>) <span class="kw">return</span> memo[i]
-    <span class="kw">return</span> memo[i] = max(m[i] + rob(i-<span class="num">2</span>, m), rob(i-<span class="num">1</span>, m))
-</pre>
+    <span class="kw">return</span> memo[i] = max(m[i] + rob(i-<span class="num">2</span>, m), rob(i-<span class="num">1</span>, m))</pre>
 </div></div>
 </details>
   </section>
@@ -160,7 +158,6 @@ dp[i] = max(dp[i-<span class="num">1</span>], m[i] + dp[i-<span class="num">2</s
 <span class="kw">for</span> each x in m:
     curr = max(prev1, prev2 + x)
     prev2 = prev1; prev1 = curr
-
 <span class="kw">return</span> prev1</pre>
 </div></div>
 </details>

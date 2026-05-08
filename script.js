@@ -363,12 +363,86 @@
     var db = $('#cmp-dp-bar'); if (db) db.style.width = Math.max(4, Math.min(100, (dpSteps / bc) * 100)) + '%';
   }
 
+  /* ===== CONTRACT CONTROLS ===== */
+  function upgradeNav() {
+    var nav = $('.topbar nav'); if (!nav) return;
+    nav.innerHTML = '<a href="../dp-roadmap.html">Map</a><a href="../dp-roadmap.html">&#8592; Prev</a><span class="level-pill">Level 1</span><a href="level-02-climbing-stairs.html">Next &#8594;</a>';
+  }
+  function addAutoControls() {
+    [
+      { panel: $('#lesson-panel-2'), step: '[data-tree="expand"]', reset: '[data-tree="reset"]' },
+      { panel: $('#lesson-panel-3'), step: '[data-memo="next"]', reset: '[data-memo="reset"]' },
+      { panel: $('#lesson-panel-4'), step: '[data-tab="next"]', reset: '[data-tab="reset"]' },
+      { panel: $('#lesson-panel-5'), step: '[data-space="next"]', reset: '[data-space="reset"]' }
+    ].forEach(function (cfg) {
+      if (!cfg.panel || cfg.panel.querySelector('[data-contract-auto]')) return;
+      var row = $('.btn-row', cfg.panel), step = $(cfg.step, cfg.panel), reset = $(cfg.reset, cfg.panel);
+      if (!row || !step || !reset) return;
+      step.textContent = '▶ Step';
+      reset.textContent = '↺ Reset';
+      var oldAll = $('[data-tree="all"],[data-memo="all"],[data-tab="all"],[data-space="all"]', cfg.panel);
+      if (oldAll) oldAll.style.display = 'none';
+      var auto = el('button', { 'class': 'btn ghost', type: 'button', 'data-contract-auto': '' }, '⏩ Auto');
+      row.insertBefore(auto, reset);
+      var timer = null;
+      function stop(done) {
+        if (timer) clearInterval(timer);
+        timer = null;
+        auto.textContent = done ? '✅ Done' : '⏩ Auto';
+      }
+      reset.addEventListener('click', function () { stop(false); });
+      auto.addEventListener('click', function () {
+        if (timer) { stop(false); return; }
+        auto.textContent = '⏸ Pause';
+        timer = setInterval(function () {
+          var before = cfg.panel.textContent;
+          step.click();
+          setTimeout(function () {
+            if (before === cfg.panel.textContent) stop(true);
+          }, 0);
+        }, 600);
+      });
+    });
+  }
+  function addWhyLines() {
+    [
+      'Why this matters: the bunny game makes every route concrete before the formula appears.',
+      'Why this matters: brute force is honest, but it repeats the same stair counts.',
+      'Why this matters: memoization saves those repeated stair counts in the backpack.',
+      'Why this matters: tabulation builds the same answers from left to right.',
+      'Why this matters: the space saver keeps only the two numbers needed for the next hop.',
+      'Why this matters: the counter shows why DP scales.'
+    ].forEach(function (text, i) {
+      var panel = $('#lesson-panel-' + (i + 1)); if (!panel || $('.why-line', panel)) return;
+      panel.appendChild(el('p', { 'class': 'why-line' }, text));
+    });
+  }
+  function addCompareSlider() {
+    var panel = $('#lesson-panel-6'); if (!panel || $('[data-compare-slider]', panel)) return;
+    var compare = $('.compare', panel); if (!compare) return;
+    var wrap = el('div', { 'class': 'compare-slider' },
+      '<label>n grows: <span data-compare-n>' + storyState.n + '</span></label>' +
+      '<input data-compare-slider type="range" min="1" max="12" value="' + storyState.n + '">' +
+      '<div class="complexity-row"><span class="bad">O(2^n)</span><span class="good">O(n)</span></div>');
+    panel.insertBefore(wrap, compare);
+    $('[data-compare-slider]', wrap).addEventListener('input', function (e) {
+      var n = Number(e.target.value);
+      $('[data-compare-n]', wrap).textContent = n;
+      var bn = $('#cmp-brute-num'); if (bn) bn.innerHTML = bruteCalls(n) + ' <small>tries</small>';
+      var dn = $('#cmp-dp-num'); if (dn) dn.innerHTML = (n + 1) + ' <small>steps</small>';
+    });
+  }
+
   /* ===== INIT ===== */
+  upgradeNav();
   buildStairs();
   renderTree();
   resetMemo();
   renderTab();
   renderSpace();
   updateCompare();
+  addAutoControls();
+  addWhyLines();
+  addCompareSlider();
   activateLessonTab('1', false);
 })();

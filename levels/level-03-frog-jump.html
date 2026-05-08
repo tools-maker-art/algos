@@ -65,8 +65,7 @@
     <span class="kw">if</span> (i == <span class="num">0</span>) <span class="kw">return</span> <span class="num">0</span>
     oneStep = cost(i-<span class="num">1</span>, h) + abs(h[i]-h[i-<span class="num">1</span>])
     twoStep = (i &gt; <span class="num">1</span>) <span class="kw">if</span> cost(i-<span class="num">2</span>, h) + abs(h[i]-h[i-<span class="num">2</span>]) <span class="kw">else</span> very_big_number
-    <span class="kw">return</span> min(oneStep, twoStep)
-</pre>
+    <span class="kw">return</span> min(oneStep, twoStep)</pre>
 </div></div>
 </details>
   </section>
@@ -107,8 +106,7 @@ cost(i, h):
     <span class="kw">if</span> (memo[i] != -<span class="num">1</span>) <span class="kw">return</span> memo[i]
     a = cost(i-<span class="num">1</span>, h) + abs(h[i]-h[i-<span class="num">1</span>])
     b = (i &gt; <span class="num">1</span>) <span class="kw">if</span> cost(i-<span class="num">2</span>, h) + abs(h[i]-h[i-<span class="num">2</span>]) <span class="kw">else</span> very_big_number
-    <span class="kw">return</span> memo[i] = min(a, b)
-</pre>
+    <span class="kw">return</span> memo[i] = min(a, b)</pre>
 </div></div>
 </details>
   </section>
@@ -166,7 +164,6 @@ dp[i-<span class="num">2</span>] + abs(h[i]-h[i-<span class="num">2</span>]))
 curr = min(prev1 + abs(h[i]-h[i-<span class="num">1</span>]),
 prev2 + abs(h[i]-h[i-<span class="num">2</span>]))
 prev2 = prev1; prev1 = curr
-
 <span class="kw">return</span> prev1</pre>
 </div></div>
 </details>
@@ -201,7 +198,7 @@ prev2 = prev1; prev1 = curr
 
 <footer class="site">DP Adventure · <a href="../index.html">Home</a></footer>
 
-<script type="application/json" id="level-data">{"viz": {"kind": "bars", "items": [10, 30, 40, 20], "label": "stone heights"}, "tree": {"maxDepth": 3, "nodes": [{"id": 0, "lbl": "cost(3)", "d": 0, "p": null, "dup": false, "base": false}, {"id": 1, "lbl": "cost(2)", "d": 1, "p": 0, "dup": false, "base": false}, {"id": 2, "lbl": "cost(1)", "d": 2, "p": 1, "dup": false, "base": true}, {"id": 3, "lbl": "cost(0)", "d": 2, "p": 1, "dup": false, "base": true}, {"id": 4, "lbl": "cost(1)", "d": 1, "p": 0, "dup": true, "base": true}]}, "memo": {"entries": [{"k": "cost(0)", "v": 0}, {"k": "cost(1)", "v": 20}, {"k": "cost(2)", "v": 30}, {"k": "cost(3)", "v": 30}]}, "tab": {"values": [0, 20, 30, 30], "labels": ["dp[0]", "dp[1]", "dp[2]", "dp[3]"], "formulas": ["<b>dp[0]</b> = 0 (start)", "<b>dp[1]</b> = |30-10| = <b>20</b>", "<b>dp[2]</b> = min(20+10, 0+30) = <b>30</b>", "<b>dp[3]</b> = min(30+20, 20+10) = <b>30</b>"]}, "space": {"frames": [[0, 20], [20, 30], [30, 30]], "labels": ["prev2", "prev1"]}, "compare": {"brute": 14, "dp": 4, "dpRatio": 30}}</script>
+<script type="application/json" id="level-data">{"viz": {"kind": "bars", "items": [10, 30, 40, 20, 50], "label": "heights = [10,30,40,20,50]"}, "tree": {"maxDepth": 4, "nodes": [{"id": 0, "lbl": "cost(4)", "d": 0, "p": null, "dup": false, "base": false}, {"id": 1, "lbl": "cost(3)", "d": 1, "p": 0, "dup": false, "base": false}, {"id": 2, "lbl": "cost(2)", "d": 2, "p": 1, "dup": false, "base": false}, {"id": 3, "lbl": "cost(1)", "d": 3, "p": 2, "dup": false, "base": true}, {"id": 4, "lbl": "cost(0)", "d": 3, "p": 2, "dup": false, "base": true}, {"id": 5, "lbl": "cost(1)", "d": 2, "p": 1, "dup": true, "base": true}, {"id": 6, "lbl": "cost(2)", "d": 1, "p": 0, "dup": true, "base": false}, {"id": 7, "lbl": "cost(1)", "d": 2, "p": 6, "dup": true, "base": true}, {"id": 8, "lbl": "cost(0)", "d": 2, "p": 6, "dup": true, "base": true}]}, "memo": {"entries": [{"k": "cost(0)", "v": 0}, {"k": "cost(1)", "v": 20}, {"k": "cost(2)", "v": 30}, {"k": "cost(3)", "v": 30}, {"k": "cost(4)", "v": 40}]}, "tab": {"values": [0, 20, 30, 30, 40], "labels": ["dp[0]", "dp[1]", "dp[2]", "dp[3]", "dp[4]"], "formulas": ["<b>dp[0]</b> = 0 (start)", "<b>dp[1]</b> = |30-10| = <b>20</b>", "<b>dp[2]</b> = min(20+10, 0+30) = <b>30</b>", "<b>dp[3]</b> = min(30+20, 20+10) = <b>30</b>", "<b>dp[4]</b> = min(30+30, 30+10) = <b>40</b>"]}, "space": {"frames": [[0, 20], [20, 30], [30, 30], [30, 40]], "labels": ["prev2", "prev1"]}, "compare": {"brute": 15, "dp": 5, "dpRatio": 33}}</script>
 <script src="../level-runtime.js"></script>
 </body>
 </html>

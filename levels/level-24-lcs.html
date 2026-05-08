@@ -65,8 +65,7 @@
     <span class="kw">if</span> (i == <span class="num">0</span> or j == <span class="num">0</span>) <span class="kw">return</span> <span class="num">0</span>
     <span class="kw">if</span> a.charAt(i-<span class="num">1</span>) == b.charAt(j-<span class="num">1</span>):
     <span class="kw">return</span> <span class="num">1</span> + lcs(i-<span class="num">1</span>, j-<span class="num">1</span>, a, b)
-    <span class="kw">return</span> max(lcs(i-<span class="num">1</span>, j, a, b), lcs(i, j-<span class="num">1</span>, a, b))
-</pre>
+    <span class="kw">return</span> max(lcs(i-<span class="num">1</span>, j, a, b), lcs(i, j-<span class="num">1</span>, a, b))</pre>
 </div></div>
 </details>
   </section>
@@ -107,8 +106,7 @@ lcs(i, j, a, b):
     <span class="kw">if</span> (memo[i][j] != empty) <span class="kw">return</span> memo[i][j]
     <span class="kw">if</span> a.charAt(i-<span class="num">1</span>) == b.charAt(j-<span class="num">1</span>):
     <span class="kw">return</span> memo[i][j] = <span class="num">1</span> + lcs(i-<span class="num">1</span>, j-<span class="num">1</span>, a, b)
-    <span class="kw">return</span> memo[i][j] = max(lcs(i-<span class="num">1</span>, j, a, b), lcs(i, j-<span class="num">1</span>, a, b))
-</pre>
+    <span class="kw">return</span> memo[i][j] = max(lcs(i-<span class="num">1</span>, j, a, b), lcs(i, j-<span class="num">1</span>, a, b))</pre>
 </div></div>
 </details>
   </section>
@@ -140,7 +138,6 @@ lcs(i, j, a, b):
 dp[i][j] = <span class="num">1</span> + dp[i-<span class="num">1</span>][j-<span class="num">1</span>]
 otherwise:
 dp[i][j] = max(dp[i-<span class="num">1</span>][j], dp[i][j-<span class="num">1</span>])
-
 <span class="kw">return</span> dp[n][m]</pre>
 </div></div>
 </details>
@@ -173,9 +170,7 @@ dp[i][j] = max(dp[i-<span class="num">1</span>][j], dp[i][j-<span class="num">1<
 curr[j] = <span class="num">1</span> + prev[j-<span class="num">1</span>]
 otherwise:
 curr[j] = max(prev[j], curr[j-<span class="num">1</span>])
-
 t = prev; prev = curr; curr = t
-
 <span class="kw">return</span> prev[m]</pre>
 </div></div>
 </details>

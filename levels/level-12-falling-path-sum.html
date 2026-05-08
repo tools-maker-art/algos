@@ -65,8 +65,7 @@
     <span class="kw">if</span> (j &lt; <span class="num">0</span> or j &gt;= g[<span class="num">0</span>].length) <span class="kw">return</span> very_big_number
     <span class="kw">if</span> (i == <span class="num">0</span>) <span class="kw">return</span> g[<span class="num">0</span>][j]
     <span class="kw">return</span> g[i][j] + min(fall(i-<span class="num">1</span>,j-<span class="num">1</span>,g),
-    min(fall(i-<span class="num">1</span>,j,g), fall(i-<span class="num">1</span>,j+<span class="num">1</span>,g)))
-</pre>
+    min(fall(i-<span class="num">1</span>,j,g), fall(i-<span class="num">1</span>,j+<span class="num">1</span>,g)))</pre>
 </div></div>
 </details>
   </section>
@@ -107,8 +106,7 @@ fall(i, j, g):
     <span class="kw">if</span> (i == <span class="num">0</span>) <span class="kw">return</span> g[<span class="num">0</span>][j]
     <span class="kw">if</span> (memo[i][j] != empty) <span class="kw">return</span> memo[i][j]
     <span class="kw">return</span> memo[i][j] = g[i][j] + min(fall(i-<span class="num">1</span>,j-<span class="num">1</span>,g),
-    min(fall(i-<span class="num">1</span>,j,g), fall(i-<span class="num">1</span>,j+<span class="num">1</span>,g)))
-</pre>
+    min(fall(i-<span class="num">1</span>,j,g), fall(i-<span class="num">1</span>,j+<span class="num">1</span>,g)))</pre>
 </div></div>
 </details>
   </section>
@@ -141,7 +139,6 @@ a = dp[i-<span class="num">1</span>][j]
 b = (j &gt; <span class="num">0</span>) <span class="kw">if</span> dp[i-<span class="num">1</span>][j-<span class="num">1</span>] <span class="kw">else</span> very_big_number
 c = (j &lt; n-<span class="num">1</span>) <span class="kw">if</span> dp[i-<span class="num">1</span>][j+<span class="num">1</span>] <span class="kw">else</span> very_big_number
 dp[i][j] = g[i][j] + min(a, min(b, c))
-
 best = very_big_number
 <span class="kw">for</span> each v in dp[m-<span class="num">1</span>]:
 <span class="kw">return</span> best</pre>
