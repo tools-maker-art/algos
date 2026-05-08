@@ -5,8 +5,628 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Level 13 · 🍒 Two Friends, One Orchard · DP Adventure</title>
 <meta name="description" content="Cherry Pickup — playful, interactive walkthrough.">
-<link rel="stylesheet" href="../styles.css">
 <link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><text y='52' font-size='52'>🍒</text></svg>">
+<style>/* DP Adventure — Visual game-style theme */
+:root{
+  --ink:#1d1b3a; --ink-soft:#4b4868; --muted:#8d8aae;
+  --bg-1:#fff7fb; --bg-2:#eef0ff;
+  --card:#ffffff; --primary:#7c5cff; --primary-dark:#5b3edc; --primary-soft:#ece5ff;
+  --accent:#ff7ab6; --accent-soft:#ffe2ef;
+  --good:#36c39c; --good-soft:#dbf6ec;
+  --warn:#ffb547; --warn-soft:#fff0d6;
+  --bad:#ff6363; --bad-soft:#ffe0e0;
+  --line:#ece9fb;
+  --shadow:0 14px 40px rgba(80,50,180,.12);
+  --radius:22px;
+  --mono:'JetBrains Mono','Fira Code',Consolas,monospace;
+  --sans: ui-rounded,'Nunito','Quicksand',system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --bg:#0f1117;
+  --surface:#1a1d27;
+  --accent-contract:#6c63ff;
+  --accent2:#ff6584;
+  --green:#4ade80;
+  --red:#f87171;
+  --yellow:#fbbf24;
+  --text:#e2e8f0;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:var(--sans);color:var(--ink);
+  background:
+    radial-gradient(900px 500px at 0% 0%,var(--accent-soft) 0%,transparent 60%),
+    radial-gradient(900px 600px at 100% 0%,var(--primary-soft) 0%,transparent 60%),
+    linear-gradient(180deg,var(--bg-1),var(--bg-2));
+  min-height:100vh;line-height:1.5;font-size:18px;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+a{color:var(--primary);text-decoration:none}
+button{font-family:inherit}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;max-width:1200px;margin:0 auto}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:18px;color:var(--ink)}
+.brand .logo{width:38px;height:38px;border-radius:12px;color:#fff;
+  background:linear-gradient(135deg,var(--primary),var(--accent));
+  display:grid;place-items:center;font-weight:900;box-shadow:0 8px 18px rgba(124,92,255,.35)}
+.topbar nav a{margin-left:14px;color:var(--ink-soft);font-weight:700;font-size:15px}
+.topbar nav a:hover{color:var(--primary)}
+.topbar nav{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.topbar nav a{margin-left:0}
+.level-pill{display:inline-flex;align-items:center;min-height:30px;padding:5px 10px;border-radius:999px;background:var(--primary-soft);color:var(--primary);font-weight:900;font-size:13px}
+.container{max-width:1100px;margin:0 auto;padding:24px 18px 80px}
+.container-narrow{max-width:760px;margin:0 auto;padding:24px 18px 80px}
+.lesson-layout{max-width:1500px;margin:0 auto;padding:20px 24px 80px}
+
+/* HOME */
+.home{min-height:80vh;display:grid;place-items:center;text-align:center;padding:40px 18px}
+.home .glow{position:relative;padding:10px 18px;border-radius:999px;
+  background:#fff;border:1px solid var(--line);font-weight:800;color:var(--primary);font-size:13px;
+  box-shadow:var(--shadow);display:inline-block}
+.home h1{font-size:clamp(36px,7vw,72px);line-height:1.05;margin:18px 0 12px;letter-spacing:-1px}
+.home h1 .gradient{background:linear-gradient(135deg,var(--primary),var(--accent));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.home .sub{font-size:clamp(16px,2.5vw,22px);color:var(--ink-soft);max-width:560px;margin:0 auto 28px}
+.cta{display:inline-flex;align-items:center;gap:10px;padding:18px 30px;border-radius:18px;border:0;
+  background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;font-weight:900;font-size:18px;
+  cursor:pointer;box-shadow:0 14px 30px rgba(124,92,255,.40);text-decoration:none;
+  transition:transform .15s ease,box-shadow .15s ease}
+.cta:hover{transform:translateY(-3px);box-shadow:0 20px 40px rgba(124,92,255,.45)}
+.cta.ghost{background:#fff;color:var(--primary);box-shadow:0 8px 20px rgba(124,92,255,.15);border:2px solid var(--primary-soft)}
+.cta.small{padding:12px 18px;font-size:14px;border-radius:12px}
+.float-row{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-top:30px}
+.float-emoji{font-size:42px;animation:bob 4s ease-in-out infinite;display:inline-block}
+.float-emoji:nth-child(2){animation-delay:.7s}
+.float-emoji:nth-child(3){animation-delay:1.4s}
+.float-emoji:nth-child(4){animation-delay:2.1s}
+@keyframes bob{50%{transform:translateY(-12px)}}
+
+/* MAP */
+.map-hero{text-align:center;padding:30px 16px 6px}
+.map-hero h1{font-size:clamp(28px,5vw,42px);margin:6px 0}
+.map-hero .gradient{background:linear-gradient(135deg,var(--primary),var(--accent));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.map-hero p{color:var(--ink-soft);margin:0 auto;max-width:520px}
+.map-wrap{position:relative;
+  background:
+    radial-gradient(220px 120px at 15% 20%,#ffe9c4 0%,transparent 70%),
+    radial-gradient(280px 160px at 80% 30%,#d0f4d6 0%,transparent 70%),
+    radial-gradient(260px 160px at 25% 70%,#d6e7ff 0%,transparent 70%),
+    radial-gradient(240px 160px at 80% 80%,#f3d6ff 0%,transparent 70%),
+    linear-gradient(180deg,#fff,#f3eeff);
+  border:1px solid var(--line);border-radius:28px;padding:30px 14px 40px;margin-top:18px;overflow:hidden;
+  box-shadow:var(--shadow)}
+.map-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.map-nodes{position:relative;display:grid;gap:18px 14px;grid-template-columns:repeat(2,1fr);max-width:520px;margin:0 auto}
+@media (min-width:680px){.map-nodes{grid-template-columns:repeat(3,1fr);max-width:760px}}
+.map-node{position:relative;display:flex;flex-direction:column;align-items:center;text-decoration:none;color:var(--ink);
+  background:#fff;border:2px solid var(--line);border-radius:20px;padding:14px 10px 12px;
+  box-shadow:0 6px 16px rgba(50,30,120,.06);
+  transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease}
+.map-node .badge-num{position:absolute;top:-12px;left:50%;transform:translateX(-50%);
+  background:#fff;border:2px solid var(--primary);color:var(--primary);font-weight:900;font-size:12px;padding:2px 8px;border-radius:10px}
+.map-node .icon{width:60px;height:60px;border-radius:50%;
+  background:linear-gradient(135deg,#eee,#ddd);display:grid;place-items:center;font-size:30px;margin-top:6px;
+  border:3px solid #fff;box-shadow:0 6px 12px rgba(0,0,0,.06)}
+.map-node .ttl{margin-top:8px;font-weight:800;font-size:14px;text-align:center;line-height:1.15}
+.map-node .sub{font-size:11.5px;color:var(--muted);margin-top:2px;text-align:center}
+.map-node.unlocked{border-color:var(--primary)}
+.map-node.unlocked .icon{background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;
+  box-shadow:0 0 0 4px #fff,0 0 0 8px var(--primary-soft),0 8px 24px rgba(124,92,255,.4);
+  animation:pulse 1.8s ease-in-out infinite}
+@keyframes pulse{
+  0%,100%{box-shadow:0 0 0 4px #fff,0 0 0 8px var(--primary-soft),0 8px 24px rgba(124,92,255,.45)}
+  50%{box-shadow:0 0 0 4px #fff,0 0 0 14px rgba(124,92,255,.18),0 12px 30px rgba(124,92,255,.55)}
+}
+.map-node.unlocked:hover{transform:translateY(-4px) scale(1.02);box-shadow:0 16px 30px rgba(124,92,255,.20)}
+.map-node.locked{opacity:.7;filter:grayscale(.4);pointer-events:none}
+.map-node.locked .icon{font-size:24px;color:#888;background:#eaeaf3}
+.map-node.locked .ttl::before{content:"\01F512  ";font-size:.9em}
+.map-node .pill{position:absolute;top:8px;right:8px;font-size:10px;background:var(--good-soft);color:var(--good);
+  padding:2px 6px;border-radius:6px;font-weight:800}
+.map-node .pill.soon{background:#eee;color:#888}
+.map-node .pill.go{background:var(--accent-soft);color:var(--accent)}
+
+/* LEVEL */
+.level-top{text-align:center;padding:24px 12px 4px}
+.level-top .crumbs{font-size:13px;color:var(--muted)}
+.level-top h1{font-size:clamp(28px,5vw,40px);margin:10px 0 6px}
+.level-top h1 .gradient{background:linear-gradient(135deg,var(--primary),var(--accent));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.level-top .sub{color:var(--ink-soft);font-size:15px}
+.lesson-layout .level-top{padding:10px 12px 0}
+.lesson-layout .level-top h1{font-size:clamp(24px,3vw,34px);margin:6px 0 2px}
+.lesson-layout .level-top .sub{margin:0 0 8px}
+.scene{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 18px;margin:18px 0;box-shadow:var(--shadow)}
+.scene-head{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.scene-num{width:36px;height:36px;flex:none;border-radius:12px;color:#fff;
+  background:linear-gradient(135deg,var(--primary),var(--accent));display:grid;place-items:center;font-weight:900}
+.scene-title{font-size:20px;font-weight:900;line-height:1.2;margin:0}
+.scene .one-liner{color:var(--ink-soft);margin:0 0 14px;font-size:15.5px}
+
+.lesson-shell{
+  background:rgba(255,255,255,.88);
+  border:1px solid var(--line);
+  border-radius:30px;
+  padding:28px;
+  margin:20px 0 24px;
+  box-shadow:0 18px 55px rgba(80,50,180,.14);
+}
+.lesson-steps{
+  display:grid;grid-template-columns:repeat(6,minmax(150px,1fr));gap:12px;margin-bottom:24px;
+  overflow-x:auto;padding:4px 4px 10px;scrollbar-width:thin;
+}
+.lesson-step{
+  display:flex;align-items:center;gap:10px;text-align:left;
+  min-height:74px;padding:14px 12px;border-radius:18px;
+  background:linear-gradient(180deg,#fff,#fdfbff);
+  border:1.5px solid var(--line);
+  box-shadow:0 10px 24px rgba(80,50,180,.06);
+  cursor:pointer;color:var(--ink);font-family:inherit;
+  transition:border-color .16s ease,box-shadow .16s ease,transform .16s ease;
+}
+.lesson-step:hover{transform:translateY(-2px);border-color:var(--primary-soft)}
+.lesson-step:focus-visible{outline:3px solid var(--primary-soft);outline-offset:2px}
+.lesson-step.active{border-color:var(--primary);box-shadow:0 0 0 3px rgba(124,92,255,.12),0 12px 28px rgba(124,92,255,.12)}
+.step-bubble{
+  width:42px;height:42px;display:grid;place-items:center;border-radius:50%;
+  background:#fff;border:2px solid var(--line);color:var(--ink-soft);
+  font-weight:900;font-size:18px;box-shadow:inset 0 0 0 4px #f8f5ff;flex:none;
+}
+.lesson-step.active .step-bubble{background:linear-gradient(135deg,var(--primary),var(--accent));border-color:transparent;color:#fff}
+.step-icon{font-size:20px;line-height:1;flex:none}
+.lesson-step b{display:block;font-size:15px;line-height:1.15}
+.lesson-step small{display:block;margin-top:3px;color:var(--ink-soft);font-size:11.5px}
+.lesson-panel[hidden]{display:none !important}
+.contract-tabs{max-width:1200px;margin:20px auto 12px}
+.contract-panel[hidden]{display:none !important}
+.contract-panel{animation:panelIn .22s ease}
+@keyframes panelIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.contract-step-count{margin-top:8px;font-size:13px}
+.why-line{margin:16px 0 0;padding:10px 12px;border-radius:12px;background:var(--good-soft);color:#11664f;font-size:14px;font-weight:800}
+.lesson-main-grid{display:grid;grid-template-columns:minmax(0,2.1fr) minmax(310px,.95fr);gap:28px;align-items:start}
+.hero-lesson-card{margin:0;padding:28px;border-radius:20px;box-shadow:none}
+.hero-lesson-card .scene-head{display:none}
+.hero-lesson-card .one-liner{font-size:18px;line-height:1.55;margin-bottom:28px;color:var(--ink)}
+.story-showcase{
+  height:294px;
+  gap:14px;
+  padding:26px 18px 16px;
+  border:1.5px solid var(--line);
+  background:linear-gradient(180deg,#fffaff,#f8f2ff);
+}
+.story-showcase::before{
+  content:"TOP";position:absolute;right:24px;top:26px;
+  color:var(--bad);font-weight:900;font-size:13px;letter-spacing:.7px;
+}
+.story-showcase::after{
+  content:"";position:absolute;right:22px;top:52px;width:28px;height:36px;
+  border-left:4px solid #49455f;
+  background:linear-gradient(90deg,var(--bad) 0 65%,transparent 65%);
+  clip-path:polygon(0 0,100% 22%,0 44%,0 100%,12% 100%,12% 0);
+}
+.story-showcase .ground{flex-basis:74px;height:38px}
+.story-showcase .step{border-radius:10px;background:linear-gradient(180deg,#d8c5ff,#a985f5);font-size:15px}
+.story-showcase .bunny{font-size:44px}
+.story-controls{margin-top:24px;gap:18px}
+.story-controls .btn{min-width:138px;justify-content:center;font-size:17px;padding:14px 20px}
+.story-metrics{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:24px}
+.story-metrics .metric{padding:16px 12px;border-radius:14px}
+.story-metrics .metric .val{font-size:28px}
+.hero-lesson-card .explainer.compact{
+  margin-top:18px;background:linear-gradient(180deg,#fff,#fdfbff);
+  border:1.5px solid var(--line);border-radius:14px;
+}
+.hero-lesson-card .explainer.compact > summary{padding:14px 0;font-size:16px}
+.hero-lesson-card .explainer.compact > summary::after{
+  content:"›";margin-left:auto;color:var(--primary);font-size:30px;line-height:1;
+}
+.lesson-side{display:grid;gap:22px}
+.side-card{
+  background:linear-gradient(180deg,#fff,#fdfbff);
+  border:1.5px solid var(--line);border-radius:18px;padding:22px;
+  box-shadow:0 10px 24px rgba(80,50,180,.06);
+}
+.side-card h3{display:flex;align-items:center;gap:12px;margin:0 0 14px;color:var(--primary);font-size:22px;line-height:1.2}
+.side-card h3 span{
+  width:38px;height:38px;display:grid;place-items:center;border-radius:50%;
+  background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;font-size:20px;flex:none;
+}
+.side-card p{margin:0;color:var(--ink-soft);font-size:16px}
+.rule-row{display:flex;align-items:center;gap:16px;margin-top:12px;color:var(--ink-soft)}
+.rule-row b{
+  width:36px;height:36px;display:grid;place-items:center;border-radius:8px;
+  background:var(--primary-soft);color:var(--primary);font-size:18px;
+}
+.side-card + .side-card{position:relative}
+.side-card + .side-card::before{
+  content:"";position:absolute;left:22px;right:22px;top:-12px;border-top:1.5px dashed #ddd4ff;
+}
+.side-card.callout{background:linear-gradient(180deg,#fff,#f6f0ff)}
+.side-card.callout h3{font-size:19px}
+.mini-hop-demo{position:relative;height:112px;margin:6px 0 12px}
+.mini-ground{position:absolute;left:0;bottom:20px;width:24%;height:10px;border-radius:999px;background:#c7b3ff}
+.mini-bunny{position:absolute;left:3%;bottom:26px;font-size:36px;z-index:2}
+.mini-step{position:absolute;bottom:20px;width:70px;border-radius:10px 10px 5px 5px;background:linear-gradient(180deg,#d9c8ff,#b99dff)}
+.mini-step.one{left:32%;height:34px;width:18%}.mini-step.two{left:56%;height:54px;width:18%}.mini-step.three{left:80%;height:76px;width:18%}
+.mini-step.three i{position:absolute;right:10px;top:-34px;width:22px;height:34px;border-left:3px solid #555}
+.mini-step.three i::after{content:"";position:absolute;left:0;top:0;border-top:9px solid transparent;border-bottom:9px solid transparent;border-left:22px solid var(--bad)}
+.arc{position:absolute;color:var(--primary);font-weight:900;font-size:13px}
+.arc::after{
+  content:"";position:absolute;left:-8px;top:15px;width:78px;height:34px;
+  border-top:3px dashed var(--primary);border-radius:50% 50% 0 0;transform:rotate(9deg);
+}
+.arc.a{left:31%;top:14px}.arc.b{left:55%;top:0}
+
+@media (max-width:1050px){
+  .lesson-main-grid{grid-template-columns:1fr}
+}
+
+.btn{display:inline-flex;align-items:center;gap:8px;cursor:pointer;padding:12px 18px;border-radius:14px;border:0;
+  background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;font-weight:800;font-size:15px;
+  box-shadow:0 10px 22px rgba(124,92,255,.30);transition:transform .12s ease,box-shadow .12s ease}
+.btn:hover{transform:translateY(-2px);box-shadow:0 14px 26px rgba(124,92,255,.38)}
+.btn:active{transform:scale(0.96) translateY(1px);box-shadow:0 4px 10px rgba(124,92,255,.20)}
+.btn:disabled{opacity:.55;cursor:not-allowed;transform:none;box-shadow:none}
+.btn.ghost{background:#fff;color:var(--primary);border:2px solid var(--primary-soft);box-shadow:none}
+.btn.small{padding:8px 12px;font-size:13px;border-radius:10px}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+
+/* Stairs */
+.stairs-stage{position:relative;height:200px;display:flex;align-items:flex-end;gap:6px;
+  background:linear-gradient(180deg,#fff8ff,#f4eaff);
+  border-radius:18px;padding:14px;border:1px dashed var(--line);overflow:hidden}
+.stairs-stage .step{flex:1;border-radius:10px 10px 4px 4px;
+  background:linear-gradient(180deg,#dac9ff,#b297ff);
+  position:relative;color:#fff;font-weight:800;text-align:center;font-size:12px;padding-top:6px}
+.stairs-stage .step::after{content:attr(data-i);position:absolute;bottom:6px;left:0;right:0;text-align:center}
+.bunny{position:absolute;left:0;bottom:0;font-size:34px;
+  transition:left .5s cubic-bezier(.4,1.6,.4,1),bottom .5s cubic-bezier(.4,1.6,.4,1)}
+
+.metric-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
+.metric{flex:1;min-width:120px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 12px;text-align:center}
+.metric .lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;font-weight:800}
+.metric .val{font-size:24px;font-weight:900;color:var(--primary);margin-top:2px}
+.metric .val.bad{color:var(--bad)}
+.metric .val.good{color:var(--good)}
+
+/* N picker */
+.npicker{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;margin:6px 0 12px}
+.npicker .n{width:38px;height:38px;border-radius:10px;border:2px solid var(--line);background:#fff;color:var(--ink);
+  font-weight:900;cursor:pointer;font-size:15px}
+.npicker .n.active{background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;border-color:transparent}
+
+/* Tree */
+.tree-stage{position:relative;background:#fbfaff;border-radius:16px;border:1px dashed var(--line);
+  padding:10px;margin:6px 0;overflow:auto}
+svg.tree{display:block;margin:0 auto}
+.tree .node-bg{fill:#fff;stroke:var(--primary);stroke-width:2}
+.tree .node-bg.dup{fill:#ffe6e6;stroke:var(--bad)}
+.tree .node-bg.cached{fill:#dbf6ec;stroke:var(--good)}
+.tree .node-bg.base{fill:#fff7d6;stroke:var(--warn)}
+.tree text{font-family:var(--mono);font-weight:800;font-size:12px;fill:var(--ink);text-anchor:middle}
+.tree text.dup{fill:var(--bad)}
+.tree text.cached{fill:var(--good)}
+.tree text.base{fill:#a16a00}
+.tree .edge{stroke:#cdc6f6;stroke-width:1.6;fill:none}
+.tree .edge.dim{stroke:#eee}
+
+/* Memo */
+.memo-stage{display:grid;grid-template-columns:1fr;gap:14px;align-items:start}
+@media (min-width:640px){.memo-stage{grid-template-columns:2fr 1fr}}
+.backpack{background:linear-gradient(180deg,#f6efff,#ece1ff);
+  border:2px dashed var(--primary);border-radius:18px;padding:14px;min-height:140px}
+.backpack h4{margin:0 0 8px;font-size:14px;color:var(--primary);display:flex;gap:6px;align-items:center}
+.backpack .slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:6px}
+.memo-slot{background:#fff;border:1.5px solid var(--primary-soft);border-radius:10px;padding:6px 4px;text-align:center;
+  font-family:var(--mono);font-size:12.5px;font-weight:800;color:var(--ink);
+  animation:popin .35s cubic-bezier(.4,1.8,.4,1)}
+.memo-slot .k{color:var(--primary)}
+.memo-slot .v{color:var(--good)}
+@keyframes popin{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+
+/* Tab */
+.tab-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0}
+.tab-cell{min-width:54px;padding:14px 8px;border-radius:14px;background:#fff;
+  border:2px solid var(--line);text-align:center;font-family:var(--mono);font-weight:900;font-size:18px;color:var(--muted);
+  transition:transform .25s ease,background .25s ease,color .25s ease,border-color .25s ease}
+.tab-cell .idx{display:block;font-size:10.5px;color:var(--muted);font-family:var(--sans);font-weight:700;margin-bottom:2px}
+.tab-cell.filled{color:var(--primary);background:var(--primary-soft);border-color:var(--primary);transform:translateY(-3px)}
+.tab-cell.current{color:#fff;background:linear-gradient(135deg,var(--primary),var(--accent));
+  border-color:transparent;transform:translateY(-6px) scale(1.06);box-shadow:0 8px 18px rgba(124,92,255,.35)}
+.tab-formula{text-align:center;color:var(--ink-soft);font-family:var(--mono);font-size:14px;margin-top:8px}
+.tab-formula b{color:var(--primary)}
+
+/* Space */
+.space-stage{display:flex;gap:14px;justify-content:center;align-items:center;flex-wrap:wrap;margin:12px 0}
+.space-box{width:96px;height:96px;border-radius:18px;background:#fff;
+  display:grid;place-items:center;font-family:var(--mono);font-weight:900;font-size:26px;color:var(--primary);
+  border:3px solid var(--primary-soft);box-shadow:0 8px 20px rgba(124,92,255,.12);
+  transition:transform .35s cubic-bezier(.4,1.7,.4,1),background .25s ease,color .25s ease}
+.space-box.curr{background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;border-color:transparent;
+  transform:scale(1.07)}
+.arrow{font-size:26px;color:var(--primary)}
+
+/* Compare */
+.compare{display:grid;grid-template-columns:1fr;gap:14px}
+@media (min-width:680px){.compare{grid-template-columns:1fr 1fr}}
+.compare-card{background:#fff;border:2px solid var(--line);border-radius:18px;padding:16px}
+.compare-card.bad{border-color:var(--bad);background:#fff8f8}
+.compare-card.good{border-color:var(--good);background:#f6fffa}
+.compare-card h4{margin:0 0 6px;font-size:16px;display:flex;gap:8px;align-items:center}
+.compare-bar{height:18px;background:#f0eef9;border-radius:10px;overflow:hidden;margin-top:8px}
+.compare-bar > span{display:block;height:100%;border-radius:10px;
+  background:linear-gradient(90deg,var(--bad),var(--accent));transition:width .6s ease}
+.compare-card.good .compare-bar > span{background:linear-gradient(90deg,var(--good),var(--primary))}
+.compare-card .num{font-size:30px;font-weight:900;color:var(--ink);margin-top:8px}
+.compare-card .num small{color:var(--muted);font-size:13px;font-weight:700}
+.compare-slider{display:grid;gap:8px;margin:4px 0 16px;background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:14px}
+.compare-slider label{font-weight:900;color:var(--ink)}
+.compare-slider input{width:100%;accent-color:var(--primary)}
+.complexity-row{display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;font-weight:900}
+.complexity-row .bad{color:var(--bad)}
+.complexity-row .good{color:var(--good)}
+
+/* Bottom nav */
+.bottom-nav{margin-top:30px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.bottom-nav a{flex:1;min-width:160px;padding:14px;border-radius:14px;text-align:center;font-weight:900;
+  background:#fff;border:1.5px solid var(--line);color:var(--ink-soft);text-decoration:none}
+.bottom-nav a.next{background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;border:0;
+  box-shadow:0 12px 24px rgba(124,92,255,.30)}
+
+footer.site{text-align:center;padding:30px 14px;color:var(--muted);font-size:13px}
+.center{text-align:center}
+.muted{color:var(--muted)}
+.spacer{height:14px}
+.toast{display:inline-block;background:var(--good);color:#fff;padding:6px 12px;border-radius:999px;font-weight:800;font-size:13px;margin-left:8px}
+
+/* Universal level mini-games */
+.game-viz{background:#fbfaff;border:1px dashed var(--line);border-radius:14px;padding:14px}
+.game-card{display:grid;grid-template-columns:minmax(0,.9fr) minmax(260px,1.1fr);gap:14px;align-items:stretch}
+.game-copy{background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:14px;box-shadow:0 8px 18px rgba(80,50,180,.06)}
+.game-copy h3{margin:6px 0 6px;font-size:20px;line-height:1.15}
+.game-copy p{margin:0 0 12px;color:var(--ink-soft);font-size:14px}
+.game-badge{display:inline-flex;align-items:center;padding:4px 9px;border-radius:999px;background:var(--primary-soft);color:var(--primary);font-size:11px;font-weight:900;text-transform:uppercase}
+.game-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.game-score{display:inline-flex;align-items:center;min-height:32px;padding:5px 10px;border-radius:999px;background:var(--good-soft);color:var(--good);font-size:12px;font-weight:900}
+.game-playfield{position:relative;min-height:190px;display:grid;place-items:center;overflow:hidden;border-radius:16px;border:1.5px solid var(--line);background:linear-gradient(180deg,#fff,#f5f0ff)}
+.game-hero{position:absolute;left:16px;bottom:14px;width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent));box-shadow:0 8px 18px rgba(124,92,255,.26);animation:gameHero 2.4s ease-in-out infinite}
+.game-hero::before,.game-hero::after{content:"";position:absolute;top:11px;width:5px;height:5px;border-radius:50%;background:#fff}
+.game-hero::before{left:9px}.game-hero::after{right:9px}
+@keyframes gameHero{50%{transform:translateY(-8px)}}
+.game-track{display:flex;align-items:flex-end;justify-content:center;gap:8px;flex-wrap:wrap;width:100%;padding:42px 12px 18px}
+.step-card,.loot-card,.balloon-card,.letter-tile,.stick-piece,.game-cell{font-family:inherit;cursor:pointer;border:2px solid var(--line);background:#fff;color:var(--ink);font-weight:900;transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease,background .16s ease}
+.step-card{width:52px;height:var(--piece-h);min-height:44px;border-radius:12px 12px 5px 5px;background:linear-gradient(180deg,#fef7ff,#d9ccff)}
+.loot-card,.balloon-card{min-width:58px;min-height:58px;border-radius:50%;background:linear-gradient(180deg,#fff8d9,#ffc857)}
+.balloon-card{background:linear-gradient(180deg,#ffe4f2,#ff7ab6);color:#fff;text-shadow:0 1px 0 rgba(0,0,0,.18)}
+.step-card:hover,.loot-card:hover,.balloon-card:hover,.letter-tile:hover,.stick-piece:hover,.game-cell:hover{transform:translateY(-4px);box-shadow:0 10px 18px rgba(80,50,180,.12)}
+.step-card.active,.loot-card.active,.balloon-card.active,.letter-tile.active,.stick-piece.active,.game-cell.active,
+.step-card.demo,.loot-card.demo,.balloon-card.demo,.letter-tile.demo,.stick-piece.demo,.game-cell.demo{border-color:var(--primary);background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;box-shadow:0 0 0 5px var(--primary-soft),0 12px 24px rgba(124,92,255,.24)}
+.game-grid{display:grid;gap:8px;width:min(100%,360px);padding:42px 12px 18px}
+.game-cell{min-height:54px;border-radius:12px;font-size:12px}
+.game-cell.start{background:var(--good-soft);color:var(--good)}
+.game-cell.end{background:var(--accent-soft);color:var(--accent)}
+.game-cell.blocked{background:#eee;color:#888;cursor:not-allowed;text-decoration:line-through}
+.letter-track,.string-match,.stick-track{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;padding:42px 12px 18px}
+.string-match{flex-direction:column}
+.letter-tile{min-width:42px;min-height:42px;border-radius:12px;background:#fff;font-family:var(--mono)}
+.letter-tile.alt{border-color:var(--accent-soft)}
+.stick-piece{min-width:48px;min-height:46px;border-radius:8px;background:linear-gradient(180deg,#fff,#ffe9c4)}
+.code-block pre .str{color:#a15c00;font-weight:800}
+
+.question-flow{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0 14px}
+.q-card{border:1.5px solid var(--line);border-radius:14px;background:#fff;padding:10px 12px;color:var(--ink-soft);box-shadow:0 8px 18px rgba(80,50,180,.06)}
+.q-card b{display:block;color:var(--primary);font-size:16px;margin-bottom:5px}
+.q-card span{display:block;font-size:13px;line-height:1.35;margin:3px 0}
+.q-card.active{border-color:var(--primary);background:var(--primary-soft)}
+.coach-card{display:grid;gap:5px;background:#fff;border:1.5px dashed var(--primary-soft);border-radius:14px;padding:12px;margin-bottom:8px;color:var(--ink-soft)}
+.coach-card b{color:var(--primary)}
+.coach-card span{font-size:14px}
+
+/* Rich story-game panel for every generated level */
+.journey-card{display:grid;gap:12px}
+.journey-head{background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:14px;box-shadow:0 8px 18px rgba(80,50,180,.06)}
+.journey-head h3{margin:6px 0 6px;font-size:22px;line-height:1.15}
+.journey-head p{margin:0 0 12px;color:var(--ink-soft);font-size:15px}
+.journey-stage{position:relative;min-height:220px;display:flex;align-items:flex-end;justify-content:center;overflow:hidden;border-radius:16px;border:1.5px solid var(--line);background:linear-gradient(180deg,#fff 0%,#fbf6ff 62%,#efe5ff 62%,#efe5ff 100%);padding:18px}
+.journey-stage::before{content:"START";position:absolute;left:16px;bottom:20px;padding:6px 10px;border-radius:10px;background:#e7d6b3;color:#5a3a08;font-weight:900;font-size:11px;letter-spacing:.6px}
+.journey-track{position:relative;z-index:2;align-items:flex-end;margin-left:54px}
+.journey-hero{z-index:4;left:22px;bottom:42px;transition:left .42s cubic-bezier(.2,1.7,.45,1),top .42s cubic-bezier(.2,1.7,.45,1),transform .25s ease}
+.journey-hero::before{content:"";left:8px}
+.journey-hero::after{content:"";right:8px}
+.journey-hero.demo{transform:translateY(-8px)}
+.step-card{display:flex;align-items:flex-end;justify-content:center;color:#fff;text-shadow:0 1px 0 rgba(0,0,0,.18)}
+.step-card::before{content:"";position:absolute}
+.ways-panel{border:1px dashed var(--primary-soft);border-radius:14px;background:#fbfaff;padding:0 14px}
+.ways-panel > summary{list-style:none;cursor:pointer;padding:11px 0;font-weight:900;color:var(--primary);font-size:14.5px}
+.ways-panel > summary::-webkit-details-marker{display:none}
+.ways-panel > summary::before{content:"+";display:inline-grid;place-items:center;width:22px;height:22px;margin-right:6px;border-radius:50%;background:var(--primary);color:#fff;font-weight:900}
+.ways-panel[open] > summary::before{content:"-"}
+.ways-panel p{margin:2px 0 10px;color:var(--ink-soft);font-size:14px}
+.ways-list{max-height:260px;overflow:auto;background:#fff;border:1px dashed var(--line);border-radius:12px;padding:10px 12px;margin-bottom:12px}
+.way-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:6px 0;border-bottom:1px dashed #efeafd}
+.way-row:last-child{border-bottom:0}
+.way-idx{min-width:28px;color:var(--muted);font-weight:900;font-size:13px}
+.way-chip{display:inline-flex;align-items:center;min-height:25px;padding:3px 9px;border-radius:8px;background:var(--primary-soft);color:var(--primary);font-family:var(--mono);font-size:12px;font-weight:900}
+.way-chip.alt{background:var(--accent-soft);color:var(--accent)}
+.journey-grid{z-index:2;margin-left:54px}
+.journey-grid .game-cell{min-height:58px}
+
+@media (max-width:600px){
+  body{font-size:17px}
+  .topbar{padding:12px 14px}
+  .topbar nav a{margin-left:10px;font-size:14px}
+  .lesson-layout{padding:12px 10px 70px}
+  .lesson-shell{padding:14px;border-radius:22px;margin-top:12px}
+  .lesson-steps{grid-template-columns:repeat(6,150px);gap:10px;margin-bottom:14px}
+  .contract-tabs{margin:12px 0 8px}
+  .lesson-step{min-height:70px;padding:11px 12px}
+  .step-bubble{width:38px;height:38px;font-size:16px}
+  .lesson-step b{font-size:14px}
+  .lesson-step small{font-size:11px}
+  .lesson-main-grid{grid-template-columns:1fr;gap:14px}
+  .hero-lesson-card{padding:18px 14px}
+  .hero-lesson-card .one-liner{font-size:16px;margin-bottom:18px}
+  .story-showcase{height:220px;gap:8px;padding:22px 12px 14px}
+  .story-showcase .ground{flex-basis:58px;height:30px}
+  .story-showcase .bunny{font-size:36px}
+  .story-controls{gap:8px;margin-top:14px}
+  .story-controls .btn{min-width:0;flex:1 1 118px;font-size:14px;padding:11px 12px}
+  .story-metrics{grid-template-columns:1fr;gap:10px;margin-top:14px}
+  .side-card{padding:16px}
+  .side-card h3{font-size:19px}
+  .scene{padding:18px 14px}
+  .scene-title{font-size:18px}
+  .stairs-stage{height:170px}
+  .space-box{width:78px;height:78px;font-size:22px}
+  .question-flow{grid-template-columns:1fr}
+  .game-card{grid-template-columns:1fr}
+  .game-playfield{min-height:220px}
+  .journey-stage{min-height:230px;padding:12px;overflow:auto;justify-content:flex-start}
+  .journey-track,.journey-grid{margin-left:48px}
+  .way-chip{font-size:11px;padding:3px 7px}
+}
+
+@media (prefers-color-scheme: dark){
+  :root{
+    --ink:#e2e8f0; --ink-soft:#bac5d6; --muted:#94a3b8;
+    --bg-1:#0f1117; --bg-2:#151923;
+    --card:#1a1d27; --line:#2b3242;
+    --primary:#8b84ff; --primary-dark:#6c63ff; --primary-soft:#292743;
+    --accent:#ff6584; --accent-soft:#3c2230;
+    --good:#4ade80; --good-soft:#193425;
+    --warn:#fbbf24; --warn-soft:#3d3014;
+    --bad:#f87171; --bad-soft:#3d2025;
+    --shadow:0 18px 44px rgba(0,0,0,.28);
+  }
+  body{
+    background:
+      radial-gradient(800px 420px at 12% 0%,rgba(255,101,132,.13),transparent 60%),
+      radial-gradient(760px 480px at 100% 0%,rgba(108,99,255,.16),transparent 60%),
+      linear-gradient(180deg,var(--bg-1),var(--bg-2));
+  }
+  .scene,.side-card,.journey-head,.compare-slider,.metric,.code-block,.code-block pre,.code-head,.tab-cell,.compare-card,.ways-list,.q-card,.explainer .body .pic{background:var(--card);color:var(--ink)}
+  .lesson-shell,.map-wrap{background:rgba(26,29,39,.86)}
+  .btn.ghost,.cta.ghost,.bottom-nav a,.map-node,.game-copy{background:var(--surface);color:var(--text)}
+  .journey-stage,.game-playfield,.story-showcase,.tree-stage,.game-viz{background:linear-gradient(180deg,#1a1d27,#161923)}
+  .tab-cell.filled{background:var(--primary-soft)}
+  .why-line{color:var(--green)}
+  .game-cell,.letter-tile,.stick-piece,.loot-card,.step-card{background:var(--surface);color:var(--text)}
+}
+
+/* ===== Ground tile + bunny start ===== */
+.ground{
+  flex:0 0 60px;height:30px;border-radius:10px 10px 4px 4px;
+  background:linear-gradient(180deg,#e7d6b3,#caa873);
+  position:relative;color:#5a3a08;font-weight:800;font-size:11px;
+  display:grid;place-items:center;border:1px dashed #b08555;
+}
+.ground-label{font-size:10px;letter-spacing:1px}
+
+/* ===== All-paths panel ===== */
+.paths-box{
+  background:#fbfaff;border:1px dashed var(--line);border-radius:14px;
+  padding:12px 14px;max-height:260px;overflow:auto;margin-top:8px;
+}
+.path-row{
+  display:flex;align-items:center;gap:6px;padding:5px 0;
+  border-bottom:1px dashed #efeafd;
+}
+.path-row:last-child{border-bottom:0}
+.path-idx{
+  font-weight:900;color:var(--muted);min-width:24px;font-size:13px;
+}
+.hop{
+  display:inline-flex;align-items:center;gap:2px;
+  font-family:var(--mono);font-weight:800;font-size:12.5px;
+  padding:3px 8px;border-radius:8px;
+}
+.hop-1{background:var(--primary-soft);color:var(--primary)}
+.hop-2{background:var(--accent-soft);color:var(--accent)}
+
+/* ===== Explainer "What does this mean?" details ===== */
+.explainer{
+  margin-top:12px;border:1px dashed var(--primary-soft);
+  border-radius:12px;background:#faf8ff;padding:0 14px;
+}
+.explainer > summary{
+  list-style:none;cursor:pointer;
+  padding:10px 0;font-weight:800;color:var(--primary);font-size:14.5px;
+  display:flex;align-items:center;gap:6px;
+}
+.explainer > summary::-webkit-details-marker{display:none}
+.explainer > summary::before{
+  content:"?";display:inline-grid;place-items:center;
+  width:22px;height:22px;border-radius:50%;
+  background:var(--primary);color:#fff;font-weight:900;font-size:13px;
+}
+.explainer[open] > summary::before{content:"−"}
+.explainer .body{
+  padding:0 0 12px;color:var(--ink-soft);font-size:14.5px;line-height:1.55;
+}
+.explainer .body p{margin:6px 0}
+.explainer .body .pic{
+  margin:8px 0;padding:10px 12px;background:#fff;border-radius:10px;
+  border:1px solid var(--line);
+}
+.explainer .body .pic .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:4px 0}
+.explainer .body .pic .chip{
+  background:var(--primary-soft);color:var(--primary);font-weight:800;
+  padding:4px 10px;border-radius:8px;font-size:13px;font-family:var(--mono);
+}
+.explainer .body .pic .chip.acc{background:var(--accent-soft);color:var(--accent)}
+.explainer .body .pic .chip.good{background:var(--good-soft);color:var(--good)}
+
+/* Tab cell idx tweak */
+.tab-cell .idx{font-size:10.5px}
+
+/* ===== Code block (pseudocode) ===== */
+.code-block{
+  margin-top:14px;border:1px solid var(--line);border-radius:14px;
+  background:#fff;overflow:hidden;
+}
+.code-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 14px;background:#faf8ff;border-bottom:1px dashed var(--line);
+  font-weight:800;font-size:13px;color:var(--ink);
+}
+.code-head .lang{
+  background:var(--primary);color:#fff;font-size:11px;letter-spacing:.5px;
+  padding:3px 8px;border-radius:6px;font-weight:900;
+}
+.code-head .upgrade{
+  font-size:12px;color:var(--good);background:var(--good-soft);
+  padding:3px 8px;border-radius:6px;font-weight:800;
+}
+.code-head .upgrade.bad{color:var(--bad);background:var(--bad-soft)}
+.code-block pre{
+  margin:0;padding:14px 16px;font-family:var(--mono);font-size:13px;
+  line-height:1.55;color:#1a1838;background:#fff;overflow-x:auto;
+}
+.code-block .cmt{color:#7d8fb3;font-style:italic}
+.code-block .kw{color:#7c5cff;font-weight:800}
+.code-block .typ{color:#36c39c;font-weight:700}
+.code-block .num{color:#ff7ab6;font-weight:700}
+.code-block .hl{
+  background:#fff8d6;border-left:3px solid var(--warn);padding:2px 4px;
+  border-radius:3px;margin-left:-7px;display:inline-block;
+}
+
+/* Keyboard navigation hint — shown when a scene has focus */
+.kbd-hint{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:11px;color:var(--muted);margin-left:6px;
+  opacity:0;transition:opacity .25s ease;pointer-events:none;
+}
+.scene:focus-within .kbd-hint{opacity:1}
+kbd{
+  display:inline-grid;place-items:center;min-width:20px;height:18px;
+  padding:0 4px;border:1px solid var(--line);border-radius:4px;
+  background:var(--primary-soft);color:var(--primary);
+  font-family:var(--mono);font-size:10px;font-weight:800;
+}
+
+/* Subtle focus glow when a scene is being interacted with */
+.scene:focus-within{box-shadow:var(--shadow),0 0 0 3px rgba(124,92,255,.10)}
+</style>
 </head>
 <body>
 
@@ -185,6 +805,668 @@
 <footer class="site">DP Adventure · <a href="../index.html">Home</a></footer>
 
 <script type="application/json" id="level-data">{"viz": {"kind": "grid", "rows": 3, "cols": 3, "values": [1, 1, "", 1, "", 1, 1, 1, 1]}, "memo": {"entries": [{"k": "(0,0,0)", "v": "start"}, {"k": "(end)", "v": 5}]}, "tab": {"values": [1, 2, 3, 4, 5], "labels": ["step 0", "step 1", "step 2", "step 3", "step 4"], "formulas": ["<b>step 0</b>: both at (0,0)", "<b>step 0</b>: both at (0,0)", "<b>step 0</b>: both at (0,0)", "<b>step 0</b>: both at (0,0)", "<b>step 0</b>: both at (0,0)"]}, "compare": {"brute": 100, "dp": 27, "dpRatio": 30}}</script>
-<script src="../level-runtime.js"></script>
+<script>/* DP Adventure - universal interactive runtime for generated levels. */
+(function () {
+  'use strict';
+
+  function $(s, r) { return (r || document).querySelector(s); }
+  function $$(s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); }
+  function esc(x) {
+    return String(x == null ? '' : x)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  var dataEl = document.getElementById('level-data');
+  if (!dataEl) return;
+
+  var L;
+  try {
+    L = JSON.parse(dataEl.textContent);
+  } catch (e) {
+    console.error('bad level data', e);
+    return;
+  }
+
+  function mountViz(host) {
+    var v = L.viz || {};
+    var kind = v.kind || 'items';
+    var label = v.label || 'play with the tiny problem';
+    var story = {
+      bars: 'The climber wants to reach the top. Try small jumps, then see every route.',
+      row: 'The explorer walks past choices one by one. Pick or skip each spot.',
+      coins: 'The collector walks along treasure piles. Pick some, skip others.',
+      grid: 'The explorer starts at START and wants GOAL. Walk right or down.',
+      string: 'The word builder moves across letters and tries prefixes.',
+      strings: 'Two word builders look for matching letters.',
+      stick: 'The cutter chooses cut marks and tries different orders.',
+      balloons: 'The popper chooses balloons and tries different pop orders.'
+    }[kind] || 'Move through the tiny puzzle and watch the choices become visible.';
+
+    function buildWays() {
+      var ways = [];
+      if (kind === 'bars') {
+        var n = (v.items || []).length;
+        function hop(left, path) {
+          if (left === 0) { ways.push(path.slice()); return; }
+          if (left < 0 || ways.length >= 24) return;
+          path.push('hop 1'); hop(left - 1, path); path.pop();
+          path.push('hop 2'); hop(left - 2, path); path.pop();
+        }
+        hop(n, []);
+      } else if (kind === 'grid') {
+        var rows = v.rows || 3, cols = v.cols || 3, blocks = v.blocks || [];
+        function blocked(r, c) { return blocks.some(function (b) { return b[0] === r && b[1] === c; }); }
+        function walk(r, c, path) {
+          if (r === rows - 1 && c === cols - 1) { ways.push(path.slice()); return; }
+          if (ways.length >= 24) return;
+          if (c + 1 < cols && !blocked(r, c + 1)) { path.push('right'); walk(r, c + 1, path); path.pop(); }
+          if (r + 1 < rows && !blocked(r + 1, c)) { path.push('down'); walk(r + 1, c, path); path.pop(); }
+        }
+        walk(0, 0, []);
+      } else if (kind === 'string') {
+        String(v.s || '').split('').forEach(function (ch, i) {
+          ways.push(['prefix ' + (i + 1), String(v.s || '').slice(0, i + 1)]);
+        });
+      } else if (kind === 'strings') {
+        var a = String(v.a || ''), b = String(v.b || '');
+        for (var i = 0; i < a.length; i++) {
+          for (var j = 0; j < b.length; j++) {
+            if (a[i] === b[j] && ways.length < 24) ways.push(['match ' + a[i], 'A' + i, 'B' + j]);
+          }
+        }
+      } else if (kind === 'stick') {
+        var length = v.length || 5;
+        for (var cut = 1; cut < length && ways.length < 18; cut++) ways.push(['cut at ' + cut, 'left ' + cut, 'right ' + (length - cut)]);
+      } else if (kind === 'balloons') {
+        (v.items || []).slice(0, 6).forEach(function (x, i) {
+          ways.push(['pop balloon ' + (i + 1), 'score x' + x]);
+        });
+      } else {
+        var items = v.items || [1, 2, 3, 4];
+        function choose(i, path) {
+          if (i >= items.length) { ways.push(path.slice()); return; }
+          if (ways.length >= 24) return;
+          path.push('take ' + items[i]); choose(i + 1, path); path.pop();
+          path.push('skip ' + items[i]); choose(i + 1, path); path.pop();
+        }
+        choose(0, []);
+      }
+      return ways.length ? ways : [['try choice A'], ['try choice B']];
+    }
+
+    function chip(text) {
+      var cls = /2|down|skip|right|cut|pop/.test(String(text)) ? 'way-chip alt' : 'way-chip';
+      return '<span class="' + cls + '">' + esc(text) + '</span>';
+    }
+
+    function renderWays(ways) {
+      return ways.map(function (way, i) {
+        return '<div class="way-row"><span class="way-idx">' + (i + 1) + '.</span>' + way.map(chip).join('') + '</div>';
+      }).join('');
+    }
+
+    function renderPieces() {
+      if (kind === 'grid') {
+        var rows = v.rows || 3;
+        var cols = v.cols || 3;
+        var blocks = v.blocks || [];
+        var cells = '';
+        for (var r = 0; r < rows; r++) {
+          for (var c = 0; c < cols; c++) {
+            var blocked = blocks.some(function (b) { return b[0] === r && b[1] === c; });
+            var cls = 'game-cell' + (blocked ? ' blocked' : '') + (r === 0 && c === 0 ? ' start' : '') + (r === rows - 1 && c === cols - 1 ? ' end' : '');
+            var txt = blocked ? 'rock' : (r === 0 && c === 0 ? 'START' : (r === rows - 1 && c === cols - 1 ? 'GOAL' : (v.values ? v.values[r * cols + c] : '')));
+            cells += '<button type="button" class="' + cls + '" data-game-piece="' + (r * cols + c) + '"' + (blocked ? ' disabled' : '') + '>' + esc(txt) + '</button>';
+          }
+        }
+        return '<div class="game-grid journey-grid" style="grid-template-columns:repeat(' + cols + ',1fr)">' + cells + '</div>';
+      }
+
+      if (kind === 'string') {
+        return '<div class="letter-track journey-track">' + String(v.s || '').split('').map(function (ch, i) {
+          return '<button type="button" class="letter-tile" data-game-piece="' + i + '">' + esc(ch) + '</button>';
+        }).join('') + '</div>';
+      }
+
+      if (kind === 'strings') {
+        return '<div class="string-match journey-track"><div>' + String(v.a || '').split('').map(function (ch, i) {
+          return '<button type="button" class="letter-tile" data-game-piece="' + i + '">A:' + esc(ch) + '</button>';
+        }).join('') + '</div><div>' + String(v.b || '').split('').map(function (ch, i) {
+          return '<button type="button" class="letter-tile alt" data-game-piece="' + (100 + i) + '">B:' + esc(ch) + '</button>';
+        }).join('') + '</div></div>';
+      }
+
+      if (kind === 'stick') {
+        var parts = [];
+        for (var i = 0; i < (v.length || 5); i++) parts.push(i + 1);
+        return '<div class="stick-track journey-track">' + parts.map(function (x, i) {
+          return '<button type="button" class="stick-piece" data-game-piece="' + i + '">' + esc(x) + '</button>';
+        }).join('') + '</div>';
+      }
+
+      var items = v.items || [1, 2, 3, 4];
+      var max = Math.max.apply(null, items.map(function (x) { return Number(x) || 1; }));
+      var cls = kind === 'bars' ? 'step-card' : (kind === 'balloons' ? 'balloon-card' : 'loot-card');
+      return '<div class="game-track journey-track">' + items.map(function (x, i) {
+        var style = kind === 'bars' ? ' style="--piece-h:' + (36 + Math.round(82 * (Number(x) || 1) / max)) + 'px"' : '';
+        var prefix = kind === 'balloons' ? 'pop ' : '';
+        return '<button type="button" class="' + cls + '" data-game-piece="' + i + '"' + style + '>' + prefix + esc(x) + '</button>';
+      }).join('') + '</div>';
+    }
+
+    var ways = buildWays();
+    host.classList.add('game-viz');
+    host.innerHTML =
+      '<div class="journey-card">' +
+        '<div class="journey-head">' +
+          '<span class="game-badge">story game</span>' +
+          '<h3>' + esc(label) + '</h3>' +
+          '<p>' + esc(story) + '</p>' +
+          '<div class="game-controls">' +
+            '<button type="button" class="btn small" data-game-run>Show one try</button>' +
+            '<button type="button" class="btn ghost small" data-game-reset>Back to start</button>' +
+            '<span class="game-score" aria-live="polite">0 choices tried</span>' +
+          '</div>' +
+        '</div>' +
+        '<div class="journey-stage">' +
+          '<div class="game-hero journey-hero" aria-hidden="true"></div>' +
+          renderPieces() +
+        '</div>' +
+        '<details class="ways-panel">' +
+          '<summary>show me all ' + ways.length + ' ways to try it</summary>' +
+          '<p>' + esc(missionForWays(kind)) + '</p>' +
+          '<div class="ways-list">' + renderWays(ways) + '</div>' +
+        '</details>' +
+      '</div>';
+
+    var pieces = $$('[data-game-piece]', host);
+    var scoreEl = $('.game-score', host);
+    var hero = $('.journey-hero', host);
+    function setScore() {
+      if (scoreEl) scoreEl.textContent = $$('.active', host).length + ' choices tried';
+    }
+    function moveHeroTo(piece) {
+      if (!hero || !piece) return;
+      var stage = $('.journey-stage', host).getBoundingClientRect();
+      var box = piece.getBoundingClientRect();
+      hero.style.left = (box.left - stage.left + box.width / 2 - 17) + 'px';
+      hero.style.top = (box.top - stage.top - 36) + 'px';
+      hero.style.bottom = 'auto';
+    }
+    function reset() {
+      pieces.forEach(function (p) { p.classList.remove('active', 'demo'); });
+      if (hero) {
+        hero.style.left = '18px';
+        hero.style.top = 'auto';
+        hero.style.bottom = '42px';
+      }
+      setScore();
+    }
+    pieces.forEach(function (piece) {
+      piece.addEventListener('click', function () {
+        piece.classList.toggle('active');
+        moveHeroTo(piece);
+        setScore();
+      });
+    });
+    var resetBtn = $('[data-game-reset]', host);
+    if (resetBtn) resetBtn.addEventListener('click', reset);
+    var runBtn = $('[data-game-run]', host);
+    if (runBtn) {
+      runBtn.addEventListener('click', function () {
+        reset();
+        pieces.filter(function (p) { return !p.disabled; }).slice(0, Math.min(6, pieces.length)).forEach(function (piece, i) {
+          window.setTimeout(function () {
+            piece.classList.add('demo', 'active');
+            moveHeroTo(piece);
+            setScore();
+          }, i * 260);
+        });
+      });
+    }
+  }
+
+  function missionForWays(kind) {
+    return {
+      bars: 'Each row is one route made from 1-step and 2-step hops.',
+      grid: 'Each row is one route from START to GOAL.',
+      row: 'Each row is one take-or-skip plan.',
+      coins: 'Each row is one treasure plan.',
+      string: 'Each row is one prefix the word builder can test.',
+      strings: 'Each row is one possible letter match.',
+      stick: 'Each row is one cut choice to try first.',
+      balloons: 'Each row is one pop choice to try.'
+    }[kind] || 'Each row is one possible way to try the tiny puzzle.';
+  }
+
+  function mountTree(host) {
+    var t = L.tree;
+    if (!t) {
+      host.innerHTML = '<p class="muted center">The recurrence above is the tiny choice tree for this level.</p>';
+      return;
+    }
+    var revealed = 1;
+    var maxDepth = t.maxDepth || 4;
+    var nodes = t.nodes || [];
+
+    function render() {
+      var visible = nodes.filter(function (n) { return n.d <= revealed; });
+      var byDepth = {};
+      visible.forEach(function (n) { (byDepth[n.d] = byDepth[n.d] || []).push(n); });
+      var depths = Object.keys(byDepth).map(Number).sort(function (a, b) { return a - b; });
+      var deepest = byDepth[depths[depths.length - 1]] || [];
+      var nodeW = 86;
+      var rowH = 70;
+      var padX = 14;
+      var width = Math.max(360, padX * 2 + deepest.length * (nodeW + 8));
+      var height = depths.length * rowH + 20;
+      var xs = {};
+      if (deepest.length === 1) xs[deepest[0].id] = width / 2;
+      else deepest.forEach(function (n, i) { xs[n.id] = padX + nodeW / 2 + i * ((width - padX * 2 - nodeW) / (deepest.length - 1)); });
+
+      var childMap = {};
+      visible.forEach(function (n) { if (n.p != null) (childMap[n.p] = childMap[n.p] || []).push(n.id); });
+      for (var di = depths.length - 2; di >= 0; di--) {
+        (byDepth[depths[di]] || []).forEach(function (n) {
+          var kids = childMap[n.id] || [];
+          if (kids.length) {
+            var sum = 0;
+            kids.forEach(function (k) { sum += xs[k]; });
+            xs[n.id] = sum / kids.length;
+          } else {
+            xs[n.id] = width / 2;
+          }
+        });
+      }
+
+      var svg = '<svg class="tree" width="' + width + '" height="' + height + '" viewBox="0 0 ' + width + ' ' + height + '">';
+      visible.forEach(function (n) {
+        if (n.p == null) return;
+        var parent = visible.find(function (q) { return q.id === n.p; });
+        if (!parent) return;
+        svg += '<line x1="' + xs[parent.id] + '" y1="' + (parent.d * rowH + 51) + '" x2="' + xs[n.id] + '" y2="' + (n.d * rowH + 15) + '" class="edge' + (n.dup ? ' dim' : '') + '"/>';
+      });
+      visible.forEach(function (n) {
+        var x = xs[n.id];
+        var y = n.d * rowH + 15;
+        var cls = 'node-bg' + (n.dup ? ' dup' : '') + (n.base ? ' base' : '');
+        svg += '<rect x="' + (x - nodeW / 2) + '" y="' + y + '" width="' + nodeW + '" height="36" rx="10" class="' + cls + '"/>';
+        svg += '<text x="' + x + '" y="' + (y + 22) + '" class="' + (n.dup ? 'dup' : (n.base ? 'base' : '')) + '">' + esc(n.lbl) + '</text>';
+      });
+      svg += '</svg>';
+      host.innerHTML = svg;
+      var calls = $('#tree-calls');
+      if (calls) calls.textContent = visible.length;
+      var dups = $('#tree-dups');
+      if (dups) dups.textContent = visible.filter(function (n) { return n.dup; }).length;
+    }
+
+    render();
+    var scope = host.closest('.scene') || host.parentElement;
+    var expand = scope.querySelector('[data-tree="expand"]');
+    if (expand) expand.addEventListener('click', function () { revealed = Math.min(maxDepth, revealed + 1); render(); });
+    var all = scope.querySelector('[data-tree="all"]');
+    if (all) all.addEventListener('click', function () { revealed = maxDepth; render(); });
+    var reset = scope.querySelector('[data-tree="reset"]');
+    if (reset) reset.addEventListener('click', function () { revealed = 1; render(); });
+  }
+
+  function mountMemo(host) {
+    var m = L.memo;
+    if (!m || !m.entries) return;
+    var i = -1;
+    function render() {
+      host.innerHTML = '';
+      for (var k = 0; k <= i; k++) {
+        var e = m.entries[k];
+        var slot = document.createElement('div');
+        slot.className = 'memo-slot';
+        slot.innerHTML = '<div class="k">' + esc(e.k) + '</div><div class="v">= ' + esc(e.v) + '</div>';
+        host.appendChild(slot);
+      }
+      var saved = $('#memo-saved'); if (saved) saved.textContent = Math.max(0, i + 1);
+      var skipped = $('#memo-skipped');
+      if (skipped) {
+        var cmp = L.compare;
+        var totalSaved = (cmp && cmp.brute && cmp.dp) ? Math.max(0, cmp.brute - cmp.dp) : 0;
+        skipped.textContent = (i >= 0 && totalSaved)
+          ? Math.round((i + 1) / m.entries.length * totalSaved)
+          : Math.max(0, i);
+      }
+      var lbl = $('#memo-step-lbl'); if (lbl) lbl.textContent = (i + 1) + ' / ' + m.entries.length;
+    }
+    render();
+    var scope = host.closest('.scene');
+    if (!scope) return;
+    var nBtn = scope.querySelector('[data-memo="next"]');
+    var aBtn = scope.querySelector('[data-memo="all"]');
+    var rBtn = scope.querySelector('[data-memo="reset"]');
+    if (nBtn) nBtn.addEventListener('click', function () { i = Math.min(m.entries.length - 1, i + 1); render(); });
+    if (aBtn) aBtn.addEventListener('click', function () { i = m.entries.length - 1; render(); });
+    if (rBtn) rBtn.addEventListener('click', function () { i = -1; render(); });
+  }
+
+  function mountTab(host) {
+    var t = L.tab;
+    if (!t || !t.values) return;
+    var i = -1;
+    function render() {
+      host.innerHTML = '';
+      t.values.forEach(function (v, k) {
+        var c = document.createElement('div');
+        c.className = 'tab-cell' + (k <= i ? ' filled' : '') + (k === i ? ' current' : '');
+        var lbl = (t.labels && t.labels[k]) || ('dp[' + k + ']');
+        c.innerHTML = '<span class="idx">' + esc(lbl) + '</span>' + (k <= i ? esc(v) : '?');
+        host.appendChild(c);
+      });
+      var f = $('#tab-formula');
+      if (f) {
+        if (i < 0) f.innerHTML = 'Click <b>Next</b> to fill the next box.';
+        else if (t.formulas && t.formulas[i]) f.innerHTML = t.formulas[i];
+        else f.innerHTML = '<b>' + esc(t.labels ? t.labels[i] : 'dp[' + i + ']') + '</b> = <b>' + esc(t.values[i]) + '</b>';
+      }
+      var lbl = $('#tab-step-lbl'); if (lbl) lbl.textContent = (i >= 0 ? i + 1 : 0) + ' / ' + t.values.length;
+    }
+    render();
+    var scope = host.closest('.scene');
+    if (!scope) return;
+    var nBtn = scope.querySelector('[data-tab="next"]');
+    var aBtn = scope.querySelector('[data-tab="all"]');
+    var rBtn = scope.querySelector('[data-tab="reset"]');
+    if (nBtn) nBtn.addEventListener('click', function () { i = Math.min(t.values.length - 1, i + 1); render(); });
+    if (aBtn) aBtn.addEventListener('click', function () { i = t.values.length - 1; render(); });
+    if (rBtn) rBtn.addEventListener('click', function () { i = -1; render(); });
+  }
+
+  function mountSpace(host) {
+    var s = L.space;
+    if (!s || !s.frames) {
+      host.innerHTML = '<p class="muted center">This level needs the table, so there is no smaller space trick yet.</p>';
+      return;
+    }
+    var i = 0;
+    var frames = s.frames;
+    var labels = s.labels || ['prev', 'curr', 'next'];
+    function render() {
+      var frame = frames[i];
+      var html = '<div class="space-stage">';
+      frame.forEach(function (val, k) {
+        var cls = 'space-box' + (k === frame.length - 1 ? ' curr' : '');
+        html += '<div><div class="' + cls + '">' + esc(val) + '</div><div class="muted center" style="margin-top:6px;font-size:12px;font-weight:800;letter-spacing:.5px;text-transform:uppercase">' + esc(labels[k] || '') + '</div></div>';
+        if (k < frame.length - 1) html += '<div class="arrow">+</div>';
+      });
+      html += '</div>';
+      host.innerHTML = html;
+      var lbl = $('#space-step-lbl'); if (lbl) lbl.textContent = 'step ' + (i + 1) + ' of ' + frames.length;
+    }
+    render();
+    var scope = host.closest('.scene');
+    if (!scope) return;
+    var nBtn = scope.querySelector('[data-space="next"]');
+    var aBtn = scope.querySelector('[data-space="all"]');
+    var rBtn = scope.querySelector('[data-space="reset"]');
+    if (nBtn) nBtn.addEventListener('click', function () { i = Math.min(frames.length - 1, i + 1); render(); });
+    if (aBtn) aBtn.addEventListener('click', function () { i = frames.length - 1; render(); });
+    if (rBtn) rBtn.addEventListener('click', function () { i = 0; render(); });
+  }
+
+  function mountCompare() {
+    var c = L.compare;
+    if (!c) return;
+    var brute = $('#cmp-brute-num'); if (brute) brute.innerHTML = esc(c.brute) + ' <small>tries</small>';
+    var dp = $('#cmp-dp-num'); if (dp) dp.innerHTML = esc(c.dp) + ' <small>steps</small>';
+    var bar = $('#cmp-dp-bar'); if (bar) bar.style.width = Math.max(4, Math.min(100, c.dpRatio || 25)) + '%';
+  }
+
+  function makeLevelFile(num) {
+    var files = {
+      1: 'level-01-fibonacci.html', 2: 'level-02-climbing-stairs.html',
+      3: 'level-03-frog-jump.html', 4: 'level-04-frog-jump-k.html',
+      5: 'level-05-non-adjacent-sum.html', 6: 'level-06-house-robber.html',
+      7: 'level-07-house-robber-2.html', 8: 'level-08-unique-paths.html',
+      9: 'level-09-unique-paths-2.html', 10: 'level-10-min-path-sum.html',
+      11: 'level-11-triangle.html', 12: 'level-12-falling-path-sum.html',
+      13: 'level-13-cherry-pickup.html', 14: 'level-14-subset-sum.html',
+      15: 'level-15-partition-equal-subset.html', 16: 'level-16-count-subsets-sum-k.html',
+      17: 'level-17-min-subset-diff.html', 18: 'level-18-target-sum.html',
+      19: 'level-19-01-knapsack.html', 20: 'level-20-unbounded-knapsack.html',
+      21: 'level-21-coin-change-min.html', 22: 'level-22-coin-change-2.html',
+      23: 'level-23-rod-cutting.html', 24: 'level-24-lcs.html',
+      25: 'level-25-print-lcs.html', 26: 'level-26-longest-common-substring.html',
+      27: 'level-27-scs.html', 28: 'level-28-min-insertions-palindrome.html',
+      29: 'level-29-min-deletions-equal.html', 30: 'level-30-edit-distance.html',
+      31: 'level-31-wildcard-matching.html', 32: 'level-32-distinct-subsequences.html',
+      33: 'level-33-lis-n2.html', 34: 'level-34-lis-bsearch.html',
+      35: 'level-35-number-of-lis.html', 36: 'level-36-bitonic.html',
+      37: 'level-37-largest-divisible-subset.html', 38: 'level-38-longest-string-chain.html',
+      39: 'level-39-stock-1.html', 40: 'level-40-stock-2.html',
+      41: 'level-41-stock-3.html', 42: 'level-42-stock-4.html',
+      43: 'level-43-stock-cooldown.html', 44: 'level-44-stock-fee.html',
+      45: 'level-45-mcm.html', 46: 'level-46-cut-stick.html',
+      47: 'level-47-burst-balloons.html', 48: 'level-48-palindrome-partition-2.html',
+      49: 'level-49-partition-max-sum.html', 50: 'level-50-largest-rect-histogram.html',
+      51: 'level-51-maximum-rectangle.html', 52: 'level-52-word-break.html',
+      53: 'level-53-word-break-2.html'
+    };
+    return files[num] || '';
+  }
+
+  function addContractNav() {
+    var nav = $('.topbar nav');
+    if (!nav) return;
+    var title = $('.level-top h1');
+    var match = title && title.textContent.match(/Level\s+(\d+)/i);
+    var n = match ? Number(match[1]) : 0;
+    var prev = n > 1 ? makeLevelFile(n - 1) : '../dp-roadmap.html';
+    var next = n < 53 ? makeLevelFile(n + 1) : '../dp-roadmap.html';
+    nav.innerHTML =
+      '<a href="../dp-roadmap.html">Map</a>' +
+      '<a href="' + esc(prev) + '">&#8592; Prev</a>' +
+      '<span class="level-pill">Level ' + esc(n || '?') + '</span>' +
+      '<a href="' + esc(next) + '">Next &#8594;</a>';
+  }
+
+  function addContractTabs() {
+    var main = $('.container-narrow');
+    if (!main || $('.contract-tabs')) return;
+    var scenes = $$('.scene', main).slice(0, 6);
+    if (scenes.length < 6) return;
+    var labels = [
+      ['01', '&#128214;', 'The Story'],
+      ['02', '&#127795;', 'Brute Force'],
+      ['03', '&#127890;', 'Memoization'],
+      ['04', '&#129521;', 'Tabulation'],
+      ['05', '&#129718;', 'Space Saver'],
+      ['06', '&#9889;', 'Before vs After']
+    ];
+    var tabbar = document.createElement('div');
+    tabbar.className = 'contract-tabs lesson-steps';
+    tabbar.setAttribute('role', 'tablist');
+    tabbar.setAttribute('aria-label', 'Level stages');
+    tabbar.innerHTML = labels.map(function (x, i) {
+      return '<button class="lesson-step' + (i === 0 ? ' active' : '') + '" type="button" role="tab" aria-selected="' + (i === 0 ? 'true' : 'false') + '" data-contract-tab="' + i + '">' +
+        '<span class="step-bubble">' + x[0] + '</span><span class="step-icon">' + x[1] + '</span><span><b>' + x[2] + '</b><small>Step-by-step</small></span></button>';
+    }).join('');
+    main.insertBefore(tabbar, scenes[0]);
+    scenes.forEach(function (scene, i) {
+      scene.classList.add('contract-panel');
+      scene.setAttribute('role', 'tabpanel');
+      if (i > 0) scene.hidden = true;
+    });
+    $$('[data-contract-tab]', tabbar).forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var idx = Number(btn.getAttribute('data-contract-tab'));
+        $$('[data-contract-tab]', tabbar).forEach(function (b, j) {
+          b.classList.toggle('active', j === idx);
+          b.setAttribute('aria-selected', j === idx ? 'true' : 'false');
+        });
+        scenes.forEach(function (scene, j) { scene.hidden = j !== idx; });
+      });
+    });
+  }
+
+  function addWhyLines() {
+    var lines = [
+      'Why this matters: the concrete moves make the recurrence feel like the story, not a formula.',
+      'Why this matters: brute force is honest, but it exposes repeated questions.',
+      'Why this matters: memoization keeps the same story and skips wasted work.',
+      'Why this matters: tabulation turns recursion into a predictable left-to-right build.',
+      'Why this matters: the space saver keeps only the values the next step can actually use.',
+      'Why this matters: the counter shows why the DP version scales.'
+    ];
+    $$('.scene').slice(0, 6).forEach(function (scene, i) {
+      if ($('.why-line', scene)) return;
+      var p = document.createElement('p');
+      p.className = 'why-line';
+      p.textContent = lines[i];
+      scene.appendChild(p);
+    });
+  }
+
+  function labelStepCounters() {
+    var treeScene = $('[data-tree]') && $('[data-tree]').closest('.scene');
+    if (treeScene && !$('#tree-step-lbl')) {
+      var p = document.createElement('p');
+      p.className = 'muted center contract-step-count';
+      p.innerHTML = 'Step <span id="tree-step-lbl">1 / ' + esc(((L.tree && L.tree.maxDepth) || 4) + 1) + '</span>';
+      var row = $('.btn-row', treeScene);
+      if (row) row.insertAdjacentElement('afterend', p);
+    }
+    function syncTreeLabel() {
+      var lbl = $('#tree-step-lbl');
+      if (!lbl || !L.tree) return;
+      var visible = $$('svg.tree .node-bg').length;
+      var total = (L.tree.nodes || []).length || visible;
+      lbl.textContent = visible + ' / ' + total;
+    }
+    $$('[data-tree="expand"],[data-tree="all"],[data-tree="reset"]').forEach(function (b) {
+      b.addEventListener('click', function () { window.setTimeout(syncTreeLabel, 0); });
+    });
+    syncTreeLabel();
+  }
+
+  function addAutoControls() {
+    var configs = [
+      { scene: $('[data-tree]') && $('[data-tree]').closest('.scene'), step: '[data-tree="expand"]', reset: '[data-tree="reset"]' },
+      { scene: $('.slots[data-memo]') && $('.slots[data-memo]').closest('.scene'), step: '[data-memo="next"]', reset: '[data-memo="reset"]' },
+      { scene: $('[data-tab]') && $('[data-tab]').closest('.scene'), step: '[data-tab="next"]', reset: '[data-tab="reset"]' },
+      { scene: $('[data-space]') && $('[data-space]').closest('.scene'), step: '[data-space="next"]', reset: '[data-space="reset"]' }
+    ];
+    configs.forEach(function (cfg) {
+      if (!cfg.scene || cfg.scene.querySelector('[data-contract-auto]')) return;
+      var row = $('.btn-row', cfg.scene);
+      var step = cfg.scene.querySelector(cfg.step);
+      var reset = cfg.scene.querySelector(cfg.reset);
+      if (!row || !step || !reset) return;
+      step.textContent = '\u25b6 Step';
+      reset.textContent = '\u21ba Reset';
+      var fill = row.querySelector('[data-tree="all"],[data-memo="all"],[data-tab="all"],[data-space="all"]');
+      if (fill) fill.style.display = 'none';
+      var auto = document.createElement('button');
+      auto.type = 'button';
+      auto.className = 'btn ghost';
+      auto.setAttribute('data-contract-auto', '');
+      auto.textContent = '\u23e9 Auto';
+      row.insertBefore(auto, reset);
+      var timer = null;
+      function stop(done) {
+        if (timer) window.clearInterval(timer);
+        timer = null;
+        auto.textContent = done ? '\u2705 Done' : '\u23e9 Auto';
+      }
+      reset.addEventListener('click', function () { stop(false); });
+      auto.addEventListener('click', function () {
+        if (timer) { stop(false); return; }
+        auto.textContent = '\u23f8 Pause';
+        timer = window.setInterval(function () {
+          var before = cfg.scene.textContent;
+          step.click();
+          window.setTimeout(function () {
+            var after = cfg.scene.textContent;
+            if (before === after) stop(true);
+          }, 0);
+        }, 600);
+      });
+    });
+  }
+
+  function addCompareSlider() {
+    var scene = $('#cmp-brute-num') && $('#cmp-brute-num').closest('.scene');
+    if (!scene || scene.querySelector('[data-compare-slider]')) return;
+    var c = L.compare || {};
+    var wrap = document.createElement('div');
+    wrap.className = 'compare-slider';
+    wrap.innerHTML =
+      '<label>n grows: <span data-compare-n>1</span></label>' +
+      '<input data-compare-slider type="range" min="1" max="12" value="1">' +
+      '<div class="complexity-row"><span class="bad">O(2^n)</span><span class="good">O(n)</span></div>';
+    scene.insertBefore(wrap, $('.compare', scene));
+    var slider = $('[data-compare-slider]', wrap);
+    var nLbl = $('[data-compare-n]', wrap);
+    var brute = $('#cmp-brute-num');
+    var dp = $('#cmp-dp-num');
+    slider.addEventListener('input', function () {
+      var n = Number(slider.value);
+      nLbl.textContent = n;
+      if (brute) brute.innerHTML = esc(Math.min(999999, Math.pow(2, n) - 1)) + ' <small>calls</small>';
+      if (dp) dp.innerHTML = esc(n + 1) + ' <small>DP steps</small>';
+    });
+    if (c.brute && brute) brute.innerHTML = esc(c.brute) + ' <small>calls</small>';
+    if (c.dp && dp) dp.innerHTML = esc(c.dp) + ' <small>DP steps</small>';
+  }
+
+  function mount() {
+    addContractNav();
+    addContractTabs();
+    var v = $('[data-viz]'); if (v) mountViz(v);
+    var t = $('[data-tree]'); if (t) mountTree(t);
+    var m = $('.slots[data-memo]'); if (m) mountMemo(m);
+    var tab = $('[data-tab]'); if (tab) mountTab(tab);
+    var sp = $('[data-space]'); if (sp) mountSpace(sp);
+    mountCompare();
+    labelStepCounters();
+    addAutoControls();
+    addCompareSlider();
+    addWhyLines();
+
+    // Inject keyboard hint into each interactive scene's btn-row
+    $$('[data-tree="expand"],[data-memo="next"],[data-tab="next"],[data-space="next"]').forEach(function (btn) {
+      var row = btn.closest('.btn-row');
+      if (row && !row.querySelector('.kbd-hint')) {
+        var hint = document.createElement('span');
+        hint.className = 'kbd-hint';
+        hint.setAttribute('aria-hidden', 'true');
+        hint.innerHTML = '<kbd>&#8592;</kbd><kbd>&#8594;</kbd>';
+        row.appendChild(hint);
+      }
+    });
+
+    // Keyboard shortcuts: → next/expand, ← reset, End = fill all (active when focus is inside a scene)
+    document.addEventListener('keydown', function (e) {
+      var el = document.activeElement;
+      if (!el || el === document.body || !el.closest) return;
+      var scene = el.closest('.scene');
+      if (!scene) return;
+      if (e.key === 'ArrowRight') {
+        var btn = scene.querySelector('[data-tree="expand"],[data-memo="next"],[data-tab="next"],[data-space="next"]');
+        if (btn) { e.preventDefault(); btn.click(); }
+      } else if (e.key === 'ArrowLeft') {
+        var rst = scene.querySelector('[data-tree="reset"],[data-memo="reset"],[data-tab="reset"],[data-space="reset"]');
+        if (rst) { e.preventDefault(); rst.click(); }
+      } else if (e.key === 'End') {
+        var all = scene.querySelector('[data-tree="all"],[data-memo="all"],[data-tab="all"],[data-space="all"]');
+        if (all) { e.preventDefault(); all.click(); }
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount);
+  else mount();
+}());
+</script>
 </body>
 </html>
